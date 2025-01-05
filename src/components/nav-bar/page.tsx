@@ -33,7 +33,7 @@ const NavBar = () => {
           <button
             onClick={handleDonateClick}
             aria-label="Donate Now"
-            className="rounded-2xl bg-orange-600 text-white px-6 py-2 font-medium transition-colors duration-200 hover:bg-orange-700 decoration-8">
+            className="rounded-2xl bg-orange-600 text-white px-6 py-2 decoration-8 font-bold transition-colors duration-200 hover:bg-orange-700">
             DONATE <span> <br/></span>NOW
           </button>
 

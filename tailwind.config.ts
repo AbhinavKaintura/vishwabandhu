@@ -12,6 +12,9 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        handwriting: ['var(--font-handwriting)', 'cursive'],
+      }
     },
   },
   plugins: [],

@@ -1,66 +1,31 @@
 import React from 'react'
-import Image from 'next/image'
-import cow from "../../../public/background.jpg"
 
-interface BackgroundWithTextProps {
-  backgroundUrl?: string;
-  firstText?: string;
-  secondText?: string;
-}
-
-const Hero: React.FC<BackgroundWithTextProps> = (
-  backgroundUrl = "../../../public/background.jpg",
-  firstText = "First Text Block",
-  secondText = "Second Text Block"
-) => {
+const Hero = () => {
   return (
-<div className="relative min-h-screen w-full">
-      {/* Background Image Container */}
-      <div 
-        className="absolute inset-0 w-full h-full"
+    <div className="relative min-h-screen">
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url(${backgroundUrl})`,
-          backgroundPosition: 'center',
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat'
+          backgroundImage: "url(https://vishwabandhufoundation.org/wp-content/uploads/2024/12/front.jpg)"
         }}
-      />
-      
-      {/* Overlay to ensure text readability */}
-      <div className="absolute inset-0 bg-black/30" />
-      
-      {/* Content Container */}
-      <div className="relative flex flex-col justify-center items-center min-h-screen p-4 space-y-8">
-        {/* First Text Block */}
-        <div className="max-w-lg p-6 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg">
-          <p className="text-gray-800 text-xl">
-            {firstText}
+      >
+      </div>
+      <div className="absolute inset-0 bg-black bg-opacity-30"></div>
+      <div className="relative min-h-screen flex items-center justify-center">
+        <div className="text-white text-center px-4 max-w-3xl">
+          <h1 className="mb-6 text-5xl font-bold leading-tight">
+            गोपालक बनिये और कृष्ण कृपा प्राप्त करिये
+          </h1>
+          <p className="mb-8 text-lg">
+            अपनी इच्छा अनुसार दान करें और गोपालक बनें, गौ माता के आशीर्वाद के साथ-साथ देवी-देवताओं की भी कृपा प्राप्त करें
           </p>
-        </div>
-
-        {/* Second Text Block */}
-        <div className="max-w-lg p-6 bg-black/80 backdrop-blur-sm rounded-lg shadow-lg">
-          <p className="text-white text-xl">
-            {secondText}
-          </p>
+          <button className="bg-orange-400 hover:bg-orange-500 text-white font-medium px-8 py-3 rounded-lg uppercase text-sm">
+            Click here to know <span><br/></span>about our programs
+          </button>
         </div>
       </div>
     </div>
-  );
-
-    // <div>
-    //   <div>
-    //     <Image 
-    //       src = {cow}
-    //       alt = 'cow'
-    //       height={300}
-    //       width={300}
-    //       className=''
-    //     />
-    //   </div>
-    // </div>
-
-  
+  )
 }
 
 export default Hero
