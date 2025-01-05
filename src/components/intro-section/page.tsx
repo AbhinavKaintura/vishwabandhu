@@ -54,8 +54,3 @@ const IntroSection = () => {
 };
 
 export default IntroSection;
-
-// Add this to your tailwind.config.js:
-// fontFamily: {
-//   handwriting: ['var(--font-handwriting)', 'cursive'],
-// }
