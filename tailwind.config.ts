@@ -1,4 +1,6 @@
+import { Twinkle_Star } from "next/font/google";
 import type { Config } from "tailwindcss";
+import daisyui from "daisyui"
 
 export default {
   content: [
@@ -14,8 +16,11 @@ export default {
       },
       fontFamily: {
         handwriting: ['var(--font-handwriting)', 'cursive'],
+        Twinkle_Star: ['var(--font-twinkle-star)'],
+        poppins: ['var(--font-poppins)'],
+        caveat: ['var(--font-caveat)'],
       }
     },
   },
-  plugins: [],
+  plugins: [daisyui,],
 } satisfies Config;

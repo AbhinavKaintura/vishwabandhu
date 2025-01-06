@@ -1,51 +1,65 @@
+// IntroSection.tsx
 import React from 'react';
 import Image from 'next/image';
-import intro from "../../../public/intro.png"
+import introkids from "../../../public/intro.jpg"
 
 const IntroSection = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-300/20 via-amber-50/20 to-orange-50/20 py-20 px-4">
-      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12">
-        {/* Image Section */}
-        <div className="w-full lg:w-1/2">
-          <div className="bg-white p-4 shadow-lg rounded-lg transform rotate-1 hover:rotate-0 transition-transform duration-300">
-            <div className="relative aspect-square w-full">
-              <Image
-                src={intro}
-                alt="Happy children"
-                fill
-                className="object-cover rounded"
-              />
+    <div className="relative w-full h-screen overflow-hidden">
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/introbg.jpg"
+          alt="background"
+          fill
+          className="object-cover"
+        />
+      </div>
+
+      {/* Content Container */}
+      <div className="relative z-10 w-full h-full flex items-center justify-center px-4">
+        <div className="max-w-5xl mx-auto flex flex-col lg:flex-row items-start gap-32">
+          {/* Image Section */}
+          <div className="lg:w-[40%]">
+            <div className="bg-orange-50 p-3 shadow-lg">
+              <div className="relative aspect-[5/6] w-full">
+                <Image
+                  src={introkids}
+                  alt="Happy children"
+                  fill
+                  className="object-cover py-10"
+                />
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Content Section */}
-        <div className="w-full lg:w-1/2 bg-white p-12 rounded-lg shadow-lg">
-          <h2 className="text-4xl font-bold mb-6">Who are we?</h2>
-          
-          <div className="w-20 h-1 bg-orange-400 mb-8" />
-          
-          <div className="mb-8">
-            <blockquote className="text-2xl font-medium italic mb-4">
-              "Remember that the happiest people are not those getting more, but those giving more"
-            </blockquote>
-            <p className="text-lg text-right">- H. Jackson Brown Jr.</p>
-          </div>
+          {/* Content Section */}
+          <div className="lg:w-[55%] lg:-mt-12">
+            <div className="bg-white p-8 shadow-lg">
+              <h2 className="text-4xl font-poppins font-bold mb-2">Who are we?</h2>
+              
+              <div className="w-16 h-0.5 bg-orange-400 mb-6" />
+              
+              <div className="mb-8">
+                <blockquote className="text-xl font-poppins mb-2">
+                  "Remember that the happiest people are not those getting more, but those giving more"
+                </blockquote>
+                <p className="text-right font-poppins text-gray-600">- H. Jackson Brown Jr.</p>
+              </div>
 
-          <div className="space-y-4">
-            <p className="text-lg font-handwriting leading-relaxed">
-              The Vishwa Bandhu Foundation is an Section 8 non-profit company dedicated 
-              to creating positive social impact by fostering community development, 
-              supporting education, promoting environmental sustainability, and 
-              empowering underprivileged groups.
-            </p>
-            
-            <p className="text-lg font-handwriting leading-relaxed">
-              As a registered NGO, we focus on building a better future for all by 
-              implementing impactful initiatives, supporting sustainable practices, 
-              and advocating for the rights and welfare of marginalized communities.
-            </p>
+              <p className="text-xl font-caveat leading-relaxed mb-6">
+                The Vishwa Bandhu Foundation is an Section 8 non-profit company dedicated 
+                to creating positive social impact by fostering community development, 
+                supporting education, promoting environmental sustainability, and 
+                empowering underprivileged groups.
+              </p>
+              
+              <p className="text-xl font-caveat leading-relaxed">
+                As a registered NGO, we focus on building a better future for all by 
+                implementing impactful initiatives, supporting sustainable practices, 
+                and advocating for the rights and welfare of marginalized communities.
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -54,8 +68,3 @@ const IntroSection = () => {
 };
 
 export default IntroSection;
-
-// Add this to your tailwind.config.js:
-// fontFamily: {
-//   handwriting: ['var(--font-handwriting)', 'cursive'],
-// }
