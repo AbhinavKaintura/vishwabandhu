@@ -7,6 +7,8 @@ import { useRouter } from 'next/navigation'
 import logo from '../../../public/RSVBF-LOGO.png'
 import profileLogo from '../../../public/user.png'
 
+import HoverDropdown from './services'
+
 const NavBar = () => {
   const router = useRouter();
 
@@ -41,9 +43,7 @@ const NavBar = () => {
             <Link href="/" className='text-gray-700 hover:text-orange-600 transition-colors'>
               HOME
             </Link>
-            <Link href="/services" className='text-gray-700 hover:text-orange-600 transition-colors'>
-              SERVICES
-            </Link>
+            <HoverDropdown></HoverDropdown>
             <Link href="/users" className='text-gray-700 hover:text-orange-600 transition-colors'>
               USER'S GROUP
             </Link>
