@@ -6,7 +6,7 @@ const Users = () => {
   return (
     <div>
       <HeaderBar/>
-      <NavBar/>
+      <NavBar bg_color='bg-white'/>
       
     </div>
   )
