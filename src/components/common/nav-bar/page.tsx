@@ -9,7 +9,11 @@ import profileLogo from '../../../../public/nav-header/user.png'
 
 import HoverDropdown from './services'
 
-const NavBar = () => {
+interface Props {
+  bg_color: string;
+}
+
+const NavBar: React.FC<Props> = ({bg_color}) => {
   const router = useRouter();
 
   const handleDonateClick =() => {
@@ -17,7 +21,7 @@ const NavBar = () => {
   };
 
   return (
-    <div className='h-20 bg-slate-50 w-full shadow-sm text-xs '>
+    <div className={`h-20 ${bg_color} w-full shadow-sm text-xs`}>
       <div className=' mx-auto px-4 h-full flex items-center justify-between'>
         <div className='flex-initial ml-20'>
           <Link href="/">
