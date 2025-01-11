@@ -1,7 +1,7 @@
 // IntroSection.tsx
 import React from 'react';
 import Image from 'next/image';
-import introkids from "../../../public/intro.jpg"
+import introkids from "../../../../public/home-img/intro.jpg"
 
 const IntroSection = () => {
   return (
@@ -9,7 +9,7 @@ const IntroSection = () => {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/introbg.jpg"
+          src={introkids}
           alt="background"
           fill
           className="object-cover"

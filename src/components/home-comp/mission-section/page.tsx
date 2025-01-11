@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import mission from "../../../../public/home-img/mission.jpg"
 
 const Mission = () => {
   return (
@@ -17,7 +18,7 @@ const Mission = () => {
         <div className="relative w-full h-[500px] overflow-hidden">
           {/* Background Image */}
           <Image 
-            src="/mission.jpg"
+            src={mission}
             alt="Background scenery"
             fill
             className="object-cover"

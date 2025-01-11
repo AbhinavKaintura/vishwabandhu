@@ -11,7 +11,9 @@ const HoverDropdown = () => {
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
     >
-      <MenuButton className="text-lg">Services</MenuButton>
+      <MenuButton className="text-gray-700 hover:text-orange-600 transition-colors">
+          SERVICES
+      </MenuButton>
       <Transition
         show={isOpen}
         enter="transition ease-out duration-300 transform"
@@ -23,7 +25,7 @@ const HoverDropdown = () => {
       >
         <MenuItems
           static
-          anchor="bottom-end"
+          anchor="bottom end"
           className="text-lg bg-[#f1e5d4] inline-grid p-2 rounded-lg"
         >
           <MenuItem>

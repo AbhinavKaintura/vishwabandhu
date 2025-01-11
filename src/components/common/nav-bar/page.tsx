@@ -4,8 +4,8 @@ import Link from 'next/link'
 import React from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import logo from '../../../public/RSVBF-LOGO.png'
-import profileLogo from '../../../public/user.png'
+import logo from '../../../../public/nav-header/RSVBF-LOGO.png'
+import profileLogo from '../../../../public/nav-header/user.png'
 
 import HoverDropdown from './services'
 

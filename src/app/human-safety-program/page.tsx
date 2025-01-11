@@ -1,5 +1,5 @@
-import NavBar from "@/components/nav-bar/page"
-import HeaderBar from "@/components/header-bar/page"
+import NavBar from "@/components/common/nav-bar/page"
+import HeaderBar from "@/components/common/header-bar/page"
 import Image from 'next/image'
 import blue_sky from '../../../public/blue_sky.jpg'
 

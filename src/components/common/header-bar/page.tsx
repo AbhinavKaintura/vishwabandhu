@@ -4,11 +4,11 @@ import Link from 'next/link'
 import React from 'react'
 import Image from 'next/image'
 
-import email from "../../../public/email.png"
-import facebook from "../../../public/facebook.png"
-import instgram from "../../../public/instagram.png"
-import phone from "../../../public/phone-call.png"
-import threads from "../../../public/threads.png"
+import email from "../../../../public/nav-header/email.png"
+import facebook from "../../../../public/nav-header/facebook.png"
+import instgram from "../../../../public/nav-header/instagram.png"
+import phone from "../../../../public/nav-header/phone-call.png"
+import threads from "../../../../public/nav-header/threads.png"
 
 
 

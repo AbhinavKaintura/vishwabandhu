@@ -2,6 +2,8 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Clock, MapPin, Mail, Phone } from 'lucide-react';
+import logo from "../../../../public/nav-header/RSVBF-LOGO.png"
+ 
 
 const Footer = () => {
   return (
@@ -13,7 +15,7 @@ const Footer = () => {
           <div className="space-y-6">
             <div className="relative w-48 h-16">
               <Image
-                src="/RSVBF-LOGO.png"
+                src={logo}
                 alt="RSVBF Logo"
                 fill
                 className="object-contain"
