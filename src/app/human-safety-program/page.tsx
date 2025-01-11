@@ -1,10 +1,8 @@
-import NavBar from "@/components/nav-bar/page"
-import HeaderBar from "@/components/header-bar/page"
-import Image from 'next/image'
-import bg_image from '../../../public/human_safety_program_bg.jpeg'
+import NavBar from "@/components/common/nav-bar/page"
+import HeaderBar from "@/components/common/header-bar/page"
 import HumanSafetyInfo from "@/components/human-safety-program/info/page"
 import ProgramInfo from "@/components/human-safety-program/more_details/page"
-import Footer from "@/components/footer/page"
+import Footer from "@/components/common/footer/page"
 
 const human_safey_program = () => {
     return (
