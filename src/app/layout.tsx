@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Poppins, Caveat } from "next/font/google";
+import { Geist, Geist_Mono, Poppins, Caveat, Merriweather } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -16,12 +16,20 @@ const poppins = Poppins({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   variable: '--font-poppins',
+  style:"italic"
 });
 
 const caveat = Caveat({
   subsets: ['latin'],
   variable: '--font-caveat',
 });
+
+const merriweather = Merriweather({
+  weight:"400",
+  style:"italic",
+  subsets: ['latin'],
+  variable: '--font-merriweather',
+})
 
 export const metadata: Metadata = {
   title: "vishwabandhufoundation",
@@ -36,7 +44,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} ${caveat.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} ${caveat.variable} ${merriweather.variable} antialiased`}
       >
         {children}
       </body>

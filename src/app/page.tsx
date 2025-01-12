@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <div>
       <HeaderBar/>
-      <NavBar/>
+      <NavBar bg_color="bg-white"/>
       <Hero/>
       <Misson/>
       <ServicesSection/>
