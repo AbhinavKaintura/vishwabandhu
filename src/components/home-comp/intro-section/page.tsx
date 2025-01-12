@@ -2,6 +2,7 @@
 import React from 'react';
 import Image from 'next/image';
 import introkids from "../../../../public/home-img/intro.jpg"
+import introbg from "../../../../public/home-img/introbg.jpg"
 
 const IntroSection = () => {
   return (
@@ -9,7 +10,7 @@ const IntroSection = () => {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src={introkids}
+          src={introbg}
           alt="background"
           fill
           className="object-cover"
