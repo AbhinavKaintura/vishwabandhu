@@ -84,7 +84,7 @@ const HeaderBar = () => {
 
             <div className='text-xs flex justify-end flex-grow mt-3 mr-6 '>
                 <div>
-                    <Link href="/donate" className='hover:opacity-80 p-3'>Donate</Link>
+                    <Link href="/gaushala-program" className='hover:opacity-80 p-3'>Donate</Link>
                     <Link href="/login" className='p-3 hover:opacity-80'>Login</Link>
                     <Link href="/register" className='p-3 hover:opacity-80'>Register</Link>
                 </div>
