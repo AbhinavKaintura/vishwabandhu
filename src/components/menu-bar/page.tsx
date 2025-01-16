@@ -2,7 +2,7 @@ import React from 'react'
 
 const menuBar = () => {
   return (
-    <div>menuBar component</div>
+    <div>menuBar component </div>
   )
 }
 
