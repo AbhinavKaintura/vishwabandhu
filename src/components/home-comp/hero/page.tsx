@@ -19,7 +19,8 @@ const Hero = () => {
           <p className="mb-8 text-lg">
             अपनी इच्छा अनुसार दान करें और गोपालक बनें, गौ माता के आशीर्वाद के साथ-साथ देवी-देवताओं की भी कृपा प्राप्त करें
           </p>
-          <button className="bg-orange-400 hover:bg-orange-500 text-white font-medium px-8 py-3 rounded-lg uppercase text-sm">
+          <button
+           className="bg-orange-400 hover:bg-orange-500 text-white font-medium px-8 py-3 rounded-lg uppercase text-sm">
             Click here to know <span><br/></span>about our programs
           </button>
         </div>
