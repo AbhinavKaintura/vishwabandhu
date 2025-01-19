@@ -29,7 +29,7 @@ const NavBar: React.FC<Props> = ({ bg_color }) => {
           </Link>
         </div>
 
-        <div className='flex items-center space-x-28'>
+        <div className='flex items-center space-x-24'>
           <button
             aria-label="Donate Now"
             className="rounded-2xl bg-orange-600 text-white px-6 py-2 decoration-8 font-bold transition-colors duration-200 hover:bg-orange-700">
@@ -37,16 +37,16 @@ const NavBar: React.FC<Props> = ({ bg_color }) => {
           </button>
 
 
-          <nav className='flex items-center space-x-12'>
+          <nav className='flex items-center space-x-16'>
             <Link href="/" className='text-gray-700 hover:text-orange-600 transition-colors'>
               HOME
             </Link>
             <HoverDropdown></HoverDropdown>
             <Link href="/users" className='text-gray-700 hover:text-orange-600 transition-colors'>
-              USER'S GROUP
+              DONATERS' GROUP
             </Link>
-            <Link href="/team" className='text-gray-700 hover:text-orange-600 transition-colors'>
-              OUR TEAM
+            <Link href="/members" className='text-gray-700 hover:text-orange-600 transition-colors'>
+              OUR MEMBERS
             </Link>
             <Link href="/support" className='text-gray-700 hover:text-orange-600 transition-colors'>
               SUPPORT
