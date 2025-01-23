@@ -22,7 +22,7 @@ const Intro = () => {
                 >
                     {/* Dark overlay with navbar */}
                     <div className="absolute inset-0 bg-black/40">
-                        <NavBar bg_color="" />
+                        <NavBar bg_color="bg-white" />
 
                         {/* Hero content */}
                         <div className="flex flex-col items-center justify-center h-[calc(100%-64px)] text-center px-4">
