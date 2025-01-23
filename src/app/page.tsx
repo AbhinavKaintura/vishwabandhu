@@ -19,7 +19,7 @@ export default function Home() {
       <ServicesSection/>
       <IntroSection/>
       <GauMataDonation/>
-      <Donations_status/>
+      {/* <Donations_status/> */}
       <Footer/>
     </div>
     
