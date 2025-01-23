@@ -2,7 +2,7 @@ import React from 'react'
 
 const MembersList = () => {
   return (
-    <div>MembersList da</div>
+    <div>MembersList </div>
   )
 }
 
