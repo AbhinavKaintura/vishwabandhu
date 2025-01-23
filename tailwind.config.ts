@@ -18,10 +18,10 @@ export default {
       },
       fontFamily: {
         handwriting: ['var(--font-handwriting)', 'cursive'],
-        Twinkle_Star: ['var(--font-twinkle-star)'],
+        twinkle_star: ['var(--font-twinkle-star)'],
         poppins: ['var(--font-poppins)'],
         caveat: ['var(--font-caveat)'],
-
+        merryweather: ['var(--font-merriweather)']
       }
     },
   },
