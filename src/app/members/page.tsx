@@ -2,6 +2,8 @@ import React from 'react';
 import HeaderBar from '@/components/common/header-bar/page';
 import NavBar from '@/components/common/nav-bar/page';
 import Title from '@/components/teams-comp/title/page';
+import MembersList from '@/components/teams-comp/page';
+
 
 // Define the type for a member
 interface Member {
@@ -28,6 +30,8 @@ const Teams: React.FC<TeamsProps> = ({ members }) => {
       <HeaderBar />
       <NavBar bg_color="bg-white" />
       <Title />
+      <MembersList/>
+
          
     </div>
   );
