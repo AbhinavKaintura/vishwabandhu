@@ -5,6 +5,7 @@ import React from 'react'
 import Image from 'next/image'
 import logo from '../../../../public/nav-header/RSVBF-LOGO.png'
 import profileLogo from '../../../../public/nav-header/user.png'
+import Profile_Dropdown from '../profile_photo/page'
 
 import HoverDropdown from './services'
 
@@ -51,12 +52,7 @@ const NavBar: React.FC<Props> = ({ bg_color }) => {
             <Link href="/support" className='text-gray-700 hover:text-orange-600 transition-colors'>
               SUPPORT
             </Link>
-            <Link href="/profile">
-              <Image
-                src={profileLogo}
-                alt='profile'
-              />
-            </Link>
+            <Profile_Dropdown />
           </nav>
         </div>
       </div>

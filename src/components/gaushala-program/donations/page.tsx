@@ -1,6 +1,8 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import GauMata_image from '../../../../public/gaushala-program/cow_human.jpg'
+import Donate_Gaushala_Program from '@/app/donate-gaushala-program/page';
 
 interface DonationStats {
   currentAmount: number;
@@ -20,18 +22,18 @@ const GauMataDonation = () => {
   const progressPercentage = (stats.currentAmount / stats.goalAmount) * 100;
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8 mb-12">
+    <div className="min-h-screen bg-gray-50 p-4 md:p-8 mb-8">
       <div className="max-w-5xl mx-auto mt-24">
         <div className="overflow-hidden bg-white rounded-3xl shadow-xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Image Section */}
             <div className="relative h-[300px] lg:h-full">
-              <Image 
+              <Image
                 src={GauMata_image}
                 alt='Gau Mata with calf'
                 className="w-full h-full object-cover rounded-t-2xl lg:rounded-l-2xl lg:rounded-t-none"
               />
-            
+
             </div>
 
             {/* Content Section */}
@@ -40,16 +42,16 @@ const GauMataDonation = () => {
                 <div className="flex items-center space-x-2">
                   <span className="text-red-500 font-medium uppercase tracking-wider text-sm">Campaign</span>
                 </div>
-                
+
                 <h1 className="text-3xl font-bold text-gray-800">{stats.campaignTitle}</h1>
-                
+
                 <p className="text-gray-600 leading-relaxed">
                   {stats.description}
                 </p>
 
                 <div className="space-y-4">
                   <h2 className="text-gray-700 font-medium pt-4">DONATION STATUS</h2>
-                  
+
                   {/* Progress Bar */}
                   <div className="relative pt-4">
                     <div className="flex mb-2 items-center justify-between">
@@ -60,7 +62,7 @@ const GauMataDonation = () => {
                       </div>
                     </div>
                     <div className="h-2 bg-gray-200 rounded-full">
-                      <div 
+                      <div
                         className="h-full bg-red-500 rounded-full transition-all duration-500"
                         style={{ width: `${progressPercentage}%` }}
                       />
@@ -79,9 +81,11 @@ const GauMataDonation = () => {
                 </div>
 
                 {/* Donate Button */}
-                <button className="w-[40%] bg-orange-400 hover:bg-orange-500 text-white font-semibold py-4 px-6 rounded-full transition-all duration-500 hover:w-[45%] ">
-                  DONATE NOW
-                </button>
+                <Link href="/donate-gaushala-program" className="w-[40%] bg-orange-400 hover:bg-orange-500 text-white font-semibold py-4 px-6 rounded-full transition-all duration-500 hover:w-[45%] hover:shadow-lg hover:scale-105 ">
+                  <button className='mt-7'>
+                    DONATE NOW
+                  </button>
+                </Link>
 
                 {/* Short message */}
                 <p className='text-center pt-10 align-bottom text-sm text-gray-600 tracking-wide opacity-60'>"To make big changes small steps are necessary"</p>

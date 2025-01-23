@@ -26,7 +26,7 @@ const HoverDropdown = () => {
         <MenuItems
           static
           anchor="bottom end"
-          className="text-lg bg-[#f1e5d4] inline-grid p-2 rounded-lg"
+          className="text-lg bg-[#faf6f1] inline-grid p-2 rounded-lg"
         >
           <MenuItem>
             <Link href="/human-safety-program">Human Safety Program</Link>

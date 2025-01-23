@@ -1,0 +1,137 @@
+'use client';
+import React from 'react';
+import Image from 'next/image';
+import { useState } from 'react';
+import logo_img from '../../../../public/nav-header/RSVBF-LOGO.png'
+
+
+interface DonationStats {
+  campaignTitle: string;
+  description: string;
+}
+
+const Pay_Donate_Gaushala: React.FC = () => {
+  const stats: DonationStats = {
+    campaignTitle: "Gau Mata Donation",
+    description: "Gau Mata campaign aims to protect, honor, and cherish cows, recognizing their sacred and vital role."
+  };
+
+  const [donation_amount, setAmount] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleDonate = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Clear any previous errors
+    setError('');
+
+    if (!donation_amount || isNaN(Number(donation_amount)) || Number(donation_amount) <= 0) {
+      setError('Please enter a valid amount');
+      console.error('Invalid amount entered');
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID_GAUSHALA,
+        // key: 'rzp_test_1DP5mmOlF5G5ag', 
+        amount: Number(donation_amount) * 100, // Amount in paise (1 INR = 100 paise)
+        currency: 'INR',
+        name: 'Gaushala Vishwa Bandhu Foundation',
+        description: 'Donation',
+        image: {logo_img},
+        handler: function (response: any) {
+          alert(`Payment successful! Payment ID: ${response.razorpay_payment_id}`);
+          console.log('Payment successful:', response);
+          // You can send the payment details to your server here
+        },
+        prefill: {
+          name: 'John Carter',
+          email: 'john.carter@example.com',
+          contact: '9876543210',
+        },
+        notes: {
+          address: 'Vishwa Bandhu Foundation',
+        },
+        theme: {
+          color: '#f4d981',
+        },
+      };
+
+      const rzp1 = new (window as any).Razorpay(options);
+      rzp1.open();
+      setIsLoading(false); // Reset loading state after opening the payment gateway
+    } catch (err) {
+      console.error('Error initiating Razorpay payment:', err);
+      setError('Something went wrong. Please try again.');
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 p-4 md:p-8 ">
+      <div className="max-w-5xl mx-auto ">
+        <div className="overflow-hidden bg-white rounded-3xl shadow-xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Image Section */}
+            <div className="relative h-[300px] lg:h-full">
+              <Image
+                src="/gaushala-program/cow_human.jpg"
+                alt='Gau Mata with calf'
+                className="w-full h-full object-cover rounded-t-2xl lg:rounded-l-2xl lg:rounded-t-none"
+                fill
+              />
+            </div>
+            {/* Content Section */}
+            <div className="p-6 space-y-6">
+              <div className="space-y-4">
+                <div className="flex items-center space-x-2">
+                  <span className="text-red-500 font-medium uppercase tracking-wider text-sm">Campaign</span>
+                </div>
+                <h1 className="text-3xl font-bold text-gray-800">{stats.campaignTitle}</h1>
+                <p className="text-gray-600 leading-relaxed">
+                  {stats.description}
+                </p>
+                <div className="space-y-4">
+                  <h2 className="text-gray-700 font-medium pt-4">DONATION AMOUNT</h2>
+                  {/* Amount */}
+                  <div>
+                    <input type="number" placeholder='Enter amount' value={donation_amount} onChange={(e) => {
+                      setAmount(e.target.value);
+                    }}
+                    className='bg-gray-100 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-300 w-full'
+                    />  
+                  </div>            
+                  
+                </div>
+                {/* Error Message */}
+                {error && (
+                  <div className="text-red-500 mt-2">
+                    {error}
+                  </div>
+                )}
+                {/* Donate Button */}
+                <button 
+                  onClick={handleDonate}
+                  disabled={isLoading}
+                  className={`w-[40%] bg-orange-400 hover:bg-orange-500 text-white font-semibold py-4 px-6 rounded-full transition-all duration-500 hover:w-[45%] hover:shadow-lg hover:scale-105 ${
+                    isLoading ? 'bg-gray-400 cursor-not-allowed' : ''
+                  }`}
+                >
+                  {isLoading ? 'Processing...' : 'DONATE NOW'}
+                </button>
+                {/* Short message */}
+                <p className='text-center pt-10 align-bottom text-sm text-gray-600 tracking-wide opacity-60'>"To make big changes small steps are necessary"</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Pay_Donate_Gaushala;

@@ -13,6 +13,9 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      transitionProperty: {
+        height: 'height',
+      },
       fontFamily: {
         handwriting: ['var(--font-handwriting)', 'cursive'],
         twinkle_star: ['var(--font-twinkle-star)'],

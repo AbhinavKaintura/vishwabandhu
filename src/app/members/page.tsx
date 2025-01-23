@@ -4,7 +4,6 @@ import NavBar from '@/components/common/nav-bar/page';
 import Title from '@/components/teams-comp/title/page';
 import MembersList from '@/components/teams-comp/page';
 
-
 // Define the type for a member
 interface Member {
   id: string;
@@ -31,7 +30,6 @@ const Teams: React.FC<TeamsProps> = ({ members }) => {
       <NavBar bg_color="bg-white" />
       <Title />
       <MembersList/>
-
          
     </div>
   );

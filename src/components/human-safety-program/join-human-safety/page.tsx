@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+
 import Animated_family from '../../../../public/human-safety-program/animated-family.jpeg'
 
 interface CompaignDetails {
@@ -27,10 +28,10 @@ const Join_Human_safety = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8 mb-12">
-      <div className="max-w-5xl mx-auto mt-24">
+    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+      <div className="max-w-5xl mx-auto my-24">
         <div className="overflow-hidden bg-white rounded-3xl shadow-xl">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-h-screen">
             {/* Image Section */}
             <div className="relative h-[300px] lg:h-full">
               <Image
@@ -77,21 +78,21 @@ const Join_Human_safety = () => {
                   </div>
                 </div>
 
-                {/* Donate Button */}
-                <button 
+                {/* Join Button */}
+                <Link href='/join-human-safety' className=''><button 
                   onClick={handleDonate}
                   disabled={!termsAccepted}
-                  className={`w-[30%] ${
+                  className={`w-[30%] mt-5 ${
                     termsAccepted 
                       ? 'bg-orange-400 hover:bg-orange-500 hover:w-[35%]' 
                       : 'bg-gray-400 cursor-not-allowed'
                   } text-white font-semibold py-4 px-6 rounded-full transition-all duration-500`}
                 >
                   JOIN US
-                </button>
+                </button></Link>
 
                 {/* Short message */}
-                <p className='text-center text-sm text-gray-600 tracking-wide opacity-60 pt-36'>
+                <p className='text-center text-sm text-gray-600 tracking-wide opacity-60 pt-20'>
                   "To make big changes small steps are necessary"
                 </p>
               </div>
