@@ -4,6 +4,7 @@ import { StaticImageData } from "next/image";
 import Image from "next/image";
 import NavBar from "@/components/common/nav-bar/page";
 import HeaderBar from "@/components/common/header-bar/page";
+import Link from "next/link";
 
 interface TeamMember {
   name: string;
@@ -97,9 +98,17 @@ const Support: React.FC = () => {
               <h3 className="text-lg font-semibold mb-2">Live Chat</h3>
               <p className="text-gray-600">Connect with a support representative in real-time using our <a href="/support/chat" className="text-blue-600 underline">Live Chat</a> feature.</p>
             </div> */}
-              <div className="bg-white shadow-md rounded-lg p-6 border border-gray-200">
+              {/* <div className="bg-white shadow-md rounded-lg p-6 border border-gray-200">
                 <h3 className="text-lg font-semibold mb-2">Community Forum</h3>
                 <p className="text-gray-600">Join discussions and find help in our <a href="/community" className="text-blue-600 underline">Community Forum</a>.</p>
+              </div> */}
+              <div className="bg-white shadow-md rounded-lg p-6 border border-gray-200">
+                <h3 className="text-lg font-semibold mb-2">Ask Us</h3>
+                <span className="text-gray-600">Let your Queries me answered by one of us. </span>
+                <Link href='/contact-us' className="text-blue-600 underline">
+                  <span>Ask Here</span>
+                </Link>
+                
               </div>
             </div>
           </div>
