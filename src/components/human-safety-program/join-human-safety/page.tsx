@@ -28,15 +28,15 @@ const Join_Human_safety = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
-      <div className="max-w-5xl mx-auto my-24">
+    <div className="min-h-fit  bg-gray-50 py-10">
+      <div className="max-w-5xl mx-auto ">
         <div className="overflow-hidden bg-white rounded-3xl shadow-xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-h-screen">
             {/* Image Section */}
             <div className="relative h-[300px] lg:h-full">
               <Image
                 src={Animated_family}
-                alt='Gau Mata with calf'
+                alt='Animated family'
                 className="w-full h-full object-cover rounded-t-2xl lg:rounded-l-2xl lg:rounded-t-none"
               />
             </div>
