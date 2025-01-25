@@ -12,13 +12,13 @@ interface Member {
     platform: string;
     url: string;
   }[];
-}
+
 
 interface MembersListProps {
   members: Member[];
 }
 
-const MembersList: React.FC<MembersListProps> = ({ members }) => {
+  const MembersList: React.FC<MembersListProps> = ({ members }) => {
   return (
     <div className='container mx-auto px-4 py-8'>
       <h2 className='text-3xl font-bold text-center pb-2 mb-8'>Our Members</h2>
@@ -61,3 +61,4 @@ const MembersList: React.FC<MembersListProps> = ({ members }) => {
 };
 
 export default MembersList;
+

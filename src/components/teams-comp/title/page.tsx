@@ -1,3 +1,4 @@
+
 import React from 'react'
 import title_img from "../../../../public/users-page/blue_sky.jpg";
 import Image from 'next/image';
@@ -23,5 +24,4 @@ const Title = () => {
     </div>
   )
 }
-
 export default Title
