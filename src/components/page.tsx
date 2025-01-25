@@ -2,7 +2,7 @@ import React from 'react'
 
 const components = () => {
   return (
-    <div>components folder main </div>
+    <div>components folder main.</div>
   )
 }
 
