@@ -34,7 +34,6 @@ interface MembersListProps {
                 alt='member image'
                 fill
                 className='rounded-3xl'
-                // style={{ objectFit: 'cover', borderRadius: 'md' }} // Adjust borderRadius as needed
               />
             </div>
             <div className='absolute  bg-white p-4 ml-60   mt-32'>
