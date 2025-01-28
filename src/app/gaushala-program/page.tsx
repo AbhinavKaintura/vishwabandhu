@@ -18,7 +18,6 @@ const gaushala_program = () => {
       <Intro />
       <Details />
       <GauMataDonation />
-      
       <Footer />
     </div>
   )
