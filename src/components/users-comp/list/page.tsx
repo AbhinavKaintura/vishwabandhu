@@ -79,8 +79,8 @@ const DonorMemorial: React.FC = () => {
       {/* Hero Section with Cloud Background */}
 
       {/* Donors Grid */}
-      <div className="container mx-auto px-4 py-20">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-20">
+      <div className="container mx-auto px-12 py-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-28">
           {donors.map((donor, index) => (
             <DonorCard key={index} donor={donor} />
           ))}
