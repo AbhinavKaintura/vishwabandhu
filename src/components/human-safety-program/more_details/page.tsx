@@ -1,8 +1,8 @@
 // components/ProgramInfo/page.tsx
 import Image, { StaticImageData } from 'next/image';
-import Boy from '../../../../public/human-safety-program/boy.jpg'
-import Poor_people from '../../../../public/human-safety-program/poor_people.jpg'
-import Coins from '../../../../public/human-safety-program/coins.jpg'
+import why_join_us from '../../../../public/human-safety-program/why_join_us.jpg'
+import who_can_join from '../../../../public/human-safety-program/who_can_join.jpg'
+import how_to_join from '../../../../public/human-safety-program/how_to_join.jpg'
 
 interface InfoCard {
   title: string;
@@ -13,19 +13,19 @@ interface InfoCard {
 const ProgramInfo = () => {
   const infoCards: InfoCard[] = [
     {
-      title: "WHO CAN JOIN",
-      description: "Anyone aged 18 and above can join our community program.",
-      image: Poor_people, // Replace with your actual image path
+      title: "सदस्यता शुल्क = ₹500",
+      description: "Vishwabandhu Foundation से जुड़ने हेतु सदस्यता शुल्क देना अनिवार्य है। Join with a one-time fee of 500 rupees for membership. ",
+      image: who_can_join, 
     },
     {
       title: "WHY JOIN US",
       description: "Experience community support, financial security, and contribute to welfare.",
-      image: Boy, // Replace with your actual image path
+      image: why_join_us, 
     },
     {
       title: "HOW TO JOIN",
-      description: "Join with a one-time fee of 500 rupees for membership.",
-      image: Coins, // Replace with your actual image path
+      description: "Vishwabandhu Foundation से जुड़ने के लिए वेबसाइट vishwabandhufoundation.org पर जाकर रजिस्ट्रेशन करें।",
+      image: how_to_join, 
     },
   ];
 
@@ -42,7 +42,7 @@ const ProgramInfo = () => {
         {infoCards.map((card, index) => (
           <div 
             key={index} 
-            className="relative bg-white rounded-3xl shadow-lg overflow-hidden group"
+            className="relative bg-white rounded-3xl shadow-lg overflow-hidden group min-h-[24rem]"
           >
             {/* Image with overlay */}
             <div className="relative h-48 overflow-hidden">
@@ -56,12 +56,12 @@ const ProgramInfo = () => {
             </div>
 
             {/* Content */}
-            <div className="p-6 bg-white relative -mt-6 mx-4 rounded-2xl shadow-md">
+            <div className="p-6 bg-white relative -mt-6 mx-4 rounded-2xl shadow-md min-h-[10rem]">
               <h3 className="text-xl font-bold mb-3">
                 {card.title}
                 <div className="mt-1 w-16 h-0.5 bg-orange-500"></div>
               </h3>
-              <p className="text-gray-600">
+              <p className="text-gray-600 font-semibold">
                 {card.description}
               </p>
             </div>

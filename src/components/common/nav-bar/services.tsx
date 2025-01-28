@@ -26,12 +26,12 @@ const HoverDropdown = () => {
         <MenuItems
           static
           anchor="bottom end"
-          className="text-lg bg-[#faf6f1] inline-grid p-2 rounded-lg"
+          className=" bg-white inline-grid grid-cols-1 px-4 py-2 text-gray-600 text-sm tracking-wide " 
         >
-          <MenuItem>
-            <Link href="/human-safety-program">Human Safety Program</Link>
+          <MenuItem className='border-b border-gray-200  hover:bg-gray-100 transition-colors p-2'>
+            <Link href="/human-safety-program" className=''>Bharat Self-Care Team</Link>
           </MenuItem>
-          <MenuItem>
+          <MenuItem className=' hover:bg-gray-100 transition-colors p-2'>
             <Link href="/gaushala-program">Gaushala Program</Link>
           </MenuItem>
         </MenuItems>

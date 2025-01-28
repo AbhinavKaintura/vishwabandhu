@@ -1,100 +1,60 @@
-'use client'
+'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import Animated_family from '../../../../public/human-safety-program/who_can_join.jpg';
 
-import Animated_family from '../../../../public/human-safety-program/animated-family.jpeg'
-
-interface CompaignDetails {
+interface CampaignDetails {
   campaignTitle: string;
   description: string;
 }
 
-const Join_Human_safety = () => {
-  const [termsAccepted, setTermsAccepted] = useState(false);
-
-  const stats: CompaignDetails = {
-    campaignTitle: "Human Safety Program",
-    description: "Join our Human Safety Program now and prebook a secure future for your family",
-  };
-
-
-  const handleDonate = () => {
-    if (termsAccepted) {
-      // Add donation logic here
-      console.log('Processing donation...');
-    }
+const JoinHumanSafety = () => {
+  const stats: CampaignDetails = {
+    campaignTitle: "Bharat Self Care Team",
+    description:
+      "Join our Bharat Self Care Team now and prebook a secure future for your family.",
   };
 
   return (
-    <div className="min-h-fit  bg-gray-50 py-10">
-      <div className="max-w-5xl mx-auto ">
-        <div className="overflow-hidden bg-white rounded-3xl shadow-xl">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-h-screen">
+    <div className="bg-gradient-to-r from-yellow-100 via-yellow-50 to-yellow-200 py-6 sm:py-8 md:py-12 px-4 sm:px-6">
+      <div className="max-w-6xl mx-auto">
+        <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
             {/* Image Section */}
-            <div className="relative h-[300px] lg:h-full">
+            <div className="relative h-[200px] sm:h-[250px] md:h-[300px] lg:h-full w-full">
               <Image
                 src={Animated_family}
-                alt='Animated family'
-                className="w-full h-full object-cover rounded-t-2xl lg:rounded-l-2xl lg:rounded-t-none"
+                alt="Animated family"
+                fill
+                priority
+                className="object-cover rounded-t-2xl lg:rounded-l-2xl lg:rounded-t-none"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
             </div>
 
             {/* Content Section */}
-            <div className="p-6">
-              <div className="space-y-4">
-                <div className="flex items-center space-x-2">
-                  <span className="text-red-500 font-medium uppercase tracking-wider text-sm">Campaign</span>
-                </div>
+            <div className="flex flex-col justify-center p-6 sm:p-8 md:py-8 lg:px-12 space-y-4 sm:space-y-6">
+              <span className="text-orange-500 font-medium uppercase tracking-wide text-xs sm:text-sm">
+                Campaign
+              </span>
 
-                <h1 className="text-3xl font-bold text-gray-800 pt-10 ">{stats.campaignTitle}</h1>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 leading-tight">
+                {stats.campaignTitle}
+              </h1>
 
-                <p className="text-gray-600 leading-relaxed">
-                  {stats.description}
-                </p>
+              <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
+                {stats.description}
+              </p>
 
-                <div className="space-y-4 pt-10 pb-4">
-                  <p className='inline-block'>  
-                    Before joining our program, please read our 
-                    <a href="/privacy-policy" className="text-blue-500 hover:text-blue-700"> Privacy Policy</a>.
+              {/* Call-to-action Button */}
+              <div className="pt-4 sm:pt-6">
+                <Link href="/join-human-safety" className="inline-block w-full sm:w-auto text-center">
+                  <p className="block sm:inline-block bg-orange-500 hover:bg-orange-600 text-white font-semibold text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 rounded-full shadow-md transform transition-all hover:scale-105 duration-300">
+                    Join Us Now
                   </p>
-                  
-                  {/* Terms and Conditions Checkbox */}
-                  <div className="flex items-center space-x-2">
-                    <input 
-                      type="checkbox"
-                      id="terms"
-                      checked={termsAccepted}
-                      onChange={(e) => setTermsAccepted(e.target.checked)}
-                      className="w-4 h-4 text-orange-500 border-gray-300 rounded focus:ring-orange-500 focus:ring-2 cursor-pointer"
-                    />
-                    <label 
-                      htmlFor="terms" 
-                      className="text-gray-700 font-medium "
-                    >
-                      I accept the <Link href="/terms-and-conditions" className=' text-orange-500 hover:text-orange-700 transition-colors duration-500 cursor-pointer select-none'>Terms and Conditions</Link>
-                    </label>
-                  </div>
-                </div>
-
-                {/* Join Button */}
-                <Link href='/join-human-safety' className=''><button 
-                  onClick={handleDonate}
-                  disabled={!termsAccepted}
-                  className={`w-[30%] mt-5 ${
-                    termsAccepted 
-                      ? 'bg-orange-400 hover:bg-orange-500 hover:w-[35%]' 
-                      : 'bg-gray-400 cursor-not-allowed'
-                  } text-white font-semibold py-4 px-6 rounded-full transition-all duration-500`}
-                >
-                  JOIN US
-                </button></Link>
-
-                {/* Short message */}
-                <p className='text-center text-sm text-gray-600 tracking-wide opacity-60 pt-20'>
-                  "To make big changes small steps are necessary"
-                </p>
+                </Link>
               </div>
             </div>
           </div>
@@ -104,4 +64,4 @@ const Join_Human_safety = () => {
   );
 };
 
-export default Join_Human_safety;
+export default JoinHumanSafety;
