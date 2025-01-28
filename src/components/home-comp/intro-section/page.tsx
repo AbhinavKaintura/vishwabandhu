@@ -1,7 +1,7 @@
 // IntroSection.tsx
 import React from 'react';
 import Image from 'next/image';
-import introkids from "../../../../public/home-img/intro.jpg"
+import bharat_gaushala from "../../../../public/home-img/bharat_gaushala.jpg"
 import introbg from "../../../../public/home-img/introbg.jpg"
 
 const IntroSection = () => {
@@ -25,7 +25,7 @@ const IntroSection = () => {
             <div className="bg-orange-50 p-3 shadow-lg">
               <div className="relative aspect-[5/6] w-full">
                 <Image
-                  src={introkids}
+                  src={bharat_gaushala}
                   alt="Happy children"
                   fill
                   className="object-cover py-10"
