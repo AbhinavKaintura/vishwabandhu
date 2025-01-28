@@ -105,7 +105,7 @@ const JoinPage: React.FC = () => {
         image: '',
         handler: function (response: any) {
           console.log('Payment successful:', response);
-          router.push('/payment-successful');
+          router.push('/payment-successful-bharat');
         },
         prefill: {
           name: `${formData.firstName} ${formData.lastName}`,
@@ -372,7 +372,7 @@ const JoinPage: React.FC = () => {
                 type="text"
                 value="500 INR"
                 readOnly
-                className="bg-gray-100 p-2.5 sm:p-3 rounded-md w-full sm:w-auto focus:ring-2 focus:ring-orange-300"
+                className="bg-gray-100 text-gray-500 p-2.5 sm:p-3 rounded-md w-full sm:w-auto focus:ring-2 focus:ring-orange-300"
               />
             </div>
 
