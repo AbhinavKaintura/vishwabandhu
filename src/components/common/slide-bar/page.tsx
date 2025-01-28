@@ -15,6 +15,8 @@ interface SlideImage {
 interface ImageSlideShowProps {
   images?: SlideImage[];
   autoSlideInterval?: number;
+  title?: string;
+  subtitle?: string;
 }
 
 const defaultImages: SlideImage[] = [
@@ -29,6 +31,8 @@ const defaultImages: SlideImage[] = [
 const ImageSlideShow: React.FC<ImageSlideShowProps> = ({
   images = defaultImages,
   autoSlideInterval = 5000,
+  title,
+  subtitle,
 }) => {
   // Guard clause for empty images array
   if (!images || images.length === 0) {
@@ -36,18 +40,17 @@ const ImageSlideShow: React.FC<ImageSlideShowProps> = ({
   }
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
 
-  // Auto slide effect
+  // Auto slide effect - removed isHovered dependency
   useEffect(() => {
-    if (isHovered || !images || images.length <= 1) return;
+    if (!images || images.length <= 1) return;
     
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
     }, autoSlideInterval);
 
     return () => clearInterval(timer);
-  }, [images, autoSlideInterval, isHovered]);
+  }, [images, autoSlideInterval]);
 
   const goToSlide = (index: number) => {
     if (!images) return;
@@ -68,11 +71,7 @@ const ImageSlideShow: React.FC<ImageSlideShowProps> = ({
   const showControls = images.length > 1;
 
   return (
-    <div 
-      className="relative w-full h-[500px] group"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+    <div className="relative w-full h-[500px] group">
       {/* Main Image */}
       <div className="relative h-full overflow-hidden">
         {images.map((image, index) => (
@@ -82,13 +81,27 @@ const ImageSlideShow: React.FC<ImageSlideShowProps> = ({
               index === currentIndex ? 'opacity-100' : 'opacity-0'
             }`}
           >
-            
             <Image 
-                src={image.src}
-                alt={image.alt}
-                className="object-cover w-full h-full"
+              src={image.src}
+              alt={image.alt}
+              className="object-cover w-full h-full blur-[2px]"
             />
-            {/* Image Overlay with Text */}
+            
+            {/* Title and Subtitle Overlay */}
+            {(title || subtitle) && (
+              <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-white text-center px-4">
+                {title && (
+                  <h1 className="text-5xl font-bold mb-4 tracking-wide">{title}</h1>
+                )}
+                {subtitle && (
+                  <p className="text-xl max-w-2xl mx-auto leading-relaxed opacity-90">
+                    {subtitle}
+                  </p>
+                )}
+              </div>
+            )}
+
+            {/* Individual Image Title and Description */}
             {(image.title || image.description) && (
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6 text-white">
                 {image.title && (

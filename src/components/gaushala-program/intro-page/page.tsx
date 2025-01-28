@@ -1,71 +1,73 @@
+import { StaticImageData } from 'next/image';
+import Image from 'next/image';
 import React from 'react';
-import Hero_bg from '../../../../public/home-img/hero.png'
-import NavBar from "@/components/common/nav-bar/page"
+import mission from '../../../../public/gaushala-program/mission.jpg';
+import values from '../../../../public/gaushala-program/values.jpg';
+import join_us from '../../../../public/gaushala-program/join_us.jpg';
 
-const Intro = () => {
-    const scrollToContent = () => {
-        const contentSection = document.getElementById('content-section');
-        if (contentSection) {
-            contentSection.scrollIntoView({ behavior: 'smooth' });
-        }
-    };
-
-    return (
-        <div>
-            <div className="relative h-screen">
-                <div
-                    className="absolute inset-0 w-full h-full bg-cover bg-center"
-                    style={{
-                        backgroundImage: `url(${Hero_bg.src})`,
-                        backgroundBlendMode: "overlay",
-                    }}
-                >
-                    {/* Dark overlay with navbar */}
-                    <div className="absolute inset-0 bg-black/40">
-                        <NavBar bg_color="bg-white" />
-
-                        {/* Hero content */}
-                        <div className="flex flex-col items-center justify-center h-[calc(100%-64px)] text-center px-4">
-                            <h1 className="text-white text-6xl font-bold mb-6 tracking-widest font-serif">
-                                GAUSHALA PROGRAM
-                            </h1>
-                            <p className="text-white text-xl max-w-3xl mb-8 tracking-widest">
-                                Join our Gaushala Program and contribute to the well-being of cows by donating a small amount
-                            </p>
-                            <button
-                                onClick={scrollToContent}
-                                className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-full text-lg transition-colors duration-300"
-                            >
-                                GET STARTED
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            {/* Content section with ID for scrolling */}
-            <section id="content-section" className="w-full px-4 py-24 bg-[#FDF6F0]">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 uppercase font-serif tracking-wider">
-                        What is Gaushala Program
-                    </h2>
-                    <div className="mt-2 w-48 h-1 bg-orange-500 mx-auto"></div>
-                </div>
-
-                <div className="text-center pl-[25%]">
-                    <p className="text-gray-700 text-lg md:text-xl leading-relaxed md:leading-loose max-w-[70%] tracking-widest">
-                        At Gaushala, we cherish the deep bond between humans and cows,
-                        providing a loving sanctuary for these gentle beings. Our mission
-                        is to ensure every cow lives with care, respect, and freedom. It's a
-                        space where compassion and connection thrive, inviting all to
-                        nurture this special relationship. Join us in fostering a community
-                        of love, respect, and gratitude for the cows and our shared world.
-                    </p>
-                </div>
-            </section>
-        </div>
-
-    )
+interface TeachingSection {
+  title: string;
+  text: string;
+  imageSrc: StaticImageData;
+  imageAlt: string;
 }
 
-export default Intro;
+const TeachingPhilosophy = () => {
+  const sections: TeachingSection[] = [
+    {
+      title: "Our Mission",
+      text: "At Gaushala, we believe in the deep, heartfelt bond between humans and cows. Our mission is to provide a safe, loving sanctuary for these gentle creatures, offering them the care and respect they deserve. Here, every cow is treated like family, living in peace and freedom.",
+      imageSrc: mission,
+      imageAlt: "our mission"
+    },
+    {
+      title: "Our Values",
+      text: "Gaushala is not just a place for animals; it’s a space where compassion, kindness, and connection flourish. We invite you to join us in nurturing this bond, to learn from the cows’ wisdom, and to experience the joy and healing that comes from simply being in their presence.",
+      imageSrc: values,
+      imageAlt: "our values"
+    },
+    {
+      title: "Join Us",
+      text: "Together, let’s create a community built on love, respect, and gratitude—for the cows, for each other, and for the world we share.",
+      imageSrc: join_us,
+      imageAlt: "join us"
+    }
+  ];
+
+  return (
+    <div className="max-w-5xl mx-auto p-4 md:p-6 space-y-12 md:space-y-24 mt-8 md:mt-20">
+      {sections.map((section, index) => (
+        <div
+          key={index}
+          className={`flex flex-col ${
+            index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
+          } items-center gap-6 md:gap-8 lg:gap-12`}
+        >
+          <div className="flex-1 space-y-4 w-full md:w-auto">
+            {section.title && (
+              <h2 className="text-emerald-700 tracking-wider uppercase text-xl md:text-2xl font-semibold text-center md:text-left">
+                {section.title}
+              </h2>
+            )}
+            <p className="text-gray-600 leading-7 md:leading-9 w-full md:w-auto lg:w-[25rem] font-bold tracking-wide md:tracking-wider text-base md:text-lg pt-3 md:pt-5 text-center md:text-left">
+              {section.text}
+            </p>
+          </div>
+
+          <div className="flex-1 w-full md:w-auto">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-lg shadow-lg w-full md:w-3/4 mx-auto">
+              <Image
+                src={section.imageSrc}
+                alt={section.imageAlt}
+                className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
+                priority
+              />
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default TeachingPhilosophy;
