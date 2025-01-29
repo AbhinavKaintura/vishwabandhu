@@ -18,7 +18,7 @@ export default function Home() {
       <Hero/>
       <Misson/>
       <ServicesSection/>
-      {/* <IntroSection/> */}
+      <IntroSection/>
       <GauMataDonation/>
       <Join_Human_safety/>
       {/* <Donations_status/> */}

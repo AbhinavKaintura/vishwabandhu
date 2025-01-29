@@ -31,11 +31,13 @@ const NavBar: React.FC<Props> = ({ bg_color }) => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
-            <Image
-              className="pl-4 h-10 w-auto"
-              src={logo}
-              alt="RSVBF Logo"
-            />
+            <Link href='/'>
+              <Image
+                className="pl-4 h-10 w-auto"
+                src={logo}
+                alt="RSVBF Logo"
+              />
+            </Link>
             {/* <span className="ml-2 text-xl font-bold text-orange-500">RSVBF</span> */}
           </div>
 
