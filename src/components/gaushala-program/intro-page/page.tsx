@@ -45,7 +45,7 @@ const TeachingPhilosophy = () => {
         >
           <div className="flex-1 space-y-4 w-full md:w-auto">
             {section.title && (
-              <h2 className="text-emerald-700 tracking-wider uppercase text-xl md:text-2xl font-semibold text-center md:text-left">
+              <h2 className="text-[#ff7722] tracking-wider uppercase text-xl md:text-2xl font-semibold text-center md:text-left">
                 {section.title}
               </h2>
             )}
