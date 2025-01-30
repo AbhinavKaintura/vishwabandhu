@@ -14,11 +14,11 @@ const Title = () => {
           className='w-full h-[140px] object-cover'
         />
         <div className='absolute items-center justify-center inset-0 bg-blue-900/30'>
-        <h1 className="tracking-widest text-5xl  h-36 font-serif pt-11 pl-32 text-white">Vishwabandhu Donor Memorial</h1>
+        <h1 className="tracking-widest text-5xl  h-36 font-serif pt-11 pl-32 text-white">Gaushala Donor List</h1>
         
         </div>
       </div>
-      <p className="text-right pt-4 pr-16 text-xl tracking-widest bg-[#285584] h-14 text-white font-bold font-caveat">Presenting our Proud Donors</p>
+      <p className="text-left pl-32 pt-4 pr-16 text-2xl tracking-widest bg-[#7399c1] h-14 text-white font-bold font-caveat">Presenting our Proud Donors</p>
 
     </div>
   )
