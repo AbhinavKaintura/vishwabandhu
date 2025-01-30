@@ -69,6 +69,34 @@ const JoinPage: React.FC = () => {
     "Delhi", "Jammu and Kashmir", "Ladakh", "Lakshadweep", "Puducherry"
   ];
 
+  const sendOrderEmail = async (orderData: any) => {
+    try {
+      console.log('Sending email data:', orderData);
+      const response = await fetch('/api/send-order-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData),
+        cache: 'no-store' // Prevents caching of the request
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      // Log the response status
+      console.log('Email API response status:', response.status);
+
+      const data = await response.json();
+      console.log('Email sent successfully:', data);
+      return true;
+    } catch (error) {
+      console.error('Error sending email:', error);
+      return false;
+    }
+  };
+
   const saveToFirebase = async (paymentId: string) => {
     try {
       const memberRef = collection(db, 'members');
@@ -84,6 +112,38 @@ const JoinPage: React.FC = () => {
 
       const docRef = await addDoc(memberRef, memberData);
       console.log('Member saved with ID:', docRef.id);
+
+      // Prepare email data
+      const orderEmailData = {
+        memberID: `VBFR${String(Date.now()).slice(-6)}`,
+        // name: `${formData.firstName} ${formData.middleName} ${formData.lastName}`.trim(),
+        name: {
+          firstName: formData.firstName,
+          middleName: formData.middleName,
+          lastName: formData.lastName
+        },
+        date: new Date().toLocaleDateString(),
+        gender: formData.gender,
+        dob: formData.dob,
+        paymentMethod: 'Credit Card|Debit Card|NetBanking|Upi',
+        address: {
+          street: formData.address,
+          landmark: formData.landmark,
+          postalCode: formData.postalCode,
+          state: formData.state,
+          country: formData.country
+        },
+        email: formData.email,
+        phone: formData.phone,
+        paymentId,
+        aadhar: formData.aadharCard,
+        nomineeName: formData.nomineeName,
+        nomineeRelation: formData.relation,
+        nomineeAadhar: formData.nomineeAadhar
+      };
+
+      // Send confirmation email
+      await sendOrderEmail(orderEmailData);
 
       return docRef.id;
     } catch (error) {
@@ -132,16 +192,16 @@ const JoinPage: React.FC = () => {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID_HS,
         amount: 500 * 100, // Amount in paise
         currency: 'INR',
-        name: `${formData.firstName} ${formData.lastName}`,
-        description: 'Human Safety Program Registration',
+        name: 'Bharat Self Care Team Registration',
+        description: 'Registration for the program',
         image: '',
         handler: async function (response: any) {
           console.log('Payment successful:', response);
 
           // Save data to Firebase after successful payment
-          await saveToFirebase(response.razorpay_payment_id);
+          const orderId = await saveToFirebase(response.razorpay_payment_id);
 
-          router.push('/payment-successful-bharat');
+          router.push(`/payment-successful-bharat?orderId=${orderId}`);
         },
         prefill: {
           name: `${formData.firstName} ${formData.lastName}`,
@@ -167,294 +227,300 @@ const JoinPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-6 sm:p-6 md:p-8">
+    <div className="min-h-screen bg-gray-50 px-4 py-8">
       <div className="max-w-5xl mx-auto">
-        <div className="overflow-hidden bg-white rounded-xl sm:rounded-3xl shadow-xl">
-          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6 p-4 sm:p-6 md:p-8">
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Join the Bharat Self Care Team</h1>
-            <p className="text-sm sm:text-base text-gray-600">Please fill in the details to register for our Bharat Self Care Team.</p>
+        <div className="bg-white rounded-2xl shadow-xl">
+          <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-8">
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Join the Bharat Self Care Team</h1>
+              <p className="text-gray-600">Please fill in the details to register for our Bharat Self Care Team.</p>
+            </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">First Name</label>
-                <input
-                  type="text"
-                  name="firstName"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                  className="w-full p-2.5 sm:p-3 bg-gray-100 border rounded-md focus:ring-2 focus:ring-orange-300 focus:border-orange-400 transition-colors"
-                  required
-                />
-              </div>
+            {/* Personal Information Section */}
+            <div className="space-y-6">
+              <h2 className="text-lg font-semibold text-gray-700 border-b pb-2">Personal Information</h2>
 
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">Middle Name (Optional)</label>
-                <input
-                  type="text"
-                  name="middleName"
-                  value={formData.middleName || ''}
-                  onChange={handleChange}
-                  className="w-full p-2.5 sm:p-3 bg-gray-100 border rounded-md focus:ring-2 focus:ring-orange-300 focus:border-orange-400 transition-colors"
-                />
-              </div>
+              <div className="space-y-4">
+                {/* Name Fields Group */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                  <div className="grid md:grid-cols-3 gap-4">
+                    <input
+                      type="text"
+                      name="firstName"
+                      placeholder="First Name"
+                      value={formData.firstName}
+                      onChange={handleChange}
+                      className="w-full p-3 bg-gray-50 border rounded-lg  "
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="middleName"
+                      placeholder="Middle Name (Optional)"
+                      value={formData.middleName}
+                      onChange={handleChange}
+                      className="w-full p-3 bg-gray-50 border rounded-lg  "
+                    />
+                    <input
+                      type="text"
+                      name="lastName"
+                      placeholder="Last Name"
+                      value={formData.lastName}
+                      onChange={handleChange}
+                      className="w-full p-3 bg-gray-50 border rounded-lg  "
+                      required
+                    />
+                  </div>
+                </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">Last Name</label>
-                <input
-                  type="text"
-                  name="lastName"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                  className="w-full p-2.5 sm:p-3 bg-gray-100 border rounded-md focus:ring-2 focus:ring-orange-300 focus:border-orange-400 transition-colors"
-                  required
-                />
-              </div>
+                {/* Basic Details Group */}
+                <div className="grid md:grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Gender</label>
+                    <select
+                      name="gender"
+                      value={formData.gender}
+                      onChange={handleChange}
+                      className="w-full p-3 bg-gray-50 border rounded-lg text-gray-600 "
+                      required
+                    >
+                      <option value="">Select Gender</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">Gender</label>
-                <select
-                  name="gender"
-                  value={formData.gender}
-                  onChange={handleChange}
-                  className="w-full p-2.5 sm:p-3 bg-gray-100 border rounded-md focus:ring-2 focus:ring-orange-300 focus:border-orange-400 transition-colors"
-                  required
-                >
-                  <option value="">Select Gender</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Date of Birth</label>
+                    <input
+                      type="date"
+                      name="dob"
+                      value={formData.dob}
+                      onChange={handleChange}
+                      className="w-full p-3 bg-gray-50 border rounded-lg text-gray-600 "
+                      required
+                    />
+                  </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">Date of Birth</label>
-                <input
-                  type="date"
-                  name="dob"
-                  value={formData.dob}
-                  onChange={handleChange}
-                  className="w-full p-2.5 sm:p-3 bg-gray-100 border rounded-md focus:ring-2 focus:ring-orange-300 focus:border-orange-400 transition-colors"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">Aadhar Card Number</label>
-                <input
-                  type="text"
-                  name="aadharCard"
-                  value={formData.aadharCard}
-                  onChange={handleChange}
-                  maxLength={12}
-                  pattern="\d{12}"
-                  title="Please enter a valid 12-digit Aadhar number"
-                  className="w-full p-2.5 sm:p-3 bg-gray-100 rounded-md focus:ring-2 focus:ring-orange-300 focus:border-orange-400 transition-colors"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">Company Name (Optional)</label>
-                <input
-                  type="text"
-                  name="companyName"
-                  value={formData.companyName || ''}
-                  onChange={handleChange}
-                  className="w-full p-2.5 sm:p-3 bg-gray-100 border rounded-md focus:ring-2 focus:ring-orange-300 focus:border-orange-400 transition-colors"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">Country/Region</label>
-                <input
-                  type="text"
-                  name="country"
-                  value="India"
-                  readOnly
-                  className="w-full p-2.5 sm:p-3 bg-gray-100 rounded-md cursor-not-allowed"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">State</label>
-                <select
-                  name="state"
-                  value={formData.state}
-                  onChange={handleChange}
-                  className="w-full p-2.5 sm:p-3 bg-gray-100 rounded-md focus:ring-2 focus:ring-orange-300 focus:border-orange-400 transition-colors"
-                  required
-                >
-                  <option value="">Select State</option>
-                  {indianStates.map((state) => (
-                    <option key={state} value={state}>{state}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">Address</label>
-                <input
-                  type="text"
-                  name="address"
-                  value={formData.address}
-                  onChange={handleChange}
-                  className="w-full p-2.5 sm:p-3 bg-gray-100 border rounded-md focus:ring-2 focus:ring-orange-300 focus:border-orange-400 transition-colors"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">Nearby Landmark</label>
-                <input
-                  type="text"
-                  name="landmark"
-                  value={formData.landmark}
-                  onChange={handleChange}
-                  className="w-full p-2.5 sm:p-3 bg-gray-100 border rounded-md focus:ring-2 focus:ring-orange-300 focus:border-orange-400 transition-colors"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">Postal Code</label>
-                <input
-                  type="text"
-                  name="postalCode"
-                  value={formData.postalCode}
-                  onChange={handleChange}
-                  pattern="\d*"
-                  maxLength={6}
-                  className="w-full p-2.5 sm:p-3 bg-gray-100 rounded-md focus:ring-2 focus:ring-orange-300 focus:border-orange-400 transition-colors"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">Phone No.</label>
-                <input
-                  type="text"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  pattern="\d{10}"
-                  maxLength={10}
-                  title="Please enter a valid 10-digit phone number"
-                  className="w-full p-2.5 sm:p-3 bg-gray-100 rounded-md focus:ring-2 focus:ring-orange-300 focus:border-orange-400 transition-colors"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">Email Address</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full p-2.5 sm:p-3 bg-gray-100 border rounded-md focus:ring-2 focus:ring-orange-300 focus:border-orange-400 transition-colors"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">Nominee Name</label>
-                <input
-                  type="text"
-                  name="nomineeName"
-                  value={formData.nomineeName}
-                  onChange={handleChange}
-                  className="w-full p-2.5 sm:p-3 bg-gray-100 border rounded-md focus:ring-2 focus:ring-orange-300 focus:border-orange-400 transition-colors"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">Relation with Nominee</label>
-                <select
-                  name="relation"
-                  value={formData.relation}
-                  onChange={handleChange}
-                  className="w-full p-2.5 sm:p-3 bg-gray-100 border rounded-md focus:ring-2 focus:ring-orange-300 focus:border-orange-400 transition-colors"
-                  required
-                >
-                  <option value="">Select Relation</option>
-                  <option value="Father">Father</option>
-                  <option value="Mother">Mother</option>
-                  <option value="Spouse">Spouse</option>
-                  <option value="Sibling">Sibling</option>
-                  <option value="Friend">Friend</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">Nominee Aadhar Card</label>
-                <input
-                  type="text"
-                  name="nomineeAadhar"
-                  value={formData.nomineeAadhar}
-                  onChange={handleChange}
-                  maxLength={12}
-                  pattern="\d{12}"
-                  className="w-full p-2.5 sm:p-3 bg-gray-100 border rounded-md focus:ring-2 focus:ring-orange-300 focus:border-orange-400 transition-colors"
-                  required
-                />
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Aadhar Card</label>
+                    <input
+                      type="text"
+                      name="aadharCard"
+                      value={formData.aadharCard}
+                      onChange={handleChange}
+                      maxLength={12}
+                      pattern="\d{12}"
+                      placeholder="12-digit Aadhar number"
+                      className="w-full p-3 bg-gray-50 border rounded-lg  "
+                      required
+                    />
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
-              <label className="text-sm font-semibold text-gray-700">Registration Amount</label>
-              <input
-                type="text"
-                value="500 INR"
-                readOnly
-                className="bg-gray-100 text-gray-500 p-2.5 sm:p-3 rounded-md w-full sm:w-auto focus:ring-2 focus:ring-orange-300"
-              />
+            {/* Contact Information Section */}
+            <div className="space-y-6">
+              <h2 className="text-lg font-semibold text-gray-700 border-b pb-2">Contact Information</h2>
+
+              <div className="space-y-4">
+                {/* Address Group */}
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Address</label>
+                    <input
+                      type="text"
+                      name="address"
+                      value={formData.address}
+                      onChange={handleChange}
+                      className="w-full p-3 bg-gray-50 border rounded-lg  "
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Landmark</label>
+                    <input
+                      type="text"
+                      name="landmark"
+                      value={formData.landmark}
+                      onChange={handleChange}
+                      className="w-full p-3 bg-gray-50 border rounded-lg  "
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Location Details */}
+                <div className="grid md:grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Country</label>
+                    <input
+                      type="text"
+                      value="India"
+                      readOnly
+                      className="w-full p-3 bg-gray-100 border rounded-lg cursor-not-allowed"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">State</label>
+                    <select
+                      name="state"
+                      value={formData.state}
+                      onChange={handleChange}
+                      className="w-full p-3 bg-gray-50 border rounded-lg text-gray-600 "
+                      required
+                    >
+                      <option value="">Select State</option>
+                      {indianStates.map((state) => (  
+                        <option key={state} value={state}>{state}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Postal Code</label>
+                    <input
+                      type="text"
+                      name="postalCode"
+                      value={formData.postalCode}
+                      onChange={handleChange}
+                      maxLength={6}
+                      pattern="\d*"
+                      className="w-full p-3 bg-gray-50 border rounded-lg  "
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Contact Details */}
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      pattern="\d{10}"
+                      maxLength={10}
+                      className="w-full p-3 bg-gray-50 border rounded-lg  "
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="w-full p-3 bg-gray-50 border rounded-lg  "
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="space-y-4 pt-6 sm:pt-10">
-              <p className="text-sm sm:text-base">
-                Before joining our program, please read our
-                <Link href="/privacy-policy" className="text-blue-500 hover:text-blue-700 ml-1">
-                  Privacy Policy
-                </Link>.
-              </p>
+            {/* Nominee Information Section */}
+            <div className="space-y-6">
+              <h2 className="text-lg font-semibold text-gray-700 border-b pb-2">Nominee Information</h2>
 
-              <div className="flex items-start sm:items-center space-x-2">
+              <div className="grid md:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Nominee Name</label>
+                  <input
+                    type="text"
+                    name="nomineeName"
+                    value={formData.nomineeName}
+                    onChange={handleChange}
+                    className="w-full p-3 bg-gray-50 border rounded-lg  "
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Relation</label>
+                  <select
+                    name="relation"
+                    value={formData.relation}
+                    onChange={handleChange}
+                    className="w-full p-3 bg-gray-50 border rounded-lg  "
+                    required
+                  >
+                    <option value="">Select Relation</option>
+                    <option value="Father">Father</option>
+                    <option value="Mother">Mother</option>
+                    <option value="Spouse">Spouse</option>
+                    <option value="Sibling">Sibling</option>
+                    <option value="Friend">Friend</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Nominee Aadhar</label>
+                  <input
+                    type="text"
+                    name="nomineeAadhar"
+                    value={formData.nomineeAadhar}
+                    onChange={handleChange}
+                    maxLength={12}
+                    pattern="\d{12}"
+                    className="w-full p-3 bg-gray-50 border rounded-lg  "
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Registration Fee Section */}
+            <div className="space-y-6">
+              <div className="flex items-center space-x-4">
+                <span className="text-sm font-medium text-gray-700">Registration Amount:</span>
+                <span className="text-lg font-semibold text-orange-500">500 INR</span>
+              </div>
+            </div>
+
+            {/* Terms and Privacy Policy */}
+            <div className="space-y-4">
+              <div className="flex items-center space-x-2">
                 <input
                   type="checkbox"
                   id="terms"
                   checked={termsAccepted}
                   onChange={(e) => setTermsAccepted(e.target.checked)}
-                  className="mt-1 sm:mt-0 w-4 h-4 text-orange-500 border-gray-300 rounded focus:ring-orange-500"
+                  className="w-4 h-4 text-orange-500 border-gray-300 rounded"
                 />
-                <label htmlFor="terms" className="text-sm sm:text-base text-gray-700">
-                  I accept the
-                  <Link href="/terms-and-conditions" className="text-orange-500 hover:text-orange-700 ml-1">
+                <label htmlFor="terms" className="text-sm text-gray-700">
+                  I accept the{' '}
+                  <Link href="/terms-and-conditions" className="text-orange-500 hover:text-orange-600">
                     Terms and Conditions
+                  </Link>
+                  {' '}and{' '}
+                  <Link href="/privacy-policy" className="text-orange-500 hover:text-orange-600">
+                    Privacy Policy
                   </Link>
                 </label>
               </div>
-            </div>
 
-            <div className="mt-6">
               <button
                 type="submit"
                 disabled={isLoading || !termsAccepted}
-                className={`w-full sm:w-auto ${termsAccepted
-                    ? 'bg-orange-400 hover:bg-orange-500'
-                    : 'bg-gray-400 cursor-not-allowed'
-                  } text-white font-semibold py-3 px-6 sm:py-4 sm:px-8 rounded-full transition-all duration-300 min-w-[200px]`}
+                className={`w-full md:w-auto ${termsAccepted
+                  ? 'bg-orange-500 hover:bg-orange-600'
+                  : 'bg-gray-400 cursor-not-allowed'
+                  } text-white font-semibold py-3 px-8 rounded-xl transition-colors duration-300`}
               >
                 {isLoading ? 'Processing...' : 'Join Now'}
               </button>
-            </div>
 
-            {error && (
-              <div className="text-red-500 text-sm sm:text-base text-center">
-                {error}
-              </div>
-            )}
+              {error && (
+                <div className="text-red-500 text-sm text-center">
+                  {error}
+                </div>
+              )}
+            </div>
           </form>
         </div>
       </div>

@@ -19,7 +19,7 @@ const Title = () => {
         
         </div>
       </div>
-      <p className="text-right pt-4 pr-16 text-xl tracking-widest bg-[#285584] h-14 text-white font-bold font-caveat">Presenting our Human Safety Program Members</p>
+      <p className="text-left pt-4 pl-32 text-xl tracking-widest bg-[#285584] h-14 text-white font-bold font-caveat">Presenting our Human Safety Program Members</p>
 
     </div>
   )
