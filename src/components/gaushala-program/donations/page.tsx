@@ -38,7 +38,7 @@ const JoinHumanSafety = () => {
             {/* Content Section */}
             <div className="flex flex-col justify-center p-6 sm:p-8 md:py-8 lg:px-12 space-y-4 sm:space-y-6">
               <span className="text-orange-500 font-medium uppercase tracking-wide text-xs sm:text-sm">
-                Campaign
+                {/* Campaign */}
               </span>
 
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 leading-tight">
