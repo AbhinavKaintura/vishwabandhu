@@ -84,12 +84,12 @@ const ImageSlideShow: React.FC<ImageSlideShowProps> = ({
             <Image 
               src={image.src}
               alt={image.alt}
-              className="object-cover w-full h-full blur-[2px]"
+              className="object-cover w-full h-full"
             />
             
             {/* Title and Subtitle Overlay */}
             {(title || subtitle) && (
-              <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-white text-center px-4">
+              <div className="absolute inset-0  flex flex-col items-center justify-center text-white text-center px-4">
                 {title && (
                   <h1 className="text-5xl font-bold mb-4 tracking-wide">{title}</h1>
                 )}

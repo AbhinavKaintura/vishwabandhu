@@ -1,7 +1,21 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { db } from '@/firebase/config';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import Link from 'next/link';
+
+interface PaymentResponse {
+  razorpay_payment_id: string;
+  razorpay_order_id: string;
+  razorpay_signature: string;
+}
+
+interface DonationData extends JoinFormDetails {
+  paymentId: string;
+  timestamp: any; // Firebase Timestamp
+  status: 'successful';
+}
 
 interface JoinFormDetails {
   firstName: string;
@@ -49,6 +63,30 @@ const JoinPage: React.FC = () => {
     "Delhi", "Jammu and Kashmir", "Ladakh", "Lakshadweep", "Puducherry"
   ];
   
+
+  const saveToFirebase = async (paymentId: string) => {
+    try {
+      const donationsRef = collection(db, 'donations');
+      
+      const donationData: DonationData = {
+        ...formData,
+        paymentId,
+        timestamp: serverTimestamp(),
+        status: 'successful'
+      };
+  
+      console.log('saving to firebase initiated. ',donationData);
+
+      const docRef = await addDoc(donationsRef, donationData);
+      console.log('Donation saved with ID:', docRef.id);
+      
+      return docRef.id;
+    } catch (error) {
+      console.error('Error saving to Firebase:', error);
+      throw new Error('Failed to save donation data');
+    }
+  };
+  
   // Handle form changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -67,24 +105,25 @@ const JoinPage: React.FC = () => {
     setFormData({ ...formData, [name]: validatedValue });
   };
 
-  // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     setError('');
-    // setIsLoading(true);
 
     try {
-      // Razorpay Payment Gateway Integration
       const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID_GAUSHALA, 
-        amount: Number(formData.amount) * 100, // Amount in paise
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID_GAUSHALA,
+        amount: Number(formData.amount) * 100,
         currency: 'INR',
         name: `${formData.firstName} ${formData.lastName}`,
         description: 'Gaumata Donation',
         image: '',
-        handler: function (response: any) {
+        handler: async function (response: any) {
           console.log('Payment successful:', response);
+          
+          // Save data to Firebase after successful payment
+          await saveToFirebase(response.razorpay_payment_id);
+          
+          // Redirect to success page
           router.push('/payment-successful-gaumata');
         },
         prefill: {
@@ -102,11 +141,9 @@ const JoinPage: React.FC = () => {
 
       const rzp1 = new (window as any).Razorpay(options);
       rzp1.open();
-      // setIsLoading(false);
     } catch (err) {
       console.error('Error initiating Razorpay payment:', err);
       setError('Something went wrong. Please try again.');
-      // setIsLoading(false);
     }
   };
 

@@ -12,7 +12,7 @@ const Users = () => {
       <HeaderBar/>
       <NavBar bg_color='bg-white'/>
       <Title/>
-      <DonorMemorial/>
+      {/* <DonorMemorial/> */}
       <div className="container mx-auto px-1 py-2 bg-[#f7f7f7]">
         <DonorList />
       </div>
