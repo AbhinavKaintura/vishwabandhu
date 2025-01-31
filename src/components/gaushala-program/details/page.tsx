@@ -1,7 +1,7 @@
 // components/ProgramInfo/page.tsx
 import Image, { StaticImageData } from 'next/image';
 import about_us from '../../../../public/gaushala-program/about_us.jpg'
-import goal from '../../../../public/gaushala-program/goal.jpg'
+import goal from '../../../../public/gaushala-program/values.png'
 import join_us from '../../../../public/gaushala-program/join_us (1).jpg'
 
 interface InfoCard {

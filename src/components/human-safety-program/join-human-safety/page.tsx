@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import Animated_family from '../../../../public/human-safety-program/who_can_join.jpg';
+import Animated_family from '../../../../public/human-safety-program/south-indian-family.jpg';
 
 interface CampaignDetails {
   campaignTitle: string;
@@ -35,10 +35,8 @@ const JoinHumanSafety = () => {
             </div>
 
             {/* Content Section */}
-            <div className="flex flex-col justify-center p-6 sm:p-8 md:py-8 lg:px-12 space-y-4 sm:space-y-6">
-              <span className="text-orange-500 font-medium uppercase tracking-wide text-xs sm:text-sm">
-                Campaign
-              </span>
+            <div className="flex flex-col justify-center p-6 sm:p-8 md:py-20 lg:px-12 space-y-4 sm:space-y-6">
+              
 
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 leading-tight">
                 {stats.campaignTitle}

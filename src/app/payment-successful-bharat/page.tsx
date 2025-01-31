@@ -11,6 +11,7 @@ import NavBar from '@/components/common/nav-bar/page';
 import Link from 'next/link';
 
 interface JoinFormDetails {
+    memberID: string;
     firstName: string;
     middleName?: string;
     lastName: string;
@@ -98,7 +99,7 @@ const OrderSuccessPage: React.FC = () => {
                             <h2 className="text-xl font-bold text-[#ff7722] border-b-2 border-orange-400 pb-2">Member Information</h2>
                             <table className="w-full mt-2 text-gray-700">
                                 <tbody>
-                                    {/* <tr><td className="font-semibold w-1/3 py-1">Member ID</td><td>{orderDetails.memberID}</td></tr> */}
+                                    <tr><td className="font-semibold w-1/3 py-1">Member ID</td><td>{orderDetails.memberID}</td></tr>
                                     <tr><td className="font-semibold py-1">Registration Date</td><td>{new Date().toLocaleDateString()}</td></tr>
                                     <tr><td className="font-semibold py-1">Full Name</td><td>{orderDetails.firstName} {orderDetails.middleName || ''} {orderDetails.lastName}</td></tr>
                                     <tr><td className="font-semibold py-1">Gender</td><td>{orderDetails.gender}</td></tr>

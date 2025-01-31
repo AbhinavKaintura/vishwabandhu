@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { db } from '@/firebase/config';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import Link from 'next/link';
 
 
 interface DonationData extends JoinFormDetails {
@@ -14,6 +13,7 @@ interface DonationData extends JoinFormDetails {
 
 interface JoinFormDetails {
   firstName: string;
+  middleName?: string;
   lastName: string;
   country?: string;
   city?: string;
@@ -26,11 +26,12 @@ interface JoinFormDetails {
   amount: string;
 }
 
-const JoinPage: React.FC = () => {
+const DonationForm: React.FC = () => {
   const router = useRouter();
 
   const [formData, setFormData] = useState<JoinFormDetails>({
     firstName: '',
+    middleName: '',
     lastName: '',
     country: 'India', // Default value set to India
     state: '',
@@ -43,9 +44,23 @@ const JoinPage: React.FC = () => {
     amount: '',
   });
 
-  // const [isLoading, setIsLoading] = useState(false);
-  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [previewMode, setPreviewMode] = useState(false);
+
+  // Persist data in sessionStorage
+  useEffect(() => {
+    const savedData = sessionStorage.getItem('formData');
+    if (savedData) {
+      setFormData(JSON.parse(savedData));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!previewMode) {
+      sessionStorage.setItem('formData', JSON.stringify(formData));
+    }
+  }, [formData, previewMode]);
 
   // List of Indian states
   const indianStates = [
@@ -108,6 +123,7 @@ const JoinPage: React.FC = () => {
         // name: `${formData.firstName} ${formData.middleName} ${formData.lastName}`.trim(),
         name: {
           firstName: formData.firstName,
+          middleName: formData.middleName,
           lastName: formData.lastName
         },
         date: new Date().toLocaleDateString(),
@@ -150,12 +166,23 @@ const JoinPage: React.FC = () => {
       validatedValue = value.replace(/\D/g, '');
     }
 
+    if (name === 'amount') {
+      validatedValue = value.replace(/\D/g, '');
+    }
+
     setFormData({ ...formData, [name]: validatedValue });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    if (Number(formData.amount) < 100) {
+      alert('Please enter an amount greater than 100');
+      return;
+    }
+
+    setIsLoading(true);
 
     try {
       const options = {
@@ -170,6 +197,8 @@ const JoinPage: React.FC = () => {
 
           // Save data to Firebase after successful payment
           const donorId = await saveToFirebase(response.razorpay_payment_id);
+
+          setIsLoading(false);
 
           // Redirect to success page
           router.push(`/payment-successful-gaumata?donorId=${donorId}`);
@@ -195,189 +224,250 @@ const JoinPage: React.FC = () => {
     }
   };
 
+  // Full-screen loading overlay
+  if (isLoading) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+        <div className="text-4xl font-bold text-white animate-pulse">
+          We are Processing your Payment...
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-8">
       <div className="max-w-5xl mx-auto">
         <div className="bg-white rounded-2xl shadow-xl">
-          <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-8">
-            {/* Header Section */}
-            <div>
-              <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
-                Donate to the Gaushala Program
-              </h1>
-              <p className="text-gray-600">
-                Please fill in the details to donate for our Gaushala Program.
-              </p>
-            </div>
-
-            {/* Personal Information Section */}
-            <div className="space-y-6">
-              <h2 className="text-lg font-semibold text-gray-700 border-b pb-2">Personal Information</h2>
-
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">First Name</label>
-                  <input
-                    type="text"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleChange}
-                    className="w-full p-3 bg-gray-50 border rounded-lg  "
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
-                  <input
-                    type="text"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleChange}
-                    className="w-full p-3 bg-gray-50 border rounded-lg  "
-                    required
-                  />
-                </div>
+          {!previewMode ? (
+            <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-8">
+              {/* Header Section */}
+              <div>
+                <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
+                  Donate to the Gaushala Program
+                </h1>
+                <p className="text-gray-600">
+                  Please fill in the details to donate for our Gaushala Program.
+                </p>
               </div>
-            </div>
 
-            {/* Contact Information Section */}
-            <div className="space-y-6">
-              <h2 className="text-lg font-semibold text-gray-700 border-b pb-2">Contact Information</h2>
+              {/* Personal Information Section */}
+              <div className="space-y-6 text-green-700">
+                <h2 className="text-lg font-semibold text-gray-700 border-b pb-2">Personal Information</h2>
 
-              <div className="space-y-4">
-                {/* Contact Details */}
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      pattern="\d{10}"
-                      maxLength={10}
-                      placeholder="Enter phone number"
-                      className="w-full p-3 bg-gray-50 border rounded-lg  "
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      className="w-full p-3 bg-gray-50 border rounded-lg  "
-                      required
-                    />
-                  </div>
-                </div>
-
-                {/* Address Section */}
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Address</label>
-                    <input
-                      type="text"
-                      name="address"
-                      value={formData.address}
-                      onChange={handleChange}
-                      className="w-full p-3 bg-gray-50 border rounded-lg  "
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Landmark</label>
-                    <input
-                      type="text"
-                      name="landmark"
-                      value={formData.landmark}
-                      onChange={handleChange}
-                      className="w-full p-3 bg-gray-50 border rounded-lg  "
-                    />
-                  </div>
-                </div>
-
-                {/* Location Details */}
                 <div className="grid md:grid-cols-3 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Country</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">First Name</label>
                     <input
                       type="text"
-                      value="India"
-                      readOnly
-                      className="w-full p-3 bg-gray-100 border rounded-lg cursor-not-allowed"
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={handleChange}
+                      className="w-full p-3 bg-gray-50 border rounded-lg  "
+                      required
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">State</label>
-                    <select
-                      name="state"
-                      value={formData.state}
-                      onChange={handleChange}
-                      className="w-full p-3 bg-gray-50 border rounded-lg  "
-                    >
-                      <option value="">Select State</option>
-                      <option value="">Select State</option>
-                      {indianStates.map((state) => (
-                        <option key={state} value={state}>{state}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Postal Code</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Middle Name (Optional)</label>
                     <input
                       type="text"
-                      name="postalCode"
-                      value={formData.postalCode}
+                      name="middleName"
+                      value={formData.middleName}
                       onChange={handleChange}
-                      maxLength={6}
-                      pattern="\d*"
                       className="w-full p-3 bg-gray-50 border rounded-lg  "
+
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+                    <input
+                      type="text"
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleChange}
+                      className="w-full p-3 bg-gray-50 border rounded-lg  "
+                      required
                     />
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* Donation Amount Section */}
-            <div className="space-y-6">
-              <h2 className="text-lg font-semibold text-gray-700 border-b pb-2">Donation Details</h2>
+              {/* Contact Information Section */}
+              <div className="space-y-6 text-green-700">
+                <h2 className="text-lg font-semibold text-gray-700 border-b pb-2">Contact Information</h2>
 
-              <div className="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-4">
-                <label className="text-sm font-medium text-gray-700">Donation Amount (INR)</label>
-                <input
-                  type="string"
-                  name="amount"
-                  value={formData.amount}
-                  onChange={handleChange}
-                  placeholder="Enter amount in INR"
-                  className="w-full md:w-64 p-3 bg-gray-50 border rounded-lg  "
-                  required
-                />
+                <div className="space-y-4">
+                  {/* Contact Details */}
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        pattern="\d{10}"
+                        maxLength={10}
+                        placeholder="Enter phone number"
+                        className="w-full p-3 bg-gray-50 border rounded-lg  "
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        className="w-full p-3 bg-gray-50 border rounded-lg  "
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  {/* Address Section */}
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Address</label>
+                      <input
+                        type="text"
+                        name="address"
+                        value={formData.address}
+                        onChange={handleChange}
+                        className="w-full p-3 bg-gray-50 border rounded-lg  "
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Landmark</label>
+                      <input
+                        type="text"
+                        name="landmark"
+                        value={formData.landmark}
+                        onChange={handleChange}
+                        className="w-full p-3 bg-gray-50 border rounded-lg  "
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  {/* Location Details */}
+                  <div className="grid md:grid-cols-3 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Country</label>
+                      <input
+                        type="text"
+                        value="India"
+                        readOnly
+                        className="w-full p-3 bg-gray-100 border rounded-lg cursor-not-allowed text-green-700"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">State</label>
+                      <select
+                        name="state"
+                        value={formData.state}
+                        onChange={handleChange}
+                        required
+                        className="w-full p-3 bg-gray-50 border rounded-lg text-green-700 "
+                      >
+                        <option value="">Select State</option>
+                        <option value="">Select State</option>
+                        {indianStates.map((state) => (
+                          <option key={state} value={state}>{state}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Postal Code</label>
+                      <input
+                        type="text"
+                        name="postalCode"
+                        value={formData.postalCode}
+                        onChange={handleChange}
+                        maxLength={6}
+                        pattern="\d*"
+                        className="w-full p-3 bg-gray-50 border rounded-lg  "
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Donation Amount Section */}
+              <div className="space-y-6">
+                <h2 className="text-lg font-semibold text-gray-700 border-b pb-2">Donation Details</h2>
+
+                <div className="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-4">
+                  <label className="text-sm font-medium text-gray-700">Donation Amount (INR)</label>
+                  <input
+                    type="string"
+                    name="amount"
+                    value={formData.amount}
+                    onChange={handleChange}
+                    placeholder="Enter amount in INR"
+                    className="w-full md:w-64 p-3 bg-gray-50 border rounded-lg  "
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* Submit Button */}
+              <div className="pt-4">
+                <button
+                  // type="submit"
+                  onClick={() => setPreviewMode(true)}
+                  className="w-full md:w-auto bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-8 rounded-xl transition-colors duration-300 min-w-[200px]"
+                >
+                  Donate Now
+                </button>
+
+                {error && (
+                  <div className="mt-4 text-red-500 text-sm text-center">
+                    {error}
+                  </div>
+                )}
+              </div>
+            </form>
+          ) : (
+            // Preview Mode
+            <div className="p-6 md:p-8 space-y-8">
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Preview Donation Details</h1>
+              <p className="text-gray-600">Please review the details before proceeding.</p>
+
+              {/* Preview the Form Data */}
+              <div className="space-y-4">
+                <div>
+                  <p><strong>Name:</strong> {formData.firstName} {formData.middleName} {formData.lastName}</p>
+                  <p><strong>Email:</strong> {formData.email}</p>
+                  <p><strong>Phone:</strong> {formData.phone}</p>
+                  <p><strong>Address:</strong> {formData.address}, {formData.landmark}, {formData.state}, {formData.postalCode}</p>
+                  <p><strong>Amount:</strong> ₹{formData.amount}</p>
+                </div>
+
+                <div className="flex space-x-4">
+                  <button
+                    onClick={() => setPreviewMode(false)} // Go back to edit form
+                    className="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-3 px-8 rounded-xl"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={handleSubmit} // Proceed to Payment
+                    className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-8 rounded-xl"
+                  >
+                    Proceed to Payment
+                  </button>
+                </div>
               </div>
             </div>
-
-            {/* Submit Button */}
-            <div className="pt-4">
-              <button
-                type="submit"
-                className="w-full md:w-auto bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-8 rounded-xl transition-colors duration-300 min-w-[200px]"
-              >
-                Donate Now
-              </button>
-
-              {error && (
-                <div className="mt-4 text-red-500 text-sm text-center">
-                  {error}
-                </div>
-              )}
-            </div>
-          </form>
+          )}
         </div>
       </div>
     </div>
   );
 }
 
-export default JoinPage;
+export default DonationForm;

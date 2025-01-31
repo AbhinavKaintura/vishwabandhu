@@ -8,7 +8,7 @@ const Join_Human_safety = () => {
     return (
         <div>
             <HeaderBar />
-            <NavBar bg_color=""/>
+            <NavBar bg_color="bg-white"/>
             <Join_Page />
             <Footer />
         </div>

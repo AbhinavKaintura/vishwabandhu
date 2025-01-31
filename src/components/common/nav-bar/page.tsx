@@ -4,8 +4,7 @@ import React, { useState } from 'react';
 import logo from '../../../../public/nav-header/RSVBF-LOGO.png'
 import Image from 'next/image';
 import Link from 'next/link';
-import profileLogo from '../../../../public/nav-header/user.png'
-import { Menu, X, ChevronDown, User } from 'lucide-react';
+import { Menu, X, ChevronDown } from 'lucide-react';
 interface Props {
   bg_color: string;
 }
@@ -13,7 +12,6 @@ interface Props {
 const NavBar: React.FC<Props> = ({ bg_color }) => {
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
   const services = [
     { name: 'Bharat Self Care Team', href: '/human-safety-program' },
@@ -98,39 +96,6 @@ const NavBar: React.FC<Props> = ({ bg_color }) => {
                 Donate NOW
               </button>
             </Link>
-
-            {/* Profile Dropdown */}
-            <div className="relative">
-              <button
-                onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
-                className="flex items-center"
-              >
-                <User className="h-8 w-8 text-gray-700 hover:text-orange-500" />
-              </button>
-              {isProfileDropdownOpen && (
-                <div className="absolute right-0 z-10 w-48 bg-white shadow-lg py-2">
-                  <div className="px-4 py-2 border-b">
-                    <Image
-                      src={profileLogo}
-                      alt="User"
-                      className="h-10 w-10 rounded-full mx-auto"
-                    />
-                  </div>
-                  <a
-                    href="/profile"
-                    className="block px-4 py-2 text-gray-700 hover:bg-orange-50 hover:text-orange-500"
-                  >
-                    Manage user account
-                  </a>
-                  <a
-                    href="/log-out"
-                    className="block px-4 py-2 text-gray-700 hover:bg-orange-50 hover:text-orange-500"
-                  >
-                    Log out
-                  </a>
-                </div>
-              )}
-            </div>
           </div>
 
           {/* Mobile menu button */}
@@ -212,29 +177,6 @@ const NavBar: React.FC<Props> = ({ bg_color }) => {
                 Donate NOW
               </button>
             </Link>
-            <div className="border-t pt-4">
-              <div className="px-3 py-2 flex items-center">
-                <Image
-                  src={profileLogo}
-                  alt="User"
-                  className="h-8 w-8 rounded-full"
-                />
-                <div className="ml-3">
-                  <a
-                    href="/profile"
-                    className="block text-gray-700 hover:text-orange-500"
-                  >
-                    Manage user account
-                  </a>
-                  <a
-                    href="/log-out"
-                    className="block text-gray-700 hover:text-orange-500"
-                  >
-                    Log out
-                  </a>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       )}
