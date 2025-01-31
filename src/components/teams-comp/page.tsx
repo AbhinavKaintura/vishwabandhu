@@ -15,7 +15,7 @@ const DonorList = () => {
         const membersRef = collection(db, 'members');
         const q = query(membersRef, orderBy('timestamp', 'desc'));
         const querySnapshot = await getDocs(q);
-        
+
         const memberData = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data(),
@@ -65,8 +65,8 @@ const DonorList = () => {
         {/* Header */}
         <div className="bg-blue-800 text-white p-4 grid grid-cols-4 rounded-t-lg">
           <div className="font-semibold text-lg font-mono">Name</div>
-          <div className="font-semibold text-lg font-mono">City/State</div>
           <div className="font-semibold text-lg font-mono">Phone Number</div>
+          <div className="font-semibold text-lg font-mono">City/State</div>
           <div className="font-semibold text-lg font-mono">Date</div>
         </div>
 
@@ -88,11 +88,11 @@ const DonorList = () => {
                     {member.firstName} {member.lastName}
                   </span>
                 </div>
+                <div className="text-gray-800 text-sm">
+                  {Number(member.phone.slice(0, 5))}XXXXX
+                </div>
                 <div className="text-gray-600 font-merryweather text-sm">
                   {member.city || member.state || 'N/A'}
-                </div>
-                <div className="text-gray-800 text-sm">
-                  {Number(member.phone)}
                 </div>
                 <div className="text-gray-600 font-merryweather text-sm">
                   {member.date}
