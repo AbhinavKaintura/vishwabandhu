@@ -1,12 +1,12 @@
 import NavBar from "@/components/common/nav-bar/page"
 import HeaderBar from "@/components/common/header-bar/page"
-import Human_safety_program_slide from "@/components/human-safety-program/images-slide-human/page"
-import HumanSafetyInfo from "@/components/human-safety-program/info/page"
-import ProgramInfo from "@/components/human-safety-program/more_details/page"
-import Join_Human_safety from "@/components/human-safety-program/join-human-safety/page"
+import Human_safety_program_slide from "@/components/bharat-self-care-team/images-slide-bharat/page"
+import HumanSafetyInfo from "@/components/bharat-self-care-team/info/page"
+import ProgramInfo from "@/components/bharat-self-care-team/more_details/page"
+import Join_Human_safety from "@/components/bharat-self-care-team/join-bharat-sct/page"
 import Footer from "@/components/common/footer/page"
-import Rules from "@/components/human-safety-program/Rules/page"
-import Arrangement_Fee from "@/components/human-safety-program/Arrangement_Fee/page"
+import Rules from "@/components/bharat-self-care-team/Rules/page"
+import Arrangement_Fee from "@/components/bharat-self-care-team/Arrangement_Fee/page"
 
 const human_safey_program = () => {
     return (
