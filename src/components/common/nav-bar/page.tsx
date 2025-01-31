@@ -14,7 +14,7 @@ const NavBar: React.FC<Props> = ({ bg_color }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const services = [
-    { name: 'Bharat Self Care Team', href: '/human-safety-program' },
+    { name: 'Bharat Self Care Team', href: '/bharat-self-care-team' },
     { name: 'Gaushala Program', href: '/gaushala-program' }
   ];
 

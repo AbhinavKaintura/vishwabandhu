@@ -4,7 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import mission from '../../../../public/gaushala-program/mission.jpg';
-// import Animated_family from '../../../../public/human-safety-program/who_can_join.jpg';
+// import Animated_family from '../../../../public/ bharat-self-care-team/who_can_join.jpg';
 
 interface CampaignDetails {
   campaignTitle: string;

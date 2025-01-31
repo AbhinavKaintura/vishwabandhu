@@ -62,9 +62,9 @@ const ServicesSection = () => {
             </Link>
           </div>
 
-          {/* Human Safety Program Card */}
+          {/* Bharat Self Care Team Card */}
           <div className="bg-white rounded-3xl shadow-lg overflow-hidden transition-transform hover:scale-105 duration-300 w-full max-w-[350px] sm:max-w-[400px] p-4 sm:p-6">
-            <Link href="/human-safety-program">
+            <Link href="/bharat-self-care-team">
               <div className="relative h-56 sm:h-72 w-full">
                 <Image
                   src={family_photo}

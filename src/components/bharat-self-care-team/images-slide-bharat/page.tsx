@@ -1,14 +1,14 @@
 import React from "react";
 import ImageSlideShow from "@/components/common/slide-bar/page";
-// import image1 from '../../../../public/human-safety-program/bsct.jpg';
-import image2 from '../../../../public/human-safety-program/bsct2.jpg';
-import image3 from '../../../../public/human-safety-program/bsct3.jpg';
-import image4 from '../../../../public/human-safety-program/bsct4.jpg';
-import image5 from '../../../../public/human-safety-program/bsct7.jpg';
-import image6 from '../../../../public/human-safety-program/bsct5.jpg';
-import image7 from '../../../../public/human-safety-program/bsct6.jpg';
-// import image8 from '../../../../public/human-safety-program/bsct3.jpg';
-// import image9 from '../../../../public/human-safety-program/bst-slide (9).jpg';
+// import image1 from '../../../../public/ bharat-self-care-team/bsct.jpg';
+import image2 from '../../../../public/bharat-self-care-team/bsct2.jpg';
+import image3 from '../../../../public/bharat-self-care-team/bsct3.jpg';
+import image4 from '../../../../public/bharat-self-care-team/bsct4.jpg';
+import image5 from '../../../../public/bharat-self-care-team/bsct7.jpg';
+import image6 from '../../../../public/bharat-self-care-team/bsct5.jpg';
+import image7 from '../../../../public/bharat-self-care-team/bsct6.jpg';
+// import image8 from '../../../../public/ bharat-self-care-team/bsct3.jpg';
+// import image9 from '../../../../public/ bharat-self-care-team/bst-slide (9).jpg';
 
 const Human_safety_program_slide = () => {
   return (

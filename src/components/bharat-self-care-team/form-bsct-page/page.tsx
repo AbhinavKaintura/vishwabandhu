@@ -100,6 +100,7 @@ const JoinPage: React.FC = () => {
   const handlePreview = () => {
     if (isFormValid()) {
       setIsPreviewMode(true); // Show preview if form is valid
+      window.scrollTo(0, 0); // Scroll to the top of the page
     } else {
       alert('Please fill all required fields and accept the terms.');
     }

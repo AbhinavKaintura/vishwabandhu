@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import Animated_family from '../../../../public/human-safety-program/south-indian-family.jpg';
+import Animated_family from '../../../../public/bharat-self-care-team/south-indian-family.jpg';
 
 interface CampaignDetails {
   campaignTitle: string;
@@ -48,7 +48,7 @@ const JoinHumanSafety = () => {
 
               {/* Call-to-action Button */}
               <div className="pt-4 sm:pt-6">
-                <Link href="/join-human-safety" className="inline-block w-full sm:w-auto text-center">
+                <Link href="/join-bharat-self-care-team" className="inline-block w-full sm:w-auto text-center">
                   <p className="block sm:inline-block bg-orange-500 hover:bg-orange-600 text-white font-semibold text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 rounded-full shadow-md transform transition-all hover:scale-105 duration-300">
                     Join Us Now
                   </p>

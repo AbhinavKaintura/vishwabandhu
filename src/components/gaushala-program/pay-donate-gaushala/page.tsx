@@ -418,7 +418,10 @@ const DonationForm: React.FC = () => {
               <div className="pt-4">
                 <button
                   // type="submit"
-                  onClick={() => setPreviewMode(true)}
+                  onClick={() => {
+                    setPreviewMode(true);
+                    window.scrollTo(0, 0); // Scroll to the top of the page
+                    }}
                   className="w-full md:w-auto bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-8 rounded-xl transition-colors duration-300 min-w-[200px]"
                 >
                   Donate Now
