@@ -8,20 +8,31 @@ const Title = () => {
     <div>
       <div className='relative'>
         <Image
-          src = {title_img}
-          alt ='sky background'
+          src={title_img}
+          alt='sky background'
           width={300}
-          height={1920} 
-          className='w-full h-[140px] object-cover'
+          height={1920}
+          className='w-full h-[100px] sm:h-[120px] md:h-[140px] object-cover'
         />
-        <div className='absolute items-center justify-center inset-0 bg-blue-900/30'>
-        <h1 className="tracking-widest text-5xl  h-36 font-serif pt-11 pl-32 text-white">Vishwabandhu Members</h1>
-        
+        <div className='absolute inset-0 bg-blue-900/30 flex items-center'>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl 
+            tracking-widest font-serif text-white
+            px-4 sm:px-8 md:px-16 lg:px-32">
+            Vishwabandhu Family Members
+          </h1>
         </div>
       </div>
-      <p className="text-left pt-4 pl-32 text-xl tracking-widest bg-[#285584] h-14 text-white font-bold font-caveat">Presenting our Human Safety Program Members</p>
-
+      
+      <p className="text-white bg-[#285584] 
+        text-sm sm:text-base md:text-lg lg:text-xl 
+        tracking-widest font-bold font-caveat
+        p-4 sm:px-8 md:px-16 lg:px-32
+        h-auto min-h-[3rem] md:h-14 
+        flex items-center">
+        Presenting our Human Safety Program Members
+      </p>
     </div>
+
   )
 }
 export default Title

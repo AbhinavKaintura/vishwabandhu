@@ -56,6 +56,9 @@ export async function POST(request: Request) {
             );
         }
 
+        // logo image high resolution
+        // https://i.postimg.cc/3N6y3bjW/RSVBF-LOGO.png 
+
         const emailContent = `
      <div style="font-family: Arial, sans-serif; min-width: 100%; margin: 0 auto; line-height: 1.6; color: #333;">
         <!-- Header -->
@@ -68,7 +71,7 @@ export async function POST(request: Request) {
         <!-- Main Content -->
         <div style="padding: 2rem; background-color: #f9f9f9; border: 1px solid #ddd;">
             <div>
-                <img src="https://i.postimg.cc/3N6y3bjW/RSVBF-LOGO.png" alt="image"
+                <img src="https://i.ibb.co/0p4fDdHh/RSVBF-LOGO.png" alt="image"
                     style="height: 10rem; display: block; margin: auto;">
             </div>
             <p style="font-size: 16px;">Dear ${name.firstName},</p>
@@ -85,18 +88,13 @@ export async function POST(request: Request) {
 
                 <table style="width: 100%; border-collapse: collapse;">
                     <tr>
-                        <td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold; width: 40%;">Member
-                            ID</td>
-                        <td style="padding: 8px; border-bottom: 1px solid #eee;">${memberID}</td>
-                    </tr>
-                    <tr>
                         <td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">Registration Date
                         </td>
                         <td style="padding: 8px; border-bottom: 1px solid #eee;">${date}</td>
                     </tr>
                     <tr>
                         <td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">Full Name</td>
-                        <td style="padding: 8px; border-bottom: 1px solid #eee;">${name.firstName} ${name.lastName}</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #eee;">${name.firstName} ${name.middleName || ''} ${name.lastName}</td>
                     </tr>
                 </table>
             </div>
@@ -158,10 +156,12 @@ export async function POST(request: Request) {
                         <td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">Payment ID</td>
                         <td style="padding: 8px; border-bottom: 1px solid #eee;">${paymentId}</td>
                     </tr>
+                    <!--
                     <tr>
                         <td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">Payment Method</td>
                         <td style="padding: 8px; border-bottom: 1px solid #eee;">${paymentMethod}</td>
                     </tr>
+                    -->
                 </table>
             </div>
 

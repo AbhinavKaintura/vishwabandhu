@@ -1,10 +1,11 @@
 import React from "react";
-import bg from '../../../public/background.jpg';
+import bg from '../../../public/man.png';
 import { StaticImageData } from "next/image";
 import Image from "next/image";
 import NavBar from "@/components/common/nav-bar/page";
 import HeaderBar from "@/components/common/header-bar/page";
 import Link from "next/link";
+import Footer from "@/components/common/footer/page";
 
 interface TeamMember {
   name: string;
@@ -16,24 +17,24 @@ interface TeamMember {
 
 const teamMembers: TeamMember[] = [
   {
-    name: "Rajesh Kumar",
+    name: "Lorem Ipsum",
     role: "Support Lead",
     phone: "+91 9876543210",
-    email: "rajesh@adhyapak.org",
+    email: "loremipsum@gmail.com",
     image: bg,
   },
   {
-    name: "Meera Joshi",
+    name: "Lorem Ipsum",
     role: "Community Coordinator",
     phone: "+91 8765432109",
-    email: "meera@adhyapak.org",
+    email: "loremipsum@gmail.com",
     image: bg,
   },
   {
-    name: "Anil Gupta",
+    name: "Lorem Ipsum",
     role: "Technical Support",
     phone: "+91 7654321098",
-    email: "anil@adhyapak.org",
+    email: "loremipsum@gmail.com",
     image: bg,
   },
 ];
@@ -57,9 +58,9 @@ const Support: React.FC = () => {
           <div className="container mx-auto px-4">
             <h2 className="text-2xl font-bold text-center mb-8">Meet Our Support Team</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {teamMembers.map((member) => (
+              {teamMembers.map((member, key) => (
                 <div
-                  key={member.name}
+                  key={key}
                   className="bg-white shadow-md rounded-lg p-6 text-center border border-gray-200"
                 >
                   <Image
@@ -108,19 +109,21 @@ const Support: React.FC = () => {
                 <Link href='/contact-us' className="text-blue-600 underline">
                   <span>Ask Here</span>
                 </Link>
-                
+
               </div>
             </div>
           </div>
         </section>
 
-        {/* Footer Section */}
+        {/* Footer Section
         <footer className="bg-orange-50 text-gray-800 py-6">
           <div className="container mx-auto px-4 text-center">
             <p>&copy; {new Date().getFullYear()} Adhyapak Self-Care Team. All rights reserved.</p>
           </div>
-        </footer>
+        </footer> */}
+
       </div>
+      <Footer />
     </div>
   );
 };

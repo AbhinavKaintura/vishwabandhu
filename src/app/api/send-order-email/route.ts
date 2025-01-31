@@ -73,7 +73,7 @@ export async function POST(request: Request) {
         <!-- Main Content -->
         <div style="padding: 2rem; background-color: #f9f9f9; border: 1px solid #ddd;">
             <div>
-                <img src="https://i.postimg.cc/3N6y3bjW/RSVBF-LOGO.png" alt="image" style="height: 10rem; display: block; margin: auto;">
+                <img src="https://i.ibb.co/0p4fDdHh/RSVBF-LOGO.png" alt="image" style="height: 10rem; display: block; margin: auto;">
             </div>
             <p style="font-size: 16px;">Dear ${name.firstName},</p>
             
@@ -180,15 +180,17 @@ export async function POST(request: Request) {
                         <td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">Payment ID</td>
                         <td style="padding: 8px; border-bottom: 1px solid #eee;">${paymentId}</td>
                     </tr>
+                    <!--
                     <tr>
                         <td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">Payment Method</td>
                         <td style="padding: 8px; border-bottom: 1px solid #eee;">${paymentMethod}</td>
                     </tr>
+                    -->
                 </table>
             </div>
     
             <!-- Footer Note -->
-            <p style="font-size: 16px; margin-top: 20px;">Thank you for joining the Bharat Self Care Team. We look forward to serving you.</p>
+            <p style="font-size: 16px; margin-top: 20px;">Thank you for joining the Bharat Self Care Team. We look forward to your active contribution to the community.</p>
             
             <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center;">
                 <p style="color: #666; font-size: 14px;">Visit us at <a href="https://vishwabandhufoundation.org" style="color: #ff7722; text-decoration: none;">vishwabandhufoundation.org</a></p>

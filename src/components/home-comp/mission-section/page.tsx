@@ -6,9 +6,9 @@ import mission from "../../../../public/home-img/mission.jpg"
 const Mission = () => {
   return (
     <div className="w-full">
-      <div className="relative w-full bg-orange-50 overflow-hidden py-8">
+      <div className="relative w-full bg-orange-50 overflow-hidden">
         {/* Title - Centered above the image */}
-        <div className="text-center mb-8 pt-20">
+        <div className="text-center py-6">
           <h2 className="text-4xl font-bold font-serif">
             <span className="text-orange-500">OUR</span>{' '}
             <span className="text-orange-300">MISSION</span>

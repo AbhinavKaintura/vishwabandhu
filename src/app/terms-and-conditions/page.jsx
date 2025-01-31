@@ -1,77 +1,113 @@
 import React from "react";
+import HeaderBar from '@/components/common/header-bar/page';
+import NavBar from '@/components/common/nav-bar/page';
+import Footer from '@/components/common/footer/page';
 
 const Terms_and_conditions = () => {
     return (
         <div>
-            <div className="max-w-7xl mx-auto px-4 py-5">
-                <div className="bg-white rounded-2xl shadow-lg mb-8 overflow-hidden">
-                    {/* Header Section */}
-                    <div className="bg-gradient-to-r from-gray-800 to-blue-500 text-white py-10 px-5 text-center">
-                        <h1 className="text-4xl font-bold p-5 text-white shadow-sm">Human Safety Program - India</h1>
+            <HeaderBar />
+            <NavBar bg_color='' />
+            <div className="min-h-screen bg-gray-100">
+                <header className="bg-teal-600 text-white py-16 px-4 rounded-b-[40px]">
+                    <div className="max-w-4xl mx-auto text-center">
+                        <h1 className="text-4xl md:text-5xl font-bold mb-4">Terms and Conditions</h1>
+                        <p className="text-xl">Vishwa Bandhu Foundation - A Section 8 non-profit organization</p>
+                    </div>
+                </header>
+
+                <main className="max-w-4xl mx-auto px-4 py-8 space-y-6">
+                    <div className="bg-white rounded-xl shadow-lg p-8">
+                        <h2 className="text-2xl font-bold text-teal-600 mb-4">Welcome to Vishwa Bandhu Foundation</h2>
+                        <p className="text-gray-600 text-lg">By using our website, you agree to these Terms and Conditions.</p>
                     </div>
 
-                    {/* About Section */}
-                    <div className="p-6 bg-white m-5 rounded-lg shadow-sm">
-                        <h2 className="text-3xl text-gray-800 m-0 p-5 border-b-3 border-blue-500">क्या है Human Safety Program Vishwabandhu Foundation का?</h2>
-                        <p className="my-4 leading-relaxed">Human Safety Program मानव के लिए, Vishwabandhu Foundation के द्वारा समूह से जुड़े इंसान की असामयिक मृत्यु होने पर उनके परिवार को आर्थिक सहायता देने हेतु बनाया गया है।</p>
-                    </div>
+                    {[
+                        {
+                            title: "1. Website Use",
+                            content: (
+                                <ul className="list-disc pl-6 space-y-2 text-gray-600">
+                                    <li>Our website is for informational purposes only.</li>
+                                    <li>We reserve the right to modify or discontinue content without notice.</li>
+                                </ul>
+                            )
+                        },
+                        {
+                            title: "2. Intellectual Property",
+                            content: (
+                                <ul className="list-disc pl-6 space-y-2 text-gray-600">
+                                    <li>Our website content is proprietary and protected by copyright.</li>
+                                    <li>You may not reproduce or distribute content without permission.</li>
+                                </ul>
+                            )
+                        },
+                        {
+                            title: "3. Donations",
+                            content: (
+                                <ul className="list-disc pl-6 space-y-2 text-gray-600">
+                                    <li>Donations are non-refundable (see Refund Policy).</li>
+                                    <li>We reserve the right to decline or return donations.</li>
+                                </ul>
+                            )
+                        },
+                        {
+                            title: "4. Event Registration",
+                            content: (
+                                <ul className="list-disc pl-6 space-y-2 text-gray-600">
+                                    <li>Event registration is subject to availability and cancellation policies.</li>
+                                    <li>We reserve the right to modify event details without notice.</li>
+                                </ul>
+                            )
+                        },
+                        {
+                            title: "5. User-Generated Content",
+                            content: (
+                                <ul className="list-disc pl-6 space-y-2 text-gray-600">
+                                    <li>You grant us permission to use any content you submit (comments, feedback, etc.).</li>
+                                    <li>You agree not to post harmful or unlawful content.</li>
+                                </ul>
+                            )
+                        },
+                        {
+                            title: "6. Disclaimer",
+                            content: (
+                                <ul className="list-disc pl-6 space-y-2 text-gray-600">
+                                    <li>We disclaim warranties and liability for website use or content.</li>
+                                    <li>Your use of our website is at your own risk.</li>
+                                </ul>
+                            )
+                        },
+                        {
+                            title: "7. Governing Law",
+                            content: "These Terms shall be governed by Indian laws and jurisdiction."
+                        },
+                        {
+                            title: "8. Changes to Terms",
+                            content: "We reserve the right to update these Terms without notice."
+                        }
+                    ].map((section, index) => (
+                        <div key={index} className="bg-white rounded-xl shadow-lg p-8">
+                            <h2 className="text-2xl font-bold text-teal-600 mb-4">{section.title}</h2>
+                            <div className="text-lg">{section.content}</div>
+                        </div>
+                    ))}
 
-                    {/* Goals Section */}
-                    <div className="p-6 bg-white m-5 rounded-lg shadow-sm">
-                        <h2 className="text-3xl text-gray-800 m-0 p-5 border-b-3 border-blue-500">Vishwabandhu Foundation का लक्ष्य?</h2>
-                        <p className="my-4 leading-relaxed">Vishwabandhu Foundation का लक्ष्य है कि <span className="font-bold text-blue-500">भारत के सभी मनुष्य</span> इस टीम से जुड़ें और टीम के किसी भी विधिक सदस्य की असामयिक मृत्यु पर उसके परिवार को सहयोग किया जाए।</p>
-                    </div>
-
-                    {/* Who Can Join Section */}
-                    <div className="p-6 bg-white m-5 rounded-lg shadow-sm">
-                        <h2 className="text-3xl text-gray-800 m-0 p-5 border-b-3 border-blue-500">कौन जुड़ सकता है?</h2>
-                        <p className="my-4 leading-relaxed">Vishwabandhu Foundation में बेसिक, माध्यमिक वर्ग के मनुष्य तथा अन्य लोग शामिल हो सकते हैं।</p>
-                    </div>
-
-                    {/* Membership Fee Section */}
-                    <div className="bg-green-50 border-2 border-green-500 p-6 m-5 rounded-lg text-center">
-                        <h2 className="text-3xl text-gray-800 m-0 p-5 border-b-3 border-green-500">सदस्यता शुल्क</h2>
-                        <span className="text-4xl text-green-500 font-bold block my-3">₹500</span>
-                        <p className="my-4 leading-relaxed">Vishwabandhu Foundation से जुड़ने हेतु सदस्यता शुल्क देना अनिवार्य है।</p>
-                    </div>
-
-                    {/* How to Join Section */}
-                    <div className="p-6 bg-white m-5 rounded-lg shadow-sm">
-                        <h2 className="text-3xl text-gray-800 m-0 p-5 border-b-3 border-blue-500">कैसे जुड़ें?</h2>
-                        <p className="my-4 leading-relaxed">
-                            Vishwabandhu Foundation से जुड़ने के लिए वेबसाइट 
-                            <a className="text-blue-500 no-underline font-bold" href="https://vishwabandhufoundation.org">vishwabandhufoundation.org</a> 
-                            पर जाकर रजिस्ट्रेशन करें।
-                        </p>
-                        <div className="border-l-4 border-red-500 bg-red-50 p-5 my-5 rounded-lg">
-                            <p className="my-3">साथ ही Vishwabandhu Foundation के व्हाट्सऐप ग्रुप से अवश्य जुड़ जाएं। समस्त अपडेट और जानकारी आपको व्हाट्सऐप ग्रुप से मिल जाएगी।</p>
+                    <div className="bg-white rounded-xl shadow-lg p-8">
+                        <h2 className="text-2xl font-bold text-teal-600 mb-4">Contact Us</h2>
+                        <div className="text-gray-600 text-lg">
+                            <p>For concerns or questions, email <span className="font-bold"><a href="mailto:support@vishwabandhufoundation.org"
+                                className=" hover:text-orange-500 transition-colors "
+                            > Support@vishwabandhufoundation.org
+                            </a></span> or write to:</p>
+                            <p className="mt-2">Office no. 3, Sector-39, Gurgaon, Haryana – 122001</p>
                         </div>
                     </div>
-
-                    {/* Rules Section */}
-                    <div className="bg-gray-800 text-white p-8 m-5 rounded-lg">
-                        <h2 className="text-3xl text-white m-0 p-5 border-b-3 border-yellow-500">महत्वपूर्ण नियम</h2>
-                        <p className="my-3 text-white">&bull; Vishwabandhu Foundation से विधिक रूप से रजिस्ट्रेशन के पश्चात आपको ग्रुप पर अपडेट की नज़र रखनी होगी।</p>
-                        <p className="my-3 text-white">&bull; किसी साथी की मृत्यु पर उसके परिवार का सहयोग करके फॉर्म भरना अनिवार्य है।</p>
-                        <p className="my-3 text-white">&bull; सहयोग करने पर ही सहयोग मिलेगा।</p>
-                        <p className="my-3 text-white">&bull; नियम और अनुशासन सर्वोपरि है।</p>
-                    </div>
-
-                    {/* Management Fee Section */}
-                    <div className="bg-green-50 border-2 border-green-500 p-6 m-5 rounded-lg text-center">
-                        <h2 className="text-3xl text-gray-800 m-0 p-5 border-b-3 border-green-500">व्यवस्था शुल्क</h2>
-                        <span className="text-4xl text-green-500 font-bold block my-3">₹100</span>
-                        <p className="my-4 leading-relaxed">व्यवस्था शुल्क समिति के खाते में ऑनलाइन लिया जाता है।</p>
-                        <div className="border-l-4 border-blue-500 bg-gray-50 p-5 my-5 rounded-lg text-left">
-                            <p className="my-3">&bull; समय-समय पर समिति हिसाब देगी</p>
-                            <p className="my-3">&bull; विभिन्न प्रकार की व्यवस्थाएं सदस्यों को दी जाएंगी</p>
-                            <p className="my-3">&bull; व्यवस्था शुल्क न जमा करने पर भी सदस्यता बनी रहेगी</p>
-                        </div>
-                    </div>
-                </div>
+                </main>
             </div>
+            <Footer />
         </div>
-    )
-}
+
+    );
+};
 
 export default Terms_and_conditions;

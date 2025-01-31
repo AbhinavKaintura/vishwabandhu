@@ -12,6 +12,7 @@ import Link from 'next/link';
 
 interface DonateFormDetails {
     firstName: string;
+    middleName?: string;
     lastName: string;
     country?: string;
     city?: string;
@@ -94,7 +95,7 @@ const OrderSuccessPage: React.FC = () => {
                                 <tbody>
                                     {/* <tr><td className="font-semibold w-1/3 py-1">Member ID</td><td>{donorDetails.memberID}</td></tr> */}
                                     <tr><td className="font-semibold py-1">Registration Date</td><td>{new Date().toLocaleDateString()}</td></tr>
-                                    <tr><td className="font-semibold py-1">Full Name</td><td>{donorDetails.firstName} {donorDetails.lastName}</td></tr>
+                                    <tr><td className="font-semibold py-1">Full Name</td><td>{donorDetails.firstName} {donorDetails.middleName || ''} {donorDetails.lastName}</td></tr>
                                 </tbody>
                             </table>
                         </div>

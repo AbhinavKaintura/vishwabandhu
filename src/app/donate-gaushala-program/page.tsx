@@ -8,7 +8,7 @@ const Donate_Gaushala_Program = () => {
     return (
         <div>
             <HeaderBar />
-            <NavBar bg_color=""/>
+            <NavBar bg_color="bg-white"/>
             <Pay_Donate_Gaushala />
             <Footer />
 

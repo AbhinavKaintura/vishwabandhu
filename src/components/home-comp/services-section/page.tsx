@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import { Home, ArrowRight, Minus } from 'lucide-react';
 import Link from 'next/link';
-import hand_image from "../../../../public/home-img/sec2.png"
+import family_photo from "../../../../public/home-img/family_photo.jpg"
 import home from "../../../../public/home-img/home.png"
 import gaushala_image from '../../../../public/home-img/hero.png';
 
@@ -67,7 +67,7 @@ const ServicesSection = () => {
             <Link href="/human-safety-program">
               <div className="relative h-56 sm:h-72 w-full">
                 <Image
-                  src={hand_image}
+                  src={family_photo}
                   alt="Human Safety Program"
                   fill
                   className="object-cover rounded-3xl"
