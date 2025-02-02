@@ -7,7 +7,7 @@ const MemberList = () => {
   const [members, setMembers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const membersPerPage = 10;
 
@@ -41,6 +41,24 @@ const MemberList = () => {
     fetchMembers();
   }, []);
 
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+    setCurrentPage(1); // Reset to the first page when searching
+  };
+
+  const filteredMembers = members.filter(member =>
+    `${member.firstName} ${member.lastName}`.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const totalPages = Math.ceil(filteredMembers.length / membersPerPage);
+  const indexOfLastMember = currentPage * membersPerPage;
+  const indexOfFirstMember = indexOfLastMember - membersPerPage;
+  const currentMembers = filteredMembers.slice(indexOfFirstMember, indexOfLastMember);
+
+  const handlePageClick = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
   if (loading) {
     return (
       <div className="w-full max-w-6xl mx-auto px-1 py-8">
@@ -61,36 +79,28 @@ const MemberList = () => {
     );
   }
 
-  // Pagination Logic
-  const totalPages = Math.ceil(members.length / membersPerPage);
-  const indexOfLastMember = currentPage * membersPerPage;
-  const indexOfFirstMember = indexOfLastMember - membersPerPage;
-  const currentMembers = members.slice(indexOfFirstMember, indexOfLastMember);
-
-  // Handle page change
-  const handlePageClick = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
-  };
-
   return (
     <div className="w-full max-w-6xl mx-auto px-4 py-8">
       <div className="bg-gradient-to-br from-indigo-50 to-white md:bg-white rounded-xl shadow-xl overflow-hidden border border-indigo-100">
-        {/* Desktop Header */}
-        {/* Mobile Header */}
         <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-4">
           <h2 className="text-white font-bold text-xl text-center">Vishwabandhu's Family Members</h2>
         </div>
+        <div className="p-4">
+          <input
+            type="text"
+            placeholder="Search by name..."
+            value={searchQuery}
+            onChange={handleSearch}
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </div>
         <div className="hidden md:block bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white">
           <div className="relative p-8">
-            {/* Background Accent */}
             <div className="absolute inset-0 opacity-10">
               <div className="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-blue-500/20"></div>
               <div className="absolute left-0 top-0 w-48 h-full bg-gradient-to-r from-purple-500/20"></div>
             </div>
-
-            {/* Header Content */}
             <div className="grid grid-cols-4 w-full gap-8">
-              {/* Column Headers */}
               {["Name", "Date", "Phone Number", "State"].map((header, index) => (
                 <div key={index}>
                   <h3 className="text-lg font-semibold text-gray-100">{header}</h3>
@@ -99,12 +109,10 @@ const MemberList = () => {
             </div>
           </div>
         </div>
-
-        {/* List Container */}
         <div className="divide-y divide-indigo-100 md:divide-gray-100">
           {currentMembers.length === 0 ? (
             <div className="p-8 text-center">
-              <div className="text-indigo-400 md:text-gray-400 text-lg">No members found</div>
+              <div className="text-indigo-400 md:text-gray-400 text-lg">No record found...</div>
             </div>
           ) : (
             currentMembers.map((member, index) => (
@@ -112,7 +120,6 @@ const MemberList = () => {
                 key={member.id}
                 className="group hover:bg-indigo-50 md:hover:bg-gray-50 transition-all duration-200"
               >
-                {/* Desktop View */}
                 <div className="hidden md:grid md:grid-cols-4 p-6 gap-8">
                   <div className="flex items-center">
                     <div className="mr-4 text-2xl font-bold text-gray-200">
@@ -139,8 +146,6 @@ const MemberList = () => {
                     </span>
                   </div>
                 </div>
-
-                {/* Mobile View */}
                 <div className="md:hidden p-4">
                   <div className="flex flex-col space-y-3">
                     <div className="flex justify-between items-start">
@@ -168,8 +173,6 @@ const MemberList = () => {
             ))
           )}
         </div>
-
-        {/* Pagination */}
         <div className="flex justify-center space-x-3 py-4">
           {[...Array(totalPages)].map((_, index) => (
             <button
@@ -184,10 +187,8 @@ const MemberList = () => {
             </button>
           ))}
         </div>
-
-        {/* Footer */}
         <div className="bg-gradient-to-r from-indigo-50 to-purple-50 md:bg-gray-50 p-4 text-center text-sm text-gray-600">
-          Total Members: {members.length}
+          Total Members: {filteredMembers.length}
         </div>
       </div>
     </div>

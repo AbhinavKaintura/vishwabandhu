@@ -8,6 +8,7 @@ const DonorList = () => {
   const [donors, setDonors] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const donorsPerPage = 10;
 
@@ -40,12 +41,22 @@ const DonorList = () => {
     fetchDonors();
   }, []);
 
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+    setCurrentPage(1); // Reset to the first page when searching
+  };
+
+  const filteredDonors = donors.filter(donor =>
+    `${donor.firstName} ${donor.lastName}`.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   // Paginate donors
+  const totalPages = Math.ceil(filteredDonors.length / donorsPerPage);
   const indexOfLastDonor = currentPage * donorsPerPage;
   const indexOfFirstDonor = indexOfLastDonor - donorsPerPage;
-  const currentDonors = donors.slice(indexOfFirstDonor, indexOfLastDonor);
+  const currentDonors = filteredDonors.slice(indexOfFirstDonor, indexOfLastDonor);
 
-  const totalPages = Math.ceil(donors.length / donorsPerPage);
+  
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -77,6 +88,15 @@ const DonorList = () => {
         {/* Desktop Header */}
         <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-4">
           <h2 className="text-white font-bold text-xl text-center">Vishwabandhu's Family Donors</h2>
+        </div>
+        <div className="p-4">
+          <input
+            type="text"
+            placeholder="Search by name..."
+            value={searchQuery}
+            onChange={handleSearch}
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
         </div>
         <div className="hidden md:block bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white">
           <div className="relative p-8">
@@ -174,7 +194,7 @@ const DonorList = () => {
 
         {/* Footer */}
         <div className="bg-gradient-to-r from-indigo-50 to-purple-50 md:bg-gray-50 p-4 text-center text-sm text-gray-600">
-          Total Donors: {donors.length}
+          Total Donors: {filteredDonors.length}
         </div>
       </div>
     </div>
