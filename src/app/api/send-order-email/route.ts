@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createTransport } from 'nodemailer';
+import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 
 // Add detailed logging for email configuration
 console.log('Email configuration:', {
@@ -26,6 +27,250 @@ transporter.verify(function (error, success) {
         console.log('Server is ready to take our messages');
     }
 });
+
+// Function to mask Aadhar number
+function maskAadharNumber(aadharNumber: string): string {
+    // Ensure the Aadhar number is valid (12 digits)
+    if (!aadharNumber || aadharNumber.length !== 12) {
+        return 'XXXX-XXXX-XXXX';
+    }
+    
+    // Mask all but last 4 digits
+    return `${aadharNumber.slice(0, 4).replace(/\d/g, 'X')}-` +
+           `${aadharNumber.slice(4, 8).replace(/\d/g, 'X')}-` +
+           `${aadharNumber.slice(8, 12)}`;
+}
+
+// Function to fetch logo as a buffer
+async function fetchLogoBuffer(logoUrl: string) {
+    try {
+        const response = await fetch(logoUrl);
+        return Buffer.from(await response.arrayBuffer());
+    } catch (error) {
+        console.error('Failed to fetch logo:', error);
+        return null;
+    }
+}
+
+// Function to create membership card PDF
+async function generateMembershipCard(memberDetails: {
+    memberID: string,
+    name: { firstName: string, middleName?: string, lastName: string },
+    phone: string,
+    aadhar: string,
+    nomineeName: string,
+    nomineeRelation: string,
+    nomineeAadhar: string,
+    address: {
+        street: string,
+        landmark: string,
+        state: string,
+        postalCode: string,
+        country: string
+    }
+}): Promise<Buffer> {
+    // Create a new PDF document
+    const pdfDoc = await PDFDocument.create();
+    
+    // Card dimensions (standard ID card size)
+    const pageWidth = 300; // Slightly wider for better design
+    const pageHeight = 200;
+
+    // Create front page
+    const frontPage = pdfDoc.addPage([pageWidth, pageHeight]);
+    
+    // Load fonts
+    const regularFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
+    const boldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+    
+    // Colors
+    const primaryColor = rgb(0.12, 0.46, 0.70); // Soft blue
+    const secondaryColor = rgb(0.95, 0.57, 0.13); // Orange
+    const textColor = rgb(0, 0, 0); // Black
+    const bgColor = rgb(0.95, 0.95, 0.95); // Light gray background
+
+    // Fetch and embed logo
+    const logoUrl = 'https://i.ibb.co/0p4fDdHh/RSVBF-LOGO.png';
+    const logoBuffer = await fetchLogoBuffer(logoUrl);
+    let logoPng;
+    if (logoBuffer) {
+        logoPng = await pdfDoc.embedPng(logoBuffer);
+    }
+
+    // Background rectangle
+    frontPage.drawRectangle({
+        x: 0,
+        y: 0,
+        width: pageWidth,
+        height: pageHeight,
+        color: bgColor,
+    });
+
+    // Border
+    frontPage.drawRectangle({
+        x: 10,
+        y: 10,
+        width: pageWidth - 20,
+        height: pageHeight - 20,
+        borderColor: primaryColor,
+        borderWidth: 2,
+        color: rgb(1, 1, 1) // White fill
+    });
+
+    // Logo
+    if (logoPng) {
+        frontPage.drawImage(logoPng, {
+            x: 20,
+            y: pageHeight - 80,
+            width: 70,
+            height: 70,
+        });
+    }
+
+    // Organization Name
+    frontPage.drawText('Bharat Self Care Team', {
+        x: pageWidth / 2 - 50,
+        y: pageHeight - 40,
+        size: 16,
+        font: boldFont,
+        color: primaryColor
+    });
+
+    // Member Details
+    const startX = 30;
+    let currentY = pageHeight / 2 - 20;
+    const lineHeight = 15;  
+    const textSize = 10;
+
+    frontPage.drawText(`Member ID: ${memberDetails.memberID}`, {
+        x: startX,
+        y: currentY,
+        size: textSize,
+        font: regularFont,
+        color: textColor
+    });
+    currentY -= lineHeight;
+
+    frontPage.drawText(`Name: ${memberDetails.name.firstName} ${memberDetails.name.lastName}`, {
+        x: startX,
+        y: currentY,
+        size: textSize,
+        font: regularFont,
+        color: textColor
+    });
+    currentY -= lineHeight;
+
+    frontPage.drawText(`Phone: ${memberDetails.phone}`, {
+        x: startX,
+        y: currentY,
+        size: textSize,
+        font: regularFont,
+        color: textColor
+    });
+    currentY -= lineHeight;
+
+    frontPage.drawText(`Aadhar: ${maskAadharNumber(memberDetails.aadhar)}`, {
+        x: startX,
+        y: currentY,
+        size: textSize,
+        font: regularFont,
+        color: textColor
+    });
+
+    // Create back page
+    const backPage = pdfDoc.addPage([pageWidth, pageHeight]);
+    
+    // Background for back page
+    backPage.drawRectangle({
+        x: 0,
+        y: 0,
+        width: pageWidth,
+        height: pageHeight,
+        color: bgColor,
+    });
+
+    // Border for back page
+    backPage.drawRectangle({
+        x: 10,
+        y: 10,
+        width: pageWidth - 20,
+        height: pageHeight - 20,
+        borderColor: secondaryColor,
+        borderWidth: 2,
+        color: rgb(1, 1, 1) // White fill
+    });
+
+    // Nominee Details Title
+    backPage.drawText('Nominee Information', {
+        x: pageWidth / 2 - 90,
+        y: pageHeight - 40,
+        size: 16,
+        font: boldFont,
+        color: secondaryColor
+    });
+
+    // Reset positioning for back page
+    currentY = pageHeight - 50; // Start from the bottom of the page    
+
+    backPage.drawText(`Nominee Name: ${memberDetails.nomineeName}`, {
+        x: startX,
+        y: currentY,
+        size: textSize,
+        font: regularFont,
+        color: textColor
+    });
+    currentY -= lineHeight;
+
+    backPage.drawText(`Relationship: ${memberDetails.nomineeRelation}`, {
+        x: startX,
+        y: currentY,
+        size: textSize,
+        font: regularFont,
+        color: textColor
+    });
+    currentY -= lineHeight;
+
+    backPage.drawText(`Nominee Aadhar: ${maskAadharNumber(memberDetails.nomineeAadhar)}`, {
+        x: startX,
+        y: currentY,
+        size: textSize,
+        font: regularFont,
+        color: textColor
+    });
+    currentY -= lineHeight * 1.5;
+
+    // Address Details
+    backPage.drawText('Address:', {
+        x: startX,
+        y: currentY,
+        size: 12,
+        font: boldFont,
+        color: textColor
+    });
+    currentY -= lineHeight;
+
+    const addressLines = [
+        memberDetails.address.street+", " + memberDetails.address.landmark,
+        `${memberDetails.address.state} - ${memberDetails.address.postalCode}`,
+        memberDetails.address.country
+    ];
+
+    addressLines.forEach(line => {
+        backPage.drawText(line, {
+            x: startX,
+            y: currentY,
+            size: 10,
+            font: regularFont,
+            color: textColor
+        });
+        currentY -= lineHeight;
+    });
+
+    // Serialize PDF to bytes
+    const pdfBytes = await pdfDoc.save();
+    
+    return Buffer.from(pdfBytes);
+}
 
 export async function POST(request: Request) {
     try {
@@ -60,6 +305,18 @@ export async function POST(request: Request) {
                 { status: 400 }
             );
         }
+
+        // Generate Membership Card PDF
+        const membershipCardPDF = await generateMembershipCard({
+            memberID,
+            name,
+            phone,
+            aadhar,
+            nomineeName,
+            nomineeRelation,
+            nomineeAadhar,
+            address
+        });
 
         const emailContent = `
       <div style="font-family: Arial, sans-serif; min-width: 100%; margin: 0 auto; line-height: 1.6; color: #333;">
@@ -208,7 +465,13 @@ export async function POST(request: Request) {
                 from: process.env.EMAIL_USER,
                 to: email,
                 subject: 'You are Successfully registered to Bharat Self Care Team Program!',
-                html: emailContent
+                html: emailContent,
+                attachments: [
+                    {
+                        filename: `${name.firstName}_${memberID}_membership_card.pdf`,
+                        content: membershipCardPDF
+                    }
+                ]
             });
             console.log('Email sent successfully');
         } catch (emailError) {
