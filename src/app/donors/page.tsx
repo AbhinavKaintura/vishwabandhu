@@ -1,9 +1,9 @@
 import React from 'react'
 import HeaderBar from '@/components/common/header-bar/page'
 import NavBar from '@/components/common/nav-bar/page'
-import Title from '@/components/users-comp/title/page'
-import DonorMemorial from '@/components/users-comp/list/page'
-import DonorList from '@/components/users-comp/col-list/page'
+import Title from '@/components/donors-comp/title/page'
+import DonorMemorial from '@/components/donors-comp/list/page'
+import DonorList from '@/components/donors-comp/col-list/page'
 
 
 const Users = () => {
