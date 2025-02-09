@@ -9,6 +9,7 @@ import HeaderBar from '@/components/common/header-bar/page';
 import Footer from '@/components/common/footer/page';
 import NavBar from '@/components/common/nav-bar/page';
 import Link from 'next/link';
+import PDFPreviewAndDownload from '@/components/payment-successful-bharat/pdf-preview/page';
 
 interface JoinFormDetails {
     memberID: string;
@@ -152,6 +153,7 @@ const OrderSuccessPage: React.FC = () => {
                     <button className='block m-auto w-32 bg-orange-500 rounded-lg p-2 mt-10 hover:bg-orange-600 text-white'>Go to Home</button>
                 </Link>
             </div>
+            <PDFPreviewAndDownload orderDetails={orderDetails}/>
             <Footer />
         </ div>
     );

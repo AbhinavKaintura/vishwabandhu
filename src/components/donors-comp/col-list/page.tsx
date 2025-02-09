@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '@/firebase/config';
 import { collection, query, orderBy, getDocs } from 'firebase/firestore';
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const DonorList = () => {
   const [donors, setDonors] = useState<any[]>([]);
@@ -43,23 +44,54 @@ const DonorList = () => {
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
-    setCurrentPage(1); // Reset to the first page when searching
+    setCurrentPage(1);
   };
 
   const filteredDonors = donors.filter(donor =>
     `${donor.firstName} ${donor.lastName}`.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Paginate donors
   const totalPages = Math.ceil(filteredDonors.length / donorsPerPage);
   const indexOfLastDonor = currentPage * donorsPerPage;
   const indexOfFirstDonor = indexOfLastDonor - donorsPerPage;
   const currentDonors = filteredDonors.slice(indexOfFirstDonor, indexOfLastDonor);
 
-  
+  // Calculate page range to display
+  const getPageRange = () => {
+    const delta = 1; // Number of pages to show on each side of current page
+    let range = [];
+    
+    if (totalPages <= 5) {
+      range = [...Array(totalPages)].map((_, i) => i + 1);
+    } else {
+      if (currentPage <= delta + 1) {
+        range = [1, 2, 3, '...', totalPages];
+      } else if (currentPage >= totalPages - delta) {
+        range = [1, '...', totalPages - 2, totalPages - 1, totalPages];
+      } else {
+        range = [
+          1,
+          '...',
+          currentPage - 1,
+          currentPage,
+          currentPage + 1,
+          '...',
+          totalPages
+        ];
+      }
+    }
+    return range;
+  };
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+  const handlePageClick = (pageNumber: number) => {
+    if (pageNumber >= 1 && pageNumber <= totalPages) {
+      setCurrentPage(pageNumber);
+      // Smooth scroll to top of the list
+      document.querySelector('.donor-list-container')?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
   };
 
   if (loading) {
@@ -84,8 +116,7 @@ const DonorList = () => {
 
   return (
     <div className="w-full max-w-6xl mx-auto px-4 py-8">
-      <div className="bg-gradient-to-br from-indigo-50 to-white md:bg-white rounded-xl shadow-xl overflow-hidden border border-indigo-100">
-        {/* Desktop Header */}
+      <div className="donor-list-container bg-gradient-to-br from-indigo-50 to-white md:bg-white rounded-xl shadow-xl overflow-hidden border border-indigo-100">
         <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-4">
           <h2 className="text-white font-bold text-xl text-center">Vishwabandhu's Family Donors</h2>
         </div>
@@ -100,9 +131,12 @@ const DonorList = () => {
         </div>
         <div className="hidden md:block bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white">
           <div className="relative p-8">
-            {/* Header Content */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-blue-500/20"></div>
+              <div className="absolute left-0 top-0 w-48 h-full bg-gradient-to-r from-purple-500/20"></div>
+            </div>
             <div className="grid grid-cols-4 w-full gap-8">
-              {['Name', 'Date', 'Phone Number', 'State'].map((header, index) => (
+              {["Name", "Date", "Phone Number", "State"].map((header, index) => (
                 <div key={index}>
                   <h3 className="text-lg font-semibold text-gray-100">{header}</h3>
                 </div>
@@ -111,7 +145,6 @@ const DonorList = () => {
           </div>
         </div>
 
-        {/* List Container */}
         <div className="divide-y divide-indigo-100 md:divide-gray-100">
           {currentDonors.length === 0 ? (
             <div className="p-8 text-center">
@@ -123,7 +156,6 @@ const DonorList = () => {
                 key={donor.id}
                 className="group hover:bg-indigo-50 md:hover:bg-gray-50 transition-all duration-200"
               >
-                {/* Desktop View */}
                 <div className="hidden md:grid md:grid-cols-4 p-6 gap-8">
                   <div className="flex items-center">
                     <div className="mr-4 text-2xl font-bold text-gray-200">
@@ -137,10 +169,12 @@ const DonorList = () => {
                     </div>
                   </div>
                   <div className="flex items-center">
-                    <div className="bg-blue-50 text-blue-700 px-3 py-1 rounded-md text-sm">{donor.date}</div>
+                    <div className="bg-blue-50 text-blue-700 px-3 py-1 rounded-md text-sm">
+                      {donor.date}
+                    </div>
                   </div>
                   <div className="flex items-center font-mono text-gray-600">
-                    {Number(donor.phone.slice(0, 5))}XXXXX
+                    XXXXX{Number(donor.phone.slice(5, 10))}
                   </div>
                   <div className="flex items-center">
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
@@ -148,7 +182,6 @@ const DonorList = () => {
                     </span>
                   </div>
                 </div>
-                {/* Mobile View */}
                 <div className="md:hidden p-4">
                   <div className="flex flex-col space-y-3">
                     <div className="flex justify-between items-start">
@@ -177,22 +210,46 @@ const DonorList = () => {
           )}
         </div>
 
-        {/* Pagination Footer */}
-        <div className="flex justify-center p-4">
-          <div className="flex space-x-2">
-            {Array.from({ length: totalPages }, (_, index) => (
-              <button
-                key={index}
-                onClick={() => handlePageChange(index + 1)}
-                className={`px-4 py-2 rounded-md ${currentPage === index + 1 ? 'bg-indigo-600 text-white' : 'bg-gray-200'}`}
-              >
-                {index + 1}
-              </button>
+        {/* Updated pagination section */}
+        <div className="flex justify-center items-center gap-2 py-4 px-2 flex-wrap">
+          <button
+            onClick={() => handlePageClick(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="p-2 rounded-md text-indigo-600 hover:bg-indigo-50 disabled:opacity-50 disabled:hover:bg-transparent"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          
+          <div className="flex flex-wrap justify-center gap-2">
+            {getPageRange().map((page, index) => (
+              <React.Fragment key={index}>
+                {page === '...' ? (
+                  <span className="px-4 py-2 text-gray-500">...</span>
+                ) : (
+                  <button
+                    onClick={() => handlePageClick(page as number)}
+                    className={`min-w-[40px] px-3 py-2 rounded-md text-sm font-semibold transition-colors duration-200 ${
+                      currentPage === page
+                        ? 'bg-indigo-600 text-white'
+                        : 'bg-white text-indigo-600 hover:bg-indigo-50'
+                    }`}
+                  >
+                    {page}
+                  </button>
+                )}
+              </React.Fragment>
             ))}
           </div>
+
+          <button
+            onClick={() => handlePageClick(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="p-2 rounded-md text-indigo-600 hover:bg-indigo-50 disabled:opacity-50 disabled:hover:bg-transparent"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
         </div>
 
-        {/* Footer */}
         <div className="bg-gradient-to-r from-indigo-50 to-purple-50 md:bg-gray-50 p-4 text-center text-sm text-gray-600">
           Total Donors: {filteredDonors.length}
         </div>

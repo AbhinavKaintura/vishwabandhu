@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '@/firebase/config';
 import { collection, query, orderBy, getDocs } from 'firebase/firestore';
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const MemberList = () => {
   const [members, setMembers] = useState<any[]>([]);
@@ -21,7 +22,6 @@ const MemberList = () => {
         const memberData = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data(),
-          // Format the timestamp
           date: doc.data().timestamp?.toDate().toLocaleDateString('en-IN', {
             day: '2-digit',
             month: 'short',
@@ -43,7 +43,7 @@ const MemberList = () => {
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
-    setCurrentPage(1); // Reset to the first page when searching
+    setCurrentPage(1);
   };
 
   const filteredMembers = members.filter(member =>
@@ -55,8 +55,42 @@ const MemberList = () => {
   const indexOfFirstMember = indexOfLastMember - membersPerPage;
   const currentMembers = filteredMembers.slice(indexOfFirstMember, indexOfLastMember);
 
+  // Calculate page range to display
+  const getPageRange = () => {
+    const delta = 1; // Number of pages to show on each side of current page
+    let range = [];
+    
+    if (totalPages <= 5) {
+      range = [...Array(totalPages)].map((_, i) => i + 1);
+    } else {
+      if (currentPage <= delta + 1) {
+        range = [1, 2, 3, '...', totalPages];
+      } else if (currentPage >= totalPages - delta) {
+        range = [1, '...', totalPages - 2, totalPages - 1, totalPages];
+      } else {
+        range = [
+          1,
+          '...',
+          currentPage - 1,
+          currentPage,
+          currentPage + 1,
+          '...',
+          totalPages
+        ];
+      }
+    }
+    return range;
+  };
+
   const handlePageClick = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
+    if (pageNumber >= 1 && pageNumber <= totalPages) {
+      setCurrentPage(pageNumber);
+      // Smooth scroll to top of the list
+      document.querySelector('.member-list-container')?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
   };
 
   if (loading) {
@@ -81,7 +115,8 @@ const MemberList = () => {
 
   return (
     <div className="w-full max-w-6xl mx-auto px-4 py-8">
-      <div className="bg-gradient-to-br from-indigo-50 to-white md:bg-white rounded-xl shadow-xl overflow-hidden border border-indigo-100">
+      <div className="member-list-container bg-gradient-to-br from-indigo-50 to-white md:bg-white rounded-xl shadow-xl overflow-hidden border border-indigo-100">
+        {/* Header and search sections remain the same */}
         <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-4">
           <h2 className="text-white font-bold text-xl text-center">Vishwabandhu's Family Members</h2>
         </div>
@@ -94,6 +129,8 @@ const MemberList = () => {
             className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
         </div>
+
+        {/* Table headers remain the same */}
         <div className="hidden md:block bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white">
           <div className="relative p-8">
             <div className="absolute inset-0 opacity-10">
@@ -109,6 +146,8 @@ const MemberList = () => {
             </div>
           </div>
         </div>
+
+        {/* Member list content remains the same */}
         <div className="divide-y divide-indigo-100 md:divide-gray-100">
           {currentMembers.length === 0 ? (
             <div className="p-8 text-center">
@@ -120,6 +159,7 @@ const MemberList = () => {
                 key={member.id}
                 className="group hover:bg-indigo-50 md:hover:bg-gray-50 transition-all duration-200"
               >
+                {/* Desktop view */}
                 <div className="hidden md:grid md:grid-cols-4 p-6 gap-8">
                   <div className="flex items-center">
                     <div className="mr-4 text-2xl font-bold text-gray-200">
@@ -138,7 +178,7 @@ const MemberList = () => {
                     </div>
                   </div>
                   <div className="flex items-center font-mono text-gray-600">
-                    {Number(member.phone.slice(0, 5))}XXXXX
+                    XXXXX{Number(member.phone.slice(5, 10))}
                   </div>
                   <div className="flex items-center">
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
@@ -146,6 +186,7 @@ const MemberList = () => {
                     </span>
                   </div>
                 </div>
+                {/* Mobile view */}
                 <div className="md:hidden p-4">
                   <div className="flex flex-col space-y-3">
                     <div className="flex justify-between items-start">
@@ -173,20 +214,47 @@ const MemberList = () => {
             ))
           )}
         </div>
-        <div className="flex justify-center space-x-3 py-4">
-          {[...Array(totalPages)].map((_, index) => (
-            <button
-              key={index}
-              onClick={() => handlePageClick(index + 1)}
-              className={`px-4 py-2 rounded-md text-sm font-semibold ${currentPage === index + 1
-                  ? 'bg-indigo-600 text-white'
-                  : 'bg-white text-indigo-600 hover:bg-indigo-50'
-                }`}
-            >
-              {index + 1}
-            </button>
-          ))}
+
+        {/* Updated pagination section */}
+        <div className="flex justify-center items-center gap-2 py-4 px-2 flex-wrap">
+          <button
+            onClick={() => handlePageClick(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="p-2 rounded-md text-indigo-600 hover:bg-indigo-50 disabled:opacity-50 disabled:hover:bg-transparent"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          
+          <div className="flex flex-wrap justify-center gap-2">
+            {getPageRange().map((page, index) => (
+              <React.Fragment key={index}>
+                {page === '...' ? (
+                  <span className="px-4 py-2 text-gray-500">...</span>
+                ) : (
+                  <button
+                    onClick={() => handlePageClick(page as number)}
+                    className={`min-w-[40px] px-3 py-2 rounded-md text-sm font-semibold transition-colors duration-200 ${
+                      currentPage === page
+                        ? 'bg-indigo-600 text-white'
+                        : 'bg-white text-indigo-600 hover:bg-indigo-50'
+                    }`}
+                  >
+                    {page}
+                  </button>
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+
+          <button
+            onClick={() => handlePageClick(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="p-2 rounded-md text-indigo-600 hover:bg-indigo-50 disabled:opacity-50 disabled:hover:bg-transparent"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
         </div>
+
         <div className="bg-gradient-to-r from-indigo-50 to-purple-50 md:bg-gray-50 p-4 text-center text-sm text-gray-600">
           Total Members: {filteredMembers.length}
         </div>
