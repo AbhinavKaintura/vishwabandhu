@@ -84,10 +84,11 @@ async function generateMembershipCard(memberDetails: {
     const boldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
     
     // Colors
-    const primaryColor = rgb(0.12, 0.46, 0.70); // Soft blue
-    const secondaryColor = rgb(0.95, 0.57, 0.13); // Orange
+    const primaryColor = rgb(1, 0.46, 0.1); // text color
+    const secondaryColor = rgb(1, 0.46, 0.1); // Orange
     const textColor = rgb(0, 0, 0); // Black
-    const bgColor = rgb(0.95, 0.95, 0.95); // Light gray background
+    const bgColor = rgb(0.9, 0.67, 0.44);
+    
 
     // Fetch and embed logo
     const logoUrl = 'https://i.ibb.co/0p4fDdHh/RSVBF-LOGO.png';
@@ -121,7 +122,7 @@ async function generateMembershipCard(memberDetails: {
     if (logoPng) {
         frontPage.drawImage(logoPng, {
             x: 20,
-            y: pageHeight - 80,
+            y: pageHeight - 90,
             width: 70,
             height: 70,
         });
@@ -130,7 +131,7 @@ async function generateMembershipCard(memberDetails: {
     // Organization Name
     frontPage.drawText('Bharat Self Care Team', {
         x: pageWidth / 2 - 50,
-        y: pageHeight - 40,
+        y: pageHeight - 60,
         size: 16,
         font: boldFont,
         color: primaryColor
@@ -203,7 +204,7 @@ async function generateMembershipCard(memberDetails: {
     // Nominee Details Title
     backPage.drawText('Nominee Information', {
         x: pageWidth / 2 - 90,
-        y: pageHeight - 40,
+        y: pageHeight - 30,
         size: 16,
         font: boldFont,
         color: secondaryColor
@@ -237,7 +238,7 @@ async function generateMembershipCard(memberDetails: {
         font: regularFont,
         color: textColor
     });
-    currentY -= lineHeight * 1.5;
+    currentY -= lineHeight * 2;
 
     // Address Details
     backPage.drawText('Address:', {
