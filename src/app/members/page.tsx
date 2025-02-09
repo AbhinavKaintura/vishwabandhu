@@ -2,8 +2,8 @@
 import React from 'react';
 import HeaderBar from '@/components/common/header-bar/page';
 import NavBar from '@/components/common/nav-bar/page';
-import Title from '@/components/teams-comp/title/page';
-import MembersList from '@/components/teams-comp/page';
+import Title from '@/components/members-comp/title/page';
+import MembersList from '@/components/members-comp/page';
 
 // Define the type for a member
 interface Member {

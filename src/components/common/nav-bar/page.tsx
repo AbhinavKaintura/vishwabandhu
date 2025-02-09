@@ -20,7 +20,7 @@ const NavBar: React.FC<Props> = ({ bg_color }) => {
 
   const userGroups = [
     { name: "Member's List", href: '/members' },
-    { name: "Donor's List", href: '/users' }
+    { name: "Donor's List", href: '/donors' }
   ];
 
   return (
