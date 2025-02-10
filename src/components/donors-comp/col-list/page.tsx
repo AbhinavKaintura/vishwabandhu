@@ -60,7 +60,7 @@ const DonorList = () => {
   const getPageRange = () => {
     const delta = 1; // Number of pages to show on each side of current page
     let range = [];
-    
+
     if (totalPages <= 5) {
       range = [...Array(totalPages)].map((_, i) => i + 1);
     } else {
@@ -115,50 +115,61 @@ const DonorList = () => {
   }
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 py-8">
-      <div className="donor-list-container bg-gradient-to-br from-indigo-50 to-white md:bg-white rounded-xl shadow-xl overflow-hidden border border-indigo-100">
-        <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-4">
-          <h2 className="text-white font-bold text-xl text-center">Vishwabandhu's Family Donors</h2>
-        </div>
+    <div className="md:w-11/12 mx-auto px-4 py-8">
+      <div className="donor-list-container bg-gradient-to-br from-[#fff8f3] to-white md:bg-white rounded-xl shadow-xl overflow-hidden border border-[#ffddc2]">
         <div className="p-4">
           <input
             type="text"
             placeholder="Search by name..."
             value={searchQuery}
             onChange={handleSearch}
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full p-2 border border-[#ffaa66] rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff7722]"
           />
         </div>
-        <div className="hidden md:block bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white">
-          <div className="relative p-8">
-            <div className="absolute inset-0 opacity-10">
-              <div className="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-blue-500/20"></div>
-              <div className="absolute left-0 top-0 w-48 h-full bg-gradient-to-r from-purple-500/20"></div>
-            </div>
-            <div className="grid grid-cols-4 w-full gap-8">
-              {["Name", "Date", "Phone Number", "State"].map((header, index) => (
-                <div key={index}>
-                  <h3 className="text-lg font-semibold text-gray-100">{header}</h3>
+
+        {/* Column Names Section */}
+        <div className="hidden md:block bg-gradient-to-r from-[#ff7722]/90 via-[#ff9955]/90 to-[#ff7722]/90 shadow-lg">
+          <div className="hidden md:grid md:grid-cols-4 p-6 gap-8 text-white ml-3">
+            {["Name", "Date", "Phone Number", "State"].map((header, index) => (
+              <div
+                key={index}
+                className="flex items-center space-x-2 uppercase tracking-wider text-sm font-semibold"
+              >
+                <div className='flex items-center'>
+                  {header}
                 </div>
-              ))}
-            </div>
+                {/* small sort indicator */}
+                {index !== 4 && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4 text-white/70"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                  >
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                )}
+              </div>
+            ))}
           </div>
         </div>
 
-        <div className="divide-y divide-indigo-100 md:divide-gray-100">
+        <div className="divide-y divide-[#e3e1df] md:divide-gray-100">
           {currentDonors.length === 0 ? (
             <div className="p-8 text-center">
-              <div className="text-indigo-400 md:text-gray-400 text-lg">No donors found</div>
+              <div className="text-[#ff7722] md:text-gray-400 text-lg">No record found...</div>
             </div>
           ) : (
             currentDonors.map((donor, index) => (
               <div
                 key={donor.id}
-                className="group hover:bg-indigo-50 md:hover:bg-gray-50 transition-all duration-200"
+                className="group hover:bg-[#f9e7da] md:hover:bg-[#fff0e3] transition-all duration-200"
               >
+                {/* Desktop view */}
                 <div className="hidden md:grid md:grid-cols-4 p-6 gap-8">
                   <div className="flex items-center">
-                    <div className="mr-4 text-2xl font-bold text-gray-200">
+                    <div className="mr-4 text-2xl font-bold text-[#ff7722]">
                       {((currentPage - 1) * donorsPerPage) + index + 1}
                     </div>
                     <div>
@@ -169,7 +180,7 @@ const DonorList = () => {
                     </div>
                   </div>
                   <div className="flex items-center">
-                    <div className="bg-blue-50 text-blue-700 px-3 py-1 rounded-md text-sm">
+                    <div className="bg-[#fff0e6] text-[#ff7722] px-3 py-1 rounded-md text-sm">
                       {donor.date}
                     </div>
                   </div>
@@ -177,30 +188,31 @@ const DonorList = () => {
                     XXXXX{Number(donor.phone.slice(5, 10))}
                   </div>
                   <div className="flex items-center">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-[#ffddc2] text-[#ff7722]">
                       {donor.city || donor.state || 'N/A'}
                     </span>
                   </div>
                 </div>
+                {/* Mobile view */}
                 <div className="md:hidden p-4">
                   <div className="flex flex-col space-y-3">
                     <div className="flex justify-between items-start">
                       <div className="flex items-center space-x-3">
-                        <span className="bg-indigo-100 text-indigo-600 w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold">
+                        <span className="bg-[#fff0e6] text-[#ff7722] w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold">
                           {((currentPage - 1) * donorsPerPage) + index + 1}
                         </span>
                         <span className="text-gray-900 font-semibold">
                           {donor.firstName} {donor.lastName}
                         </span>
                       </div>
-                      <span className="px-2 py-1 bg-indigo-100 text-indigo-600 rounded-full text-xs">
+                      <span className="px-2 py-1 bg-[#fff0e6] text-[#ff7722] rounded-full text-xs">
                         {donor.city || donor.state || 'N/A'}
                       </span>
                     </div>
                     <div className="flex justify-between text-sm pl-9">
                       <span className="text-gray-600">{donor.date}</span>
                       <span className="font-mono text-gray-600">
-                        {Number(donor.phone.slice(0, 5))}XXXXX
+                        XXXXX{Number(donor.phone.slice(5, 10))}
                       </span>
                     </div>
                   </div>
@@ -210,29 +222,27 @@ const DonorList = () => {
           )}
         </div>
 
-        {/* Updated pagination section */}
-        <div className="flex justify-center items-center gap-2 py-4 px-2 flex-wrap">
+        <div className="flex justify-center items-center gap-2 py-4 px-2 overflow-x-auto">
           <button
             onClick={() => handlePageClick(currentPage - 1)}
             disabled={currentPage === 1}
-            className="p-2 rounded-md text-indigo-600 hover:bg-indigo-50 disabled:opacity-50 disabled:hover:bg-transparent"
+            className="p-2 rounded-md text-[#ff7722] hover:bg-[#fff0e6] disabled:opacity-50 disabled:hover:bg-transparent shrink-0"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
-          
-          <div className="flex flex-wrap justify-center gap-2">
+
+          <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
             {getPageRange().map((page, index) => (
               <React.Fragment key={index}>
                 {page === '...' ? (
-                  <span className="px-4 py-2 text-gray-500">...</span>
+                  <span className="px-2 py-2 text-gray-500 shrink-0">...</span>
                 ) : (
                   <button
                     onClick={() => handlePageClick(page as number)}
-                    className={`min-w-[40px] px-3 py-2 rounded-md text-sm font-semibold transition-colors duration-200 ${
-                      currentPage === page
-                        ? 'bg-indigo-600 text-white'
-                        : 'bg-white text-indigo-600 hover:bg-indigo-50'
-                    }`}
+                    className={`min-w-[40px] px-3 py-2 rounded-md text-sm font-semibold transition-colors duration-200 shrink-0 ${currentPage === page
+                        ? 'bg-[#ff7722] text-white'
+                        : 'bg-white text-[#ff7722] hover:bg-[#fff0e6]'
+                      }`}
                   >
                     {page}
                   </button>
@@ -244,14 +254,14 @@ const DonorList = () => {
           <button
             onClick={() => handlePageClick(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="p-2 rounded-md text-indigo-600 hover:bg-indigo-50 disabled:opacity-50 disabled:hover:bg-transparent"
+            className="p-2 rounded-md text-[#ff7722] hover:bg-[#fff0e6] disabled:opacity-50 disabled:hover:bg-transparent shrink-0"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
         </div>
 
-        <div className="bg-gradient-to-r from-indigo-50 to-purple-50 md:bg-gray-50 p-4 text-center text-sm text-gray-600">
-          Total Donors: {filteredDonors.length}
+        <div className="bg-gradient-to-r from-[#fff0e6] to-[#ffddc2] md:bg-gray-50 p-4 text-center text-sm text-[#ff7722]">
+          Total Members: {filteredDonors.length}
         </div>
       </div>
     </div>

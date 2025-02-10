@@ -20,7 +20,7 @@ const Hero = () => {
       image: bg_bharat, // Replace with your second image import
       title: "भारत सेल्फ केयर टीम",
       description: "भारत सेल्फ केयर टीम से जुड़ें और एक ऐसे समुदाय का हिस्सा बनें जो जरूरत के समय एक-दूसरे का सहारा बनता है, ताकि हर परिवार को सही समय पर सहायता मिल सके।",
-      buttonText: "और जानें",
+      buttonText: "सदस्य बनें",
       buttonLink: "/join-bharat-self-care-team"
     }
   ];

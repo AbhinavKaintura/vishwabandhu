@@ -1,5 +1,5 @@
 import React from 'react'
-import title_img from "../../../../public/users-page/blue_sky.jpg";
+import title_img from "../../../../public/gaushala-program/cow_list.jpeg";
 import Image from 'next/image';
 
 const Title = () => {
@@ -7,21 +7,29 @@ const Title = () => {
     <div>
       <div className='relative'>
         <Image
-          src = {title_img}
-          alt ='sky background'
-          width={300}
-          height={1920}
-          className='w-full h-[140px] object-cover'
+          src={title_img}
+          alt='cow'
+          className='w-full h-[100px] sm:h-[120px] md:h-[180px] object-cover'
         />
-        <div className='absolute items-center justify-center inset-0 bg-blue-900/30'>
-        <h1 className="tracking-widest text-5xl  h-36 font-serif pt-11 pl-32 text-white">Gaushala Donor List</h1>
-        
+        <div className='absolute inset-0 flex items-center'>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl 
+            tracking-widest font-serif text-white
+            px-4 sm:px-8 md:px-16 lg:px-32">
+            Gaushala Donors
+          </h1>
         </div>
       </div>
-      <p className="text-left pl-32 pt-4 pr-16 text-2xl tracking-widest bg-[#7399c1] h-14 text-white font-bold font-caveat">Presenting our Proud Donors</p>
 
+      {/* <p className="text-white bg-[#ecbea1] 
+        text-sm sm:text-base md:text-lg lg:text-xl 
+        tracking-widest font-bold font-caveat
+        p-4 sm:px-8 md:px-16 lg:px-32
+        h-auto min-h-[3rem] md:h-14 
+        flex items-center">
+        Presenting our Bharat Self Care Team Members
+      </p> */}
     </div>
+
   )
 }
-
 export default Title
