@@ -25,7 +25,7 @@ const Teams: React.FC<TeamsProps> = ({ members }) => {
     <div className="min-h-screen bg-gray-50">
       <HeaderBar />
       <NavBar bg_color="bg-white" />
-      {/* <Title /> */}
+      <Title />
       <MembersList />
     </div>
   );
