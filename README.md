@@ -1,7 +1,6 @@
 # Vishwabandhu Foundation
 The Vishwa Bandhu Foundation is an Section 8 non-profit company dedicated to creating positive social impact by fostering community development, supporting education, promoting environmental sustainability, and empowering underprivileged groups. As a registered NGO, we focus on building a better future for all by implementing impactful initiatives, supporting sustainable practices, and advocating for the rights and welfare of marginalized communities.
 
-
 ## Getting Started
 
 
