@@ -34,7 +34,7 @@ const Mission = () => {
               and fosters care for cows.
             </p>
 
-            <Link href='/ bharat-self-care-team'>
+            <Link href='/bharat-self-care-team'>
               <button className="bg-orange-400 hover:bg-orange-500 text-white px-8 py-3 rounded-3xl font-poppins transition-colors">
                 Join Bharat Self Care Team
               </button>
