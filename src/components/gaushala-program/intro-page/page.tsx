@@ -45,11 +45,11 @@ const TeachingPhilosophy = () => {
         >
           <div className="flex-1 space-y-4 w-full md:w-auto">
             {section.title && (
-              <h2 className="text-[#ff7722] tracking-wider uppercase text-xl md:text-2xl font-semibold text-center md:text-left">
+              <h2 className="text-[#ff7722] tracking-wider uppercase text-xl md:text-2xl font-semibold text-center md:text-left ">
                 {section.title}
               </h2>
             )}
-            <p className="text-gray-600 leading-7 md:leading-9 w-full md:w-auto lg:w-[25rem] font-bold tracking-wide md:tracking-wider text-base md:text-lg pt-3 md:pt-5 text-center md:text-left">
+            <p className="text-gray-600 font-comic_neue leading-7 md:leading-9 w-full md:w-auto lg:w-[25rem] font-bold tracking-wide md:tracking-wider text-base md:text-lg pt-3 md:pt-5 text-center md:text-left">
               {section.text}
             </p>
           </div>
