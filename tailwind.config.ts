@@ -21,7 +21,10 @@ export default {
         twinkle_star: ['var(--font-twinkle-star)'],
         poppins: ['var(--font-poppins)'],
         caveat: ['var(--font-caveat)'],
-        merryweather: ['var(--font-merriweather)']
+        merryweather: ['var(--font-merriweather)'],
+        montserrat: ['var(--font-montserrat)'],
+        roboto : ['var(--font-roboto)'],
+        comic_neue: ['var(--font-comic-neue)'],
       }
     },
   },
