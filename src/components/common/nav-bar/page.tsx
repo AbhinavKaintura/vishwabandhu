@@ -25,13 +25,13 @@ const NavBar: React.FC<Props> = ({ bg_color }) => {
 
   return (
     <nav className="bg-white shadow-lg">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="max-w-full mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
             <Link href='/'>
               <Image
-                className="pl-4 h-10 w-auto"
+                className="pl-12 h-10 w-auto"
                 src={logo}
                 alt="RSVBF Logo"
               />
@@ -40,7 +40,7 @@ const NavBar: React.FC<Props> = ({ bg_color }) => {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-12 font-montserrat mr-6">
             <a href="/" className="text-gray-700 hover:text-orange-500">
               HOME
             </a>
@@ -92,7 +92,7 @@ const NavBar: React.FC<Props> = ({ bg_color }) => {
 
             {/* Donate Button */}
             <Link href='/donate-gaushala-program'>
-              <button className="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600">
+              <button className="bg-orange-500 text-white px-4 py-2 font-merryweather rounded-md hover:bg-orange-600">
                 Donate NOW
               </button>
             </Link>
