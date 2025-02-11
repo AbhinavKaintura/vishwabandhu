@@ -1,16 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Poppins, Caveat, Merriweather } from "next/font/google";
+import { Poppins, Caveat, Merriweather, Montserrat, Roboto, Comic_Neue } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -31,6 +22,12 @@ const merriweather = Merriweather({
   variable: '--font-merriweather',
 })
 
+const montserrat = Montserrat({ variable: "--font-montserrat" });
+
+const roboto = Roboto({ variable: "--font-roboto", weight: "900" });
+
+const comic_neue = Comic_Neue({ variable: "--font-comic-neue", weight: "400", style: "italic" });
+
 export const metadata: Metadata = {
   title: "vishwabandhufoundation",
   description: "Creating using next",
@@ -47,7 +44,7 @@ export default function RootLayout({
         <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} ${caveat.variable} ${merriweather.variable} antialiased`}
+        className={`${roboto.variable} ${poppins.variable} ${caveat.variable} ${merriweather.variable} ${montserrat.variable} ${comic_neue.variable} antialiased`}
       >
         {children}
       </body>
