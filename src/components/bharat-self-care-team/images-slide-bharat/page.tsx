@@ -19,10 +19,7 @@ const Human_safety_program_slide = () => {
                 //     src: image1,
                 //     alt: "Image 1"
                 // },
-                {
-                    src: image2,
-                    alt: "Image 2"
-                },
+                
                 {
                     src: image3,
                     alt: "Image 3"
@@ -42,6 +39,10 @@ const Human_safety_program_slide = () => {
                 {
                     src: image7,
                     alt: "Image 7"
+                },
+                {
+                    src: image2,
+                    alt: "Image 2"
                 },
                 // {
                 //     src: image8,
