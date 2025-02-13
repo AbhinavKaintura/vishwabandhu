@@ -58,9 +58,80 @@ const JoinPage: React.FC = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
-  const [error, setError] = useState('');
   const [isPreviewMode, setIsPreviewMode] = useState(false); // Toggle between form and preview
   const [usersCount, setUsersCount] = useState(0); // Track the number of users for unique ID generation
+
+  const [error, setError] = useState('');
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  // Validation functions
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePhone = (phone: string) => {
+    return /^\d{10}$/.test(phone);
+  };
+
+  const validatePostalCode = (code: string) => {
+    return /^\d{6}$/.test(code);
+  };
+
+  const validateAadhar = (aadhar: string) => {
+    return /^\d{12}$/.test(aadhar);
+  };
+
+  // Validate form on data change
+  useEffect(() => {
+    const errors: Record<string, string> = {};
+
+    // Required field validation
+    if (!formData.firstName.trim()) errors.firstName = 'First name is required';
+    if (!formData.lastName.trim()) errors.lastName = 'Last name is required';
+    if (!formData.gender) errors.gender = 'Gender is required';
+    if (!formData.dob) errors.dob = 'Date of birth is required';
+    if (!formData.aadharCard) errors.aadharCard = 'Aadhar card number is required';
+    if (!formData.address.trim()) errors.address = 'Address is required';
+    if (!formData.landmark.trim()) errors.landmark = 'Landmark is required';
+    if (!formData.state) errors.state = 'State is required';
+    if (!formData.postalCode) errors.postalCode = 'Postal code is required';
+    if (!formData.phone) errors.phone = 'Phone number is required';
+    if (!formData.email) errors.email = 'Email is required';
+    if (!formData.nomineeName.trim()) errors.nomineeName = 'Nominee name is required';
+    if (!formData.relation) errors.relation = 'Relation is required';
+    if (!formData.nomineeAadhar) errors.nomineeAadhar = 'Nominee Aadhar number is required';
+
+    // Format validation
+    if (formData.phone && !validatePhone(formData.phone)) {
+      errors.phone = 'Please enter a valid 10-digit phone number';
+    }
+    if (formData.email && !validateEmail(formData.email)) {
+      errors.email = 'Please enter a valid email address';
+    }
+    if (formData.postalCode && !validatePostalCode(formData.postalCode)) {
+      errors.postalCode = 'Please enter a valid 6-digit postal code';
+    }
+    if (formData.aadharCard && !validateAadhar(formData.aadharCard)) {
+      errors.aadharCard = 'Please enter a valid 12-digit Aadhar number';
+    }
+    if (formData.nomineeAadhar && !validateAadhar(formData.nomineeAadhar)) {
+      errors.nomineeAadhar = 'Please enter a valid 12-digit nominee Aadhar number';
+    }
+
+    setFormErrors(errors);
+
+    // Form is valid if there are no errors and both terms are accepted
+    setIsFormValid(Object.keys(errors).length === 0 && termsAccepted);
+  }, [formData, termsAccepted]);
+
+  const handlePreview = () => {
+    if (isFormValid) {
+      setIsPreviewMode(true);
+      window.scrollTo(0, 0);
+    }
+  };
 
   // Fetch current user count from the database
   useEffect(() => {
@@ -75,36 +146,6 @@ const JoinPage: React.FC = () => {
 
     fetchUserCount();
   }, []);
-
-  const isFormValid = () => {
-    // Make sure all required fields are filled before proceeding to preview
-    return (
-      formData.firstName &&
-      formData.lastName &&
-      formData.gender &&
-      formData.dob &&
-      formData.aadharCard &&
-      formData.address &&
-      formData.landmark &&
-      formData.state &&
-      formData.postalCode &&
-      formData.phone &&
-      formData.email &&
-      formData.nomineeName &&
-      formData.relation &&
-      formData.nomineeAadhar &&
-      termsAccepted
-    );
-  };
-
-  const handlePreview = () => {
-    if (isFormValid()) {
-      setIsPreviewMode(true); // Show preview if form is valid
-      window.scrollTo(0, 0); // Scroll to the top of the page
-    } else {
-      alert('Please fill all required fields and accept the terms.');
-    }
-  };
 
   const handleEdit = () => {
     setIsPreviewMode(false); // Allow the user to edit the form
@@ -153,8 +194,8 @@ const JoinPage: React.FC = () => {
     try {
       const memberRef = collection(db, 'members');
 
-       // Generate the unique memberID based on current user count
-       const newMemberID = `VBFR${String(usersCount + 1).padStart(7, '0')}`;
+      // Generate the unique memberID based on current user count
+      const newMemberID = `VBFR${String(usersCount + 1).padStart(7, '0')}`;
 
       const memberData: MemberData = {
         ...formData,
@@ -165,7 +206,7 @@ const JoinPage: React.FC = () => {
       };
 
       // formData.memberID = newMemberID;
-      setFormData({...formData, memberID: newMemberID});
+      setFormData({ ...formData, memberID: newMemberID });
 
       console.log('saving to firebase initiated. ', memberData);
 
@@ -553,7 +594,7 @@ const JoinPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Terms and Privacy Policy */}
+              {/* Terms, Refund Policy, and Privacy Policy */}
               <div className="space-y-4">
                 <div className="flex items-center space-x-2">
                   <input
@@ -565,25 +606,38 @@ const JoinPage: React.FC = () => {
                   />
                   <label htmlFor="terms" className="text-sm text-gray-700">
                     I accept the{' '}
-                    <Link href="/terms-and-conditions" className="text-orange-500 hover:text-orange-600">
+                    <Link href="/terms-and-conditions" target="_blank" className="text-orange-500 hover:text-orange-600">
                       Terms and Conditions
                     </Link>
                     {' '}and{' '}
-                    <Link href="/privacy-policy" className="text-orange-500 hover:text-orange-600">
-                      Privacy Policy
+                    <Link href="/refund-policy" target="_blank" className="text-orange-500 hover:text-orange-600">
+                      Refund Policy
                     </Link>
                   </label>
                 </div>
 
-                {/* Add a preview button to move to preview mode */}
+                {/* Validation Errors Display */}
+                {Object.keys(formErrors).length > 0 && (
+                  <div className="bg-red-50 p-4 rounded-lg">
+                    <p className="text-sm font-medium text-red-800 mb-2">Please correct the following errors:</p>
+                    <ul className="list-disc pl-5 space-y-1">
+                      {Object.entries(formErrors).map(([field, error]) => (
+                        <li key={field} className="text-sm text-red-700">
+                          {error}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
                 <button
                   type="button"
                   onClick={handlePreview}
-                  className={`w-full md:w-auto ${termsAccepted && isFormValid()
-                    ? 'bg-orange-500 hover:bg-orange-600'
-                    : 'bg-gray-400 cursor-not-allowed'
-                    } text-white font-semibold py-3 px-8 rounded-xl transition-colors duration-300`}
-                  disabled={!isFormValid() || !termsAccepted}
+                  className={`w-full md:w-auto font-semibold py-3 px-8 rounded-xl transition-colors duration-300 ${isFormValid
+                    ? 'bg-orange-500 hover:bg-orange-600 text-white cursor-pointer'
+                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    }`}
+                  disabled={!isFormValid}
                 >
                   Preview
                 </button>
