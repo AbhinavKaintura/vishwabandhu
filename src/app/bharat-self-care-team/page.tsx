@@ -7,6 +7,7 @@ import Join_Human_safety from "@/components/bharat-self-care-team/join-bharat-sc
 import Footer from "@/components/common/footer/page"
 import Rules from "@/components/bharat-self-care-team/Rules/page"
 import Arrangement_Fee from "@/components/bharat-self-care-team/Arrangement_Fee/page"
+import ViewMembers from "@/components/bharat-self-care-team/view-members/page"
 
 const human_safey_program = () => {
     return (
@@ -21,6 +22,7 @@ const human_safey_program = () => {
             <Rules />
             <Arrangement_Fee />
             <Join_Human_safety />
+            <ViewMembers />
             <Footer />
         </div>
     )
