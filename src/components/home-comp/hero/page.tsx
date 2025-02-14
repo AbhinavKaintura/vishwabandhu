@@ -17,7 +17,7 @@ const Hero = () => {
       buttonLink: "/donate-gaushala-program"
     },
     {
-      image: bg_bharat, // Replace with your second image import
+      image: bg_bharat,
       title: "भारत सेल्फ केयर टीम",
       description: "भारत सेल्फ केयर टीम से जुड़ें और एक ऐसे समुदाय का हिस्सा बनें जो जरूरत के समय एक-दूसरे का सहारा बनता है, ताकि हर परिवार को सही समय पर सहायता मिल सके।",
       buttonText: "सदस्य बनें",
@@ -26,23 +26,65 @@ const Hero = () => {
   ];
 
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [previousSlide, setPreviousSlide] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
+      setPreviousSlide(currentSlide);
+      setIsTransitioning(true);
       setCurrentSlide((prev) => (prev + 1) % slides.length);
+
+      // Reset transition state after animation completes
+      setTimeout(() => {
+        setIsTransitioning(false);
+      }, 1000);
     }, 5000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [currentSlide]);
+
+  const getSlideStyles = (index: Number) => {
+    if (!isTransitioning) {
+      // Static state
+      return {
+        transform: index === currentSlide ? 'translateX(0)' : 'translateX(-100%)',
+        zIndex: index === currentSlide ? 2 : 1,
+      };
+    }
+
+    // During transition
+    if (index === previousSlide) {
+      // Current slide moving out to right
+      return {
+        transform: 'translateX(100%)',
+        zIndex: 2,
+      };
+    } else if (index === currentSlide) {
+      // New slide coming in from left
+      return {
+        transform: 'translateX(0)',
+        zIndex: 3,
+      };
+    }
+
+    // Background slides
+    return {
+      transform: 'translateX(-100%)',
+      zIndex: 1,
+    };
+  };
 
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-[80vh] overflow-hidden">
       {slides.map((slide, index) => (
         <div
           key={index}
-          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-            index === currentSlide ? 'opacity-100' : 'opacity-0'
-          }`}
+          className="absolute inset-0 w-full transition-transform duration-1000 ease-in-out"
+          style={{
+            ...getSlideStyles(index),
+            transition: 'transform 1000ms ease-in-out, z-index 0ms',
+          }}
         >
           <div className="absolute inset-0">
             <Image
@@ -55,7 +97,7 @@ const Hero = () => {
             />
           </div>
           <div className="absolute inset-0 bg-black bg-opacity-20" />
-          <div className="relative min-h-screen flex items-center justify-center">
+          <div className="relative min-h-[80vh] flex items-center justify-center">
             <div className="text-white text-center px-4 max-w-3xl">
               <h1 className="mb-6 text-5xl font-bold leading-tight">
                 {slide.title}
@@ -69,11 +111,11 @@ const Hero = () => {
                     {slide.buttonText}
                   </button>
                 </Link>
-                <Image 
-                  src={qr_code} 
-                  alt="QR Code" 
-                  width={100} 
-                  height={100} 
+                <Image
+                  src={qr_code}
+                  alt="QR Code"
+                  width={100}
+                  height={100}
                   className="lg:ml-32"
                 />
               </div>
