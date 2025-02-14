@@ -71,7 +71,7 @@ const ImageSlideShow: React.FC<ImageSlideShowProps> = ({
   const showControls = images.length > 1;
 
   return (
-    <div className="relative w-full h-[600px] group">
+    <div className="relative w-full h-[550px] group">
       {/* Main Image */}
       <div className="relative h-full overflow-hidden">
         {images.map((image, index) => (

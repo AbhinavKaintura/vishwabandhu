@@ -3,7 +3,7 @@ import ImageSlideShow from "@/components/common/slide-bar/page";
 // import image1 from '../../../../public/ bharat-self-care-team/bsct.jpg';
 import image2 from '../../../../public/bharat-self-care-team/bsct2.jpg';
 import image3 from '../../../../public/bharat-self-care-team/bsct3.jpg';
-import image4 from '../../../../public/bharat-self-care-team/bsct4.jpg';
+// import image4 from '../../../../public/bharat-self-care-team/bsct4.jpg';
 import image5 from '../../../../public/bharat-self-care-team/bsct7.jpg';
 import image6 from '../../../../public/bharat-self-care-team/bsct5.jpg';
 import image7 from '../../../../public/bharat-self-care-team/bsct6.jpg';
@@ -25,9 +25,13 @@ const Human_safety_program_slide = () => {
                     alt: "Image 3"
                 },
                 {
-                    src: image4,
-                    alt: "Image 4"
+                    src: image2,
+                    alt: "Image 2"
                 },
+                // {
+                //     src: image4,
+                //     alt: "Image 4"
+                // },
                 {
                     src: image5,
                     alt: "Image 5"
@@ -40,10 +44,7 @@ const Human_safety_program_slide = () => {
                     src: image7,
                     alt: "Image 7"
                 },
-                {
-                    src: image2,
-                    alt: "Image 2"
-                },
+
                 // {
                 //     src: image8,
                 //     alt: "Image 8"

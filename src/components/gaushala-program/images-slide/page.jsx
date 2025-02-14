@@ -25,21 +25,23 @@ const GauMataSilde = () => {
           //   alt: "this is girl with a gir cow"
           // },
           {
-            src: cow1,
-            alt: "young girl petting cow in a field"
+            src: Girl5,
+            alt: "this is girl with a gir cow"
           },
+          
           {
             src: cow2,
             alt: "girl hugging a cow"
           },
           {
+            src: cow1,
+            alt: "young girl petting cow in a field"
+          },
+          {
             src: cow3,
             alt: "this is girl with a gir cow"
           },
-          {
-            src: Girl5,
-            alt: "this is girl with a gir cow"
-          },
+          
           // {
           //   src: Girl6,
           //   alt: "this is girl with a gir cow"
