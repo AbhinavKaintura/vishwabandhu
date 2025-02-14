@@ -53,7 +53,7 @@ const TeamMembers = () => {
           initial="hidden"
           animate="visible"
           viewport={{ once: true }}
-          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3"
         >
           {teamMembers.map((member, index) => (
             <motion.div
