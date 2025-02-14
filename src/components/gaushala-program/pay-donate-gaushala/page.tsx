@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { db } from '@/firebase/config';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-
+import Link from 'next/link';
 
 interface DonationData extends JoinFormDetails {
   paymentId: string;
@@ -17,10 +17,10 @@ interface JoinFormDetails {
   lastName: string;
   country?: string;
   city?: string;
-  state?: string;
-  address?: string;
-  landmark?: string;
-  postalCode?: string;
+  state: string;
+  address: string;
+  landmark: string;
+  postalCode: string;
   phone: string;
   email: string;
   amount: string;
@@ -48,6 +48,60 @@ const DonationForm: React.FC = () => {
   const [error, setError] = useState('');
   const [previewMode, setPreviewMode] = useState(false);
 
+  // Add new state for form validation
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+  const [isFormValid, setIsFormValid] = useState(false);
+
+   // Validation functions
+   const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePhone = (phone: string) => {
+    return /^\d{10}$/.test(phone);
+  };
+
+  const validatePostalCode = (code: string) => {
+    return /^\d{6}$/.test(code);
+  };
+
+   // Validate form on data change
+   useEffect(() => {
+    const errors: Record<string, string> = {};
+
+    // Required field validation
+    if (!formData.firstName.trim()) errors.firstName = 'First name is required';
+    if (!formData.lastName.trim()) errors.lastName = 'Last name is required';
+    if (!formData.phone.trim()) errors.phone = 'Phone number is required';
+    if (!formData.email.trim()) errors.email = 'Email is required';
+    if (!formData.address.trim()) errors.address = 'Address is required';
+    if (!formData.landmark.trim()) errors.landmark = 'Landmark is required';
+    if (!formData.state.trim()) errors.state = 'State is required';
+    if (!formData.postalCode.trim()) errors.postalCode = 'Postal code is required';
+    if (!formData.amount.trim()) errors.amount = 'Amount is required';
+
+    // Format validation
+    if (formData.phone && !validatePhone(formData.phone)) {
+      errors.phone = 'Please enter a valid 10-digit phone number';
+    }
+    if (formData.email && !validateEmail(formData.email)) {
+      errors.email = 'Please enter a valid email address';
+    }
+    if (formData.postalCode && !validatePostalCode(formData.postalCode)) {
+      errors.postalCode = 'Please enter a valid 6-digit postal code';
+    }
+    if (formData.amount && Number(formData.amount) < 100) {
+      errors.amount = 'Amount must be at least ₹100';
+    }
+
+    setFormErrors(errors);
+    
+    // Form is valid if there are no errors and terms are agreed
+    setIsFormValid(Object.keys(errors).length === 0 && agreeToTerms);
+  }, [formData, agreeToTerms]);
+
   // Persist data in sessionStorage
   useEffect(() => {
     const savedData = sessionStorage.getItem('formData');
@@ -61,6 +115,15 @@ const DonationForm: React.FC = () => {
       sessionStorage.setItem('formData', JSON.stringify(formData));
     }
   }, [formData, previewMode]);
+
+   // Modify your handleSubmit to check isFormValid
+   const handlePreview = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (isFormValid) {
+      setPreviewMode(true);
+      window.scrollTo(0, 0);
+    }
+  };
 
   // List of Indian states
   const indianStates = [
@@ -414,24 +477,55 @@ const DonationForm: React.FC = () => {
                 </div>
               </div>
 
+              {/* Add Terms and Conditions Checkbox before the submit button */}
+              <div className="space-y-4">
+                <div className="flex items-start space-x-2">
+                  <input
+                    type="checkbox"
+                    id="terms"
+                    checked={agreeToTerms}
+                    onChange={(e) => setAgreeToTerms(e.target.checked)}
+                    className="mt-1"
+                  />
+                  <label htmlFor="terms" className="text-sm text-gray-600">
+                    I agree to the{' '}
+                    <Link href="/terms-and-conditions" className="text-[#ff7722] hover:underline" target="_blank">
+                      Terms and Conditions
+                    </Link>
+                    {' '}and{' '}
+                    <Link href="/refund-policy" className="text-[#ff7722] hover:underline" target="_blank">
+                      Refund Policy
+                    </Link>
+                  </label>
+                </div>
+                {/* Error Messages Section */}
+                {Object.keys(formErrors).length > 0 && (
+                  <div className="bg-red-50 p-4 rounded-lg">
+                    <p className="text-sm font-medium text-red-800 mb-2">Please correct the following errors:</p>
+                    <ul className="list-disc pl-5 space-y-1">
+                      {Object.entries(formErrors).map(([field, error]) => (
+                        <li key={field} className="text-sm text-red-700">
+                          {error}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+
               {/* Submit Button */}
               <div className="pt-4">
                 <button
-                  // type="submit"
-                  onClick={() => {
-                    setPreviewMode(true);
-                    window.scrollTo(0, 0); // Scroll to the top of the page
-                    }}
-                  className="w-full md:w-auto bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-8 rounded-xl transition-colors duration-300 min-w-[200px]"
+                  onClick={handlePreview}
+                  disabled={!isFormValid}
+                  className={`w-full md:w-auto font-semibold py-3 px-8 rounded-xl transition-colors duration-300 min-w-[200px] ${
+                    isFormValid 
+                      ? 'bg-orange-500 hover:bg-orange-600 text-white cursor-pointer' 
+                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  }`}
                 >
                   Donate Now
                 </button>
-
-                {error && (
-                  <div className="mt-4 text-red-500 text-sm text-center">
-                    {error}
-                  </div>
-                )}
               </div>
             </form>
           ) : (

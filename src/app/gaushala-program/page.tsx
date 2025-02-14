@@ -8,6 +8,7 @@ import Details from "@/components/gaushala-program/details/page"
 import GauMataDonation from "@/components/gaushala-program/donations/page"
 import Footer from "@/components/common/footer/page"
 import GauMataSlide from '@/components/gaushala-program/images-slide/page'
+import ViewDonors from "@/components/gaushala-program/view-donors/page"
 
 const gaushala_program = () => {
   return (
@@ -18,6 +19,7 @@ const gaushala_program = () => {
       <Intro />
       <Details />
       <GauMataDonation />
+      <ViewDonors />
       <Footer />
     </div>
   )
