@@ -1,43 +1,11 @@
 import React from "react";
-import bg from '../../../public/man.png';
-import { StaticImageData } from "next/image";
-import Image from "next/image";
 import NavBar from "@/components/common/nav-bar/page";
 import HeaderBar from "@/components/common/header-bar/page";
 import Link from "next/link";
 import Footer from "@/components/common/footer/page";
+// import OurSupportTeam from "@/components/support/our-support-team/page";
+import ContactForm from "@/components/support/query-form/page";
 
-interface TeamMember {
-  name: string;
-  role: string;
-  phone: string;
-  email: string;
-  image: StaticImageData; // URL for the team member's photo
-}
-
-const teamMembers: TeamMember[] = [
-  {
-    name: "Lorem Ipsum",
-    role: "Support Lead",
-    phone: "+91 9876543210",
-    email: "loremipsum@gmail.com",
-    image: bg,
-  },
-  {
-    name: "Lorem Ipsum",
-    role: "Community Coordinator",
-    phone: "+91 8765432109",
-    email: "loremipsum@gmail.com",
-    image: bg,
-  },
-  {
-    name: "Lorem Ipsum",
-    role: "Technical Support",
-    phone: "+91 7654321098",
-    email: "loremipsum@gmail.com",
-    image: bg,
-  },
-];
 
 const Support: React.FC = () => {
   return (
@@ -52,41 +20,15 @@ const Support: React.FC = () => {
             <p className="text-center mt-2">We're here to provide assistance and support whenever you need it.</p>
           </div>
         </header>
-
-        {/* Team Section */}
-        <section className="py-12">
-          <div className="container mx-auto px-4">
-            <h2 className="text-2xl font-bold text-center mb-8">Meet Our Support Team</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {teamMembers.map((member, key) => (
-                <div
-                  key={key}
-                  className="bg-white shadow-md rounded-lg p-6 text-center border border-gray-200"
-                >
-                  <Image
-                    src={member.image}
-                    alt={member.name}
-                    className="w-24 h-24 rounded-full mx-auto mb-4"
-                  />
-                  <h3 className="text-xl font-semibold">{member.name}</h3>
-                  <p className="text-sm text-gray-600">{member.role}</p>
-                  <p className="mt-4">
-                    <strong>Phone:</strong> <a href={`tel:${member.phone}`}>{member.phone}</a>
-                  </p>
-                  <p>
-                    <strong>Email:</strong> <a href={`mailto:${member.email}`}>{member.email}</a>
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
+        
+        {/* Contact Form */}
+        <ContactForm />
+        
         {/* Additional Support Details */}
         <section className="bg-gray-100 py-12">
           <div className="container mx-auto px-4">
             <h2 className="text-2xl font-bold text-center mb-8">Additional Support Options</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="flex flex-col md:flex-row gap-4 justify-center">
               <div className="bg-white shadow-md rounded-lg p-6 border border-gray-200">
                 <h3 className="text-lg font-semibold mb-2">FAQs</h3>
                 <p className="text-gray-600">Check out our <a href="/faq" className="text-blue-600 underline">Frequently Asked Questions</a> for quick answers to common queries.</p>
@@ -103,14 +45,14 @@ const Support: React.FC = () => {
                 <h3 className="text-lg font-semibold mb-2">Community Forum</h3>
                 <p className="text-gray-600">Join discussions and find help in our <a href="/community" className="text-blue-600 underline">Community Forum</a>.</p>
               </div> */}
-              <div className="bg-white shadow-md rounded-lg p-6 border border-gray-200">
+              {/* <div className="bg-white shadow-md rounded-lg p-6 border border-gray-200">
                 <h3 className="text-lg font-semibold mb-2">Ask Us</h3>
                 <span className="text-gray-600">Let your Queries me answered by one of us. </span>
                 <Link href='/contact-us' className="text-blue-600 underline">
                   <span>Ask Here</span>
                 </Link>
 
-              </div>
+              </div> */}
             </div>
           </div>
         </section>
