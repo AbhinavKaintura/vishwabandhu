@@ -23,7 +23,7 @@ export async function POST(req: Request) {
 
     const mailOptions = {
       from: email, // User's email
-      to: process.env.EMAIL_USER, // Your email from .env
+      to: process.env.EMAIL_USER,
       subject: "New Query from Support Form",
       text: `Name: ${name}\nPhone: ${phone}\nEmail: ${email}\n\nQuery:\n${query}`,
     };

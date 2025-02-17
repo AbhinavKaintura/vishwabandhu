@@ -278,31 +278,36 @@ const JoinPage: React.FC = () => {
     setFormData({ ...formData, [name]: validatedValue });
   };
 
-  // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     setError('');
     setIsLoading(true);
 
     try {
-      // Razorpay Payment Gateway Integration
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID_HS,
-        amount: 500 * 100, // Amount in paise
+        amount: 500 * 100,
         currency: 'INR',
         name: 'Bharat Self Care Team Registration',
         description: 'Registration for the program',
         image: '',
         handler: async function (response: any) {
-          console.log('Payment successful:', response);
-
-          // Save data to Firebase after successful payment
-          const orderId = await saveToFirebase(response.razorpay_payment_id);
-
-          setIsLoading(false);
-
-          router.push(`/payment-successful-bharat?orderId=${orderId}`);
+          try {
+            console.log('Payment successful:', response);
+            const orderId = await saveToFirebase(response.razorpay_payment_id);
+            // setIsLoading(false);
+            router.push(`/payment-successful-bharat?orderId=${orderId}`);
+          } catch (error) {
+            console.error('Error processing successful payment:', error);
+            setError('Error processing payment. Please try again.');
+            setIsLoading(false);
+          }
+        },
+        modal: {
+          ondismiss: function() {
+            console.log('Payment cancelled');
+            setIsLoading(false);
+          }
         },
         prefill: {
           name: `${formData.firstName} ${formData.lastName}`,
@@ -318,20 +323,34 @@ const JoinPage: React.FC = () => {
       };
 
       const rzp1 = new (window as any).Razorpay(options);
-      rzp1.open();
+      
+      rzp1.on('payment.failed', function (response: any) {
+        console.error('Payment failed:', response.error);
+        setError('Payment failed. Please try again.');
+        setIsLoading(false);
+      });
 
+      rzp1.open();
+      
     } catch (err) {
       console.error('Error initiating Razorpay payment:', err);
       setError('Something went wrong. Please try again.');
+      setIsLoading(false);
     }
   };
+
 
   // Full-screen loading overlay
   if (isLoading) {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
-        <div className="text-4xl font-bold text-white animate-pulse">
-          We are Processing your Payment...
+        <div className="text-center">
+          <div className="text-4xl font-bold text-white animate-pulse mb-4">
+            We are Processing your Payment...
+          </div>
+          <div className="text-lg font-semibold text-white animate-pulse">
+            Please do not refresh the page or go back.
+          </div>
         </div>
       </div>
     );
