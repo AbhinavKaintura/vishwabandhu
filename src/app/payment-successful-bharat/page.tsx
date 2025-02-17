@@ -8,7 +8,6 @@ import logo from '../../../public/RSVBF LOGO.png';
 import HeaderBar from '@/components/common/header-bar/page';
 import Footer from '@/components/common/footer/page';
 import NavBar from '@/components/common/nav-bar/page';
-import Link from 'next/link';
 import PDFPreviewAndDownload from '@/components/payment-successful-bharat/pdf-preview/page';
 
 interface JoinFormDetails {
@@ -42,6 +41,26 @@ const OrderSuccessPage: React.FC = () => {
     const searchParams = useSearchParams();
     const [orderDetails, setOrderDetails] = useState<OrderDetails | null>(null);
     const [loading, setLoading] = useState(true);
+    const memberCardData = orderDetails ? {
+        "memberID": orderDetails.memberID,
+        "name": {
+            "firstName": orderDetails.firstName,
+            "middleName": orderDetails.middleName,
+            "lastName": orderDetails.lastName
+        },
+        "phone": orderDetails.phone,
+        "aadhar": orderDetails.aadharCard,
+        "nomineeName": orderDetails.nomineeName,
+        "nomineeRelation": orderDetails.relation,
+        "nomineeAadhar": orderDetails.nomineeAadhar,
+        "address": {
+            "street": orderDetails.address,
+            "landmark": orderDetails.landmark,
+            "state": orderDetails.state,
+            "postalCode": orderDetails.postalCode,
+            "country": orderDetails.country
+        }
+    } : null;
 
     useEffect(() => {
         const orderId = searchParams.get('orderId');
@@ -149,11 +168,8 @@ const OrderSuccessPage: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                <Link href='/'>
-                    <button className='block m-auto w-32 bg-orange-500 rounded-lg p-2 mt-10 hover:bg-orange-600 text-white'>Go to Home</button>
-                </Link>
             </div>
-            <PDFPreviewAndDownload orderDetails={orderDetails}/>
+            {memberCardData && <PDFPreviewAndDownload orderDetails={memberCardData}/>}
             <Footer />
         </ div>
     );

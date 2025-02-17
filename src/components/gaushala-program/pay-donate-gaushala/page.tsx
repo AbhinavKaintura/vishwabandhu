@@ -53,8 +53,8 @@ const DonationForm: React.FC = () => {
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [isFormValid, setIsFormValid] = useState(false);
 
-   // Validation functions
-   const validateEmail = (email: string) => {
+  // Validation functions
+  const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
@@ -67,8 +67,8 @@ const DonationForm: React.FC = () => {
     return /^\d{6}$/.test(code);
   };
 
-   // Validate form on data change
-   useEffect(() => {
+  // Validate form on data change
+  useEffect(() => {
     const errors: Record<string, string> = {};
 
     // Required field validation
@@ -97,7 +97,7 @@ const DonationForm: React.FC = () => {
     }
 
     setFormErrors(errors);
-    
+
     // Form is valid if there are no errors and terms are agreed
     setIsFormValid(Object.keys(errors).length === 0 && agreeToTerms);
   }, [formData, agreeToTerms]);
@@ -116,8 +116,8 @@ const DonationForm: React.FC = () => {
     }
   }, [formData, previewMode]);
 
-   // Modify your handleSubmit to check isFormValid
-   const handlePreview = (e: React.MouseEvent) => {
+  // Modify your handleSubmit to check isFormValid
+  const handlePreview = (e: React.MouseEvent) => {
     e.preventDefault();
     if (isFormValid) {
       setPreviewMode(true);
@@ -235,7 +235,6 @@ const DonationForm: React.FC = () => {
 
     setFormData({ ...formData, [name]: validatedValue });
   };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -256,15 +255,22 @@ const DonationForm: React.FC = () => {
         description: 'Gaumata Donation',
         image: '',
         handler: async function (response: any) {
-          console.log('Payment successful:', response);
-
-          // Save data to Firebase after successful payment
-          const donorId = await saveToFirebase(response.razorpay_payment_id);
-
-          setIsLoading(false);
-
-          // Redirect to success page
-          router.push(`/payment-successful-gaumata?donorId=${donorId}`);
+          try {
+            console.log('Payment successful:', response);
+            const donorId = await saveToFirebase(response.razorpay_payment_id);
+            // setIsLoading(false);
+            router.push(`/payment-successful-gaumata?donorId=${donorId}`);
+          } catch (error) {
+            console.error('Error processing successful payment:', error);
+            setError('Error processing donation. Please try again.');
+            setIsLoading(false);
+          }
+        },
+        modal: {
+          ondismiss: function () {
+            console.log('Donation cancelled');
+            setIsLoading(false);
+          }
         },
         prefill: {
           name: `${formData.firstName} ${formData.lastName}`,
@@ -280,10 +286,19 @@ const DonationForm: React.FC = () => {
       };
 
       const rzp1 = new (window as any).Razorpay(options);
+
+      rzp1.on('payment.failed', function (response: any) {
+        console.error('Donation failed:', response.error);
+        setError('Donation failed. Please try again.');
+        setIsLoading(false);
+      });
+
       rzp1.open();
+
     } catch (err) {
       console.error('Error initiating Razorpay payment:', err);
       setError('Something went wrong. Please try again.');
+      setIsLoading(false);
     }
   };
 
@@ -291,8 +306,13 @@ const DonationForm: React.FC = () => {
   if (isLoading) {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
-        <div className="text-4xl font-bold text-white animate-pulse">
-          We are Processing your Payment...
+        <div className="text-center">
+          <div className="text-4xl font-bold text-white animate-pulse mb-4">
+            We are Processing your Donation...
+          </div>
+          <div className="text-lg font-semibold text-white animate-pulse">
+            Please do not refresh the page or go back.
+          </div>
         </div>
       </div>
     );
@@ -518,11 +538,10 @@ const DonationForm: React.FC = () => {
                 <button
                   onClick={handlePreview}
                   disabled={!isFormValid}
-                  className={`w-full md:w-auto font-semibold py-3 px-8 rounded-xl transition-colors duration-300 min-w-[200px] ${
-                    isFormValid 
-                      ? 'bg-orange-500 hover:bg-orange-600 text-white cursor-pointer' 
+                  className={`w-full md:w-auto font-semibold py-3 px-8 rounded-xl transition-colors duration-300 min-w-[200px] ${isFormValid
+                      ? 'bg-orange-500 hover:bg-orange-600 text-white cursor-pointer'
                       : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  }`}
+                    }`}
                 >
                   Donate Now
                 </button>
