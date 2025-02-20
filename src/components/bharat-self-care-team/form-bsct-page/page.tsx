@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { db } from '@/firebase/config';
-import { collection, addDoc, serverTimestamp, getDocs } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, getDocs, doc, setDoc } from 'firebase/firestore';
 import Link from 'next/link';
 
 interface MemberData extends JoinFormDetails {
@@ -192,45 +192,48 @@ const JoinPage: React.FC = () => {
 
   const saveToFirebase = async (paymentId: string) => {
     try {
-      const memberRef = collection(db, 'members');
-
+      const memberCollection = collection(db, "members");
+  
       // Generate the unique memberID based on current user count
-      const newMemberID = `VBFR${String(usersCount + 1).padStart(7, '0')}`;
-
+      const newMemberID = `VBFR${String(usersCount + 1).padStart(7, "0")}`;
+  
       const memberData: MemberData = {
         ...formData,
         memberID: newMemberID,
         paymentId,
         timestamp: serverTimestamp(),
-        status: 'successful'
+        status: "successful",
       };
-
-      // formData.memberID = newMemberID;
+  
+      // Update local state
       setFormData({ ...formData, memberID: newMemberID });
-
-      console.log('saving to firebase initiated. ', memberData);
-
-      const docRef = await addDoc(memberRef, memberData);
-      console.log('Member saved with ID:', docRef.id);
-
+  
+      console.log("Saving to Firebase initiated.", memberData);
+  
+      // Create document reference with newMemberID as the document ID
+      const docRef = doc(memberCollection, newMemberID);
+      await setDoc(docRef, memberData);
+  
+      console.log("Member saved with ID:", newMemberID);
+  
       // Prepare email data
       const orderEmailData = {
         memberID: newMemberID,
         name: {
           firstName: formData.firstName,
           middleName: formData.middleName,
-          lastName: formData.lastName
+          lastName: formData.lastName,
         },
         date: new Date().toLocaleDateString(),
         gender: formData.gender,
         dob: formData.dob,
-        paymentMethod: 'Credit Card|Debit Card|NetBanking|Upi',
+        paymentMethod: "Credit Card|Debit Card|NetBanking|Upi",
         address: {
           street: formData.address,
           landmark: formData.landmark,
           postalCode: formData.postalCode,
           state: formData.state,
-          country: formData.country
+          country: formData.country,
         },
         email: formData.email,
         phone: formData.phone,
@@ -238,18 +241,19 @@ const JoinPage: React.FC = () => {
         aadhar: formData.aadharCard,
         nomineeName: formData.nomineeName,
         nomineeRelation: formData.relation,
-        nomineeAadhar: formData.nomineeAadhar
+        nomineeAadhar: formData.nomineeAadhar,
       };
-
+  
       // Send confirmation email
       await sendOrderEmail(orderEmailData);
-
-      return docRef.id;
+  
+      return newMemberID;
     } catch (error) {
-      console.error('Error saving to Firebase:', error);
-      throw new Error('Failed to save member data');
+      console.error("Error saving to Firebase:", error);
+      throw new Error("Failed to save member data");
     }
   };
+  
 
 
   // Handle form changes

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { db } from '@/firebase/config';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, doc, setDoc, getDocs } from 'firebase/firestore';
 import Link from 'next/link';
 
 interface DonationData extends JoinFormDetails {
@@ -166,53 +166,65 @@ const DonationForm: React.FC = () => {
 
   const saveToFirebase = async (paymentId: string) => {
     try {
-      const donationsRef = collection(db, 'donations');
+      const donationsRef = collection(db, "donations");
+
+      // Fetch the current number of documents in the donations collection
+      const snapshot = await getDocs(donationsRef);
+      const donationIndex = snapshot.size + 1; // Index at which this donation is added
+
+      // Generate unique document ID: firstname+lastname+index
+      const firstName = formData.firstName.trim().replace(/\s+/g, "");
+      const lastName = formData.lastName.trim().replace(/\s+/g, "");
+      const docID = `${firstName}${lastName}${donationIndex}`;
 
       const donationData: DonationData = {
         ...formData,
         paymentId,
         timestamp: serverTimestamp(),
-        status: 'successful'
+        status: "successful",
       };
 
-      console.log('saving to firebase initiated. ', donationData);
+      console.log("Saving to Firebase initiated. ", donationData);
 
-      const docRef = await addDoc(donationsRef, donationData);
-      console.log('Donation saved with ID:', docRef.id);
+      // Save document with custom ID
+      const docRef = doc(donationsRef, docID);
+      await setDoc(docRef, donationData);
+
+      console.log("Donation saved with ID:", docID);
 
       // Prepare email data
       const donorEmailData = {
         memberID: `VBFG${String(Date.now()).slice(-6)}`,
-        // name: `${formData.firstName} ${formData.middleName} ${formData.lastName}`.trim(),
         name: {
           firstName: formData.firstName,
           middleName: formData.middleName,
-          lastName: formData.lastName
+          lastName: formData.lastName,
         },
         date: new Date().toLocaleDateString(),
-        paymentMethod: 'Credit Card|Debit Card|NetBanking|Upi',
+        paymentMethod: "Credit Card|Debit Card|NetBanking|Upi",
         address: {
           street: formData.address,
           landmark: formData.landmark,
           postalCode: formData.postalCode,
           state: formData.state,
-          country: formData.country
+          country: formData.country,
         },
         email: formData.email,
         phone: formData.phone,
         paymentId,
-        amount: formData.amount
+        amount: formData.amount,
       };
 
       // Send confirmation email
       await sendOrderEmail(donorEmailData);
 
-      return docRef.id;
+      return docID;
     } catch (error) {
-      console.error('Error saving to Firebase:', error);
-      throw new Error('Failed to save donation data');
+      console.error("Error saving to Firebase:", error);
+      throw new Error("Failed to save donation data");
     }
   };
+
 
   // Handle form changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -539,8 +551,8 @@ const DonationForm: React.FC = () => {
                   onClick={handlePreview}
                   disabled={!isFormValid}
                   className={`w-full md:w-auto font-semibold py-3 px-8 rounded-xl transition-colors duration-300 min-w-[200px] ${isFormValid
-                      ? 'bg-orange-500 hover:bg-orange-600 text-white cursor-pointer'
-                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    ? 'bg-orange-500 hover:bg-orange-600 text-white cursor-pointer'
+                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                     }`}
                 >
                   Donate Now
