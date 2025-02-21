@@ -40,7 +40,7 @@ const NavBar: React.FC<Props> = ({ bg_color }) => {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-12 font-montserrat mr-6">
+          <div className="hidden md:flex items-center space-x-12 font-merryweather mr-6">
             <a href="/" className="text-gray-700 hover:text-orange-500">
               HOME
             </a>

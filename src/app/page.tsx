@@ -18,7 +18,7 @@ export default function Home() {
         <NavBar bg_color="bg-white" />
         <Hero />
       </div>
-      <Misson />
+      {/* <Misson /> */}
       <ServicesSection />
       <IntroSection />
       <GauMataDonation />
