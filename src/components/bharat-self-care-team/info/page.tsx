@@ -4,7 +4,6 @@ import React from 'react';
 import what from '../../../../public/bharat-self-care-team/what.png';
 import goal from '../../../../public/bharat-self-care-team/goal.jpg';
 import how from '../../../../public/bharat-self-care-team/how (2).jpg';
-import { motion } from 'framer-motion';
 
 interface TeachingSection {
   title: string;
@@ -37,7 +36,7 @@ const TeachingPhilosophy = () => {
 
   return (
     <div className="bg-gradient-to-b from-white to-orange-50 sm:pb-0 md:pb-8">
-      <div className="max-w-6xl mx-auto p-6 md:p-12 ">
+      <div className="max-w-6xl lg:max-w-7xl mx-auto p-6 md:p-12 ">
         <div className="text-center">
           <h1 className="text-3xl md:text-4xl font-bold text-orange-500 mb-4">
             भारत सेल्फ केयर टीम
