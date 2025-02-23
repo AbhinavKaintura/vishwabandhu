@@ -24,15 +24,15 @@ const JoinHumanSafety = () => {
       <div className="max-w-6xl mx-auto">
         <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-orange-100">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-            {/* Image Section with Overlay */}
-            <div className="relative h-[280px] sm:h-[350px] md:h-[400px] lg:h-full w-full">
+            {/* Image Section with Hover Effect */}
+            <div className="relative h-[280px] sm:h-[350px] md:h-[400px] lg:h-full w-full overflow-hidden group">
               <div className="absolute inset-0 bg-orange-900/20 z-10 rounded-t-xl lg:rounded-l-xl lg:rounded-t-none"></div>
               <Image
                 src={Animated_family}
                 alt="Family supported by Bharat Self Care Team"
                 fill
                 priority
-                className="object-cover rounded-t-xl lg:rounded-l-xl lg:rounded-t-none"
+                className="object-cover rounded-t-xl lg:rounded-l-xl lg:rounded-t-none transform transition-transform duration-300 ease-in-out group-hover:scale-105"
                 sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
               <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-orange-900/80 to-transparent h-24 z-10 flex items-end p-6 lg:hidden">
@@ -44,8 +44,7 @@ const JoinHumanSafety = () => {
 
             {/* Content Section */}
             <div className="flex flex-col justify-between px-6 lg:p-10 relative">
-              {/* display only for larger displays */}
-
+              {/* Large Screen Background Accent */}
               <div className="hidden lg:block absolute -top-40 -right-40 w-80 h-80 rounded-full bg-orange-50"></div>
               <div className="space-y-5">
                 {/* Headline with badge */}
@@ -53,26 +52,24 @@ const JoinHumanSafety = () => {
                   <span className="inline-block bg-orange-100 text-orange-700 text-xs font-semibold px-3 py-1 rounded-full mb-6">
                     Community Initiative
                   </span>
-                  <h1 className="text-3xl lg:text-4xl font-bold text-gray-800 leading-tight">
+                  <h1 className="text-3xl lg:text-4xl font-bold text-gray-800 leading-tight transition-transform duration-300 hover:scale-[1.02]">
                     {stats.campaignTitle}
                   </h1>
                 </div>
-
-                <p className="text-base md:text-lg font-merryweather sm:pb-0 md:pb-16 text-gray-700 leading-relaxed">
+                <p className="text-base md:text-lg font-merryweather sm:pb-0 md:pb-16 text-gray-700 leading-relaxed transition-transform duration-300 hover:scale-[1.02]">
                   {stats.description}
                 </p>
-
                 {/* Testimonial */}
                 <div className="bg-orange-50 p-4 rounded-lg border-l-4 border-[#ff7722] italic text-gray-700 text-sm mt-6">
-                  "The Bharat Self Care Team provided my family with the knowledge and resources we needed during a difficult time. Their support has been invaluable for our community."
-                  <div className="text-right mt-2 text-orange-700 font-medium text-xs">
+                  <p className=' transition-transform duration-300 hover:scale-[1.02]'>"The Bharat Self Care Team provided my family with the knowledge and resources we needed during a difficult time. Their support has been invaluable for our community."</p>
+                  <div className="text-right mt-2 text-orange-700 font-medium text-xs ">
                     — Priya Sharma, Delhi
                   </div>
                 </div>
               </div>
 
               {/* Call-to-action Section */}
-              <div className="space-y-4 pt-6">
+              <div className="space-y-4 pt-6 transition-transform duration-300 hover:scale-105 mb-4">
                 <Link href="/join-bharat-self-care-team" className="block w-full">
                   <button
                     className="w-full bg-[#ff7722] hover:bg-orange-600 text-white font-medium text-lg px-8 py-4 rounded-lg shadow-md flex items-center justify-center group transition-all duration-300"
@@ -83,15 +80,13 @@ const JoinHumanSafety = () => {
                     <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </button>
                 </Link>
-                <div className="text-center text-sm text-gray-500 mt-2">
-
-                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
   );
 };
 
