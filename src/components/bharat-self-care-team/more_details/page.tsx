@@ -67,7 +67,7 @@ const ProgramInfo = () => {
           {infoCards.map((card, index) => (
             <div
               key={index}
-              className={`absolute inset-0 w-full h-full transition-transform duration-500 ease-out ${index === activeIndex
+              className={`absolute inset-0 w-full h-full transition-transform duration-500 ease-out hover:scale-105 ${index === activeIndex
                 ? 'translate-x-0 opacity-100'
                 : index < activeIndex
                   ? '-translate-x-full opacity-0'
