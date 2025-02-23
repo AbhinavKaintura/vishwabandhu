@@ -15,11 +15,13 @@ const DonateGaushalaProgram = () => {
   const stats: CampaignDetails = {
     campaignTitle: "Gaushala Program",
     description:
-      "Join our sacred mission to protect and nurture Gau Mata. Your support helps provide shelter, medical care, and dignified living conditions for cows who have served our communities faithfully. Together, we can honor these divine beings and preserve our ancient traditions.",
+      "Together, we can honor these divine beings and preserve our ancient traditions. Support our mission to protect and serve Gau Mata.",
   };
 
   return (
-    <div className="bg-gradient-to-b from-orange-50 to-yellow-50 py-12 md:py-16 px-4 sm:px-6">
+    <div className="bg-gradient-to-b from-orange-50 to-yellow-50 py-12 md:py-16 px-4 sm:px-6 relative">
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-300 via-orange-400 to-amber-300"></div>
+
       <div className="max-w-6xl mx-auto">
         <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-orange-100">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
@@ -42,11 +44,14 @@ const DonateGaushalaProgram = () => {
             </div>
 
             {/* Content Section */}
-            <div className="flex flex-col justify-between p-6 sm:p-8 lg:p-10 space-y-6">
+            <div className="flex flex-col justify-between px-6 lg:p-10 relative">
+              {/* display only for larger displays */}
+
+              <div className="hidden lg:block absolute -top-40 -right-40 w-80 h-80 rounded-full bg-orange-50"></div>
               <div className="space-y-5">
                 {/* Headline with badge */}
                 <div className="hidden lg:block mb-2">
-                  <span className="inline-block bg-orange-100 text-orange-700 text-xs font-semibold px-3 py-1 rounded-full mb-3">
+                  <span className="inline-block bg-orange-100 text-orange-700 text-xs font-semibold px-3 py-1 rounded-full mb-6">
                     <Leaf className="w-4 h-4 inline-block mr-1" />
                     Sacred Initiative
                   </span>
@@ -55,7 +60,7 @@ const DonateGaushalaProgram = () => {
                   </h1>
                 </div>
 
-                <p className="text-base md:text-lg text-gray-700 leading-relaxed">
+                <p className="text-base md:text-lg font-merryweather sm:pb-0 md:pb-16 text-gray-700 leading-relaxed">
                   {stats.description}
                 </p>
 
@@ -71,7 +76,7 @@ const DonateGaushalaProgram = () => {
               {/* Call-to-action Section */}
               <div className="space-y-4 pt-6">
                 <Link href="/donate-gaushala-program" className="block w-full">
-                  <button 
+                  <button
                     className="w-full bg-[#ff7722] hover:bg-orange-600 text-white font-medium text-lg px-8 py-4 rounded-lg shadow-md flex items-center justify-center group transition-all duration-300"
                     style={{ backgroundColor: "#ff7722" }}
                   >
@@ -81,7 +86,6 @@ const DonateGaushalaProgram = () => {
                   </button>
                 </Link>
                 <div className="text-center text-sm text-gray-500 mt-2">
-                  Support our mission to protect and serve Gau Mata
                 </div>
               </div>
             </div>

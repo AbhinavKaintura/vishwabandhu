@@ -15,11 +15,12 @@ const JoinHumanSafety = () => {
   const stats: CampaignDetails = {
     campaignTitle: "Bharat Self Care Team",
     description:
-      "Join our compassionate community dedicated to ensuring every family in India has access to essential healthcare education and preventive resources. Together, we're building a healthier, more resilient Bharat.",
+      "Together, we're building a healthier, more resilient Bharat. Help us build a healthier Bharat, one family at a time.",
   };
 
   return (
-    <div className="bg-gradient-to-b from-orange-50 to-yellow-50 py-12 md:py-16 px-4 sm:px-6">
+    <div className="bg-gradient-to-b from-orange-50 to-yellow-50 py-12 md:py-16 px-4 sm:px-6 relative">
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-300 via-orange-400 to-amber-300"></div>
       <div className="max-w-6xl mx-auto">
         <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-orange-100">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
@@ -42,11 +43,14 @@ const JoinHumanSafety = () => {
             </div>
 
             {/* Content Section */}
-            <div className="flex flex-col justify-between p-6 sm:p-8 lg:p-10 space-y-6">
+            <div className="flex flex-col justify-between px-6 lg:p-10 relative">
+              {/* display only for larger displays */}
+
+              <div className="hidden lg:block absolute -top-40 -right-40 w-80 h-80 rounded-full bg-orange-50"></div>
               <div className="space-y-5">
                 {/* Headline with badge */}
                 <div className="hidden lg:block mb-2">
-                  <span className="inline-block bg-orange-100 text-orange-700 text-xs font-semibold px-3 py-1 rounded-full mb-3">
+                  <span className="inline-block bg-orange-100 text-orange-700 text-xs font-semibold px-3 py-1 rounded-full mb-6">
                     Community Initiative
                   </span>
                   <h1 className="text-3xl lg:text-4xl font-bold text-gray-800 leading-tight">
@@ -54,7 +58,7 @@ const JoinHumanSafety = () => {
                   </h1>
                 </div>
 
-                <p className="text-base md:text-lg text-gray-700 leading-relaxed">
+                <p className="text-base md:text-lg font-merryweather sm:pb-0 md:pb-16 text-gray-700 leading-relaxed">
                   {stats.description}
                 </p>
 
@@ -70,7 +74,7 @@ const JoinHumanSafety = () => {
               {/* Call-to-action Section */}
               <div className="space-y-4 pt-6">
                 <Link href="/join-bharat-self-care-team" className="block w-full">
-                  <button 
+                  <button
                     className="w-full bg-[#ff7722] hover:bg-orange-600 text-white font-medium text-lg px-8 py-4 rounded-lg shadow-md flex items-center justify-center group transition-all duration-300"
                     style={{ backgroundColor: "#ff7722" }}
                   >
@@ -80,7 +84,7 @@ const JoinHumanSafety = () => {
                   </button>
                 </Link>
                 <div className="text-center text-sm text-gray-500 mt-2">
-                  Help us build a healthier Bharat, one family at a time
+
                 </div>
               </div>
             </div>
